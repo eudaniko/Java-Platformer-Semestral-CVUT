@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10987125-a157-4c83-b0fc-0fd401807596" name="Changes" comment="Initial commit (Official) | Upload design document">
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/GamePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="10987125-a157-4c83-b0fc-0fd401807596" name="Changes" comment="Add MainClass, Game, GameWindow, GamePanel  and draw rectangle">
+      <change afterPath="$PROJECT_DIR$/src/main/java/inputs/KeyboardInputs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/inputs/MouseInputs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/MainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/MainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/GameWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/GameWindow.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +47,7 @@
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
         <option name="accountId" value="b1a873f7-22f4-491c-8314-c855fb78b48d" />
-        <option name="url" value="https://github.com/eudaniko/JavaCVUT.git" />
+        <option name="url" value="https://github.com/eudaniko/PJV-Semestral.git" />
       </UrlAndAccount>
     </option>
   </component>
@@ -102,7 +105,7 @@
       <workItem from="1710585369668" duration="299000" />
       <workItem from="1710585772087" duration="958000" />
       <workItem from="1710586735775" duration="2365000" />
-      <workItem from="1710839532454" duration="3765000" />
+      <workItem from="1710839532454" duration="9720000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -168,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710586228529</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Add MainClass, Game, GameWindow, GamePanel  and draw rectangle">
+      <option name="closed" value="true" />
+      <created>1710860015826</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710860015826</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +196,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="GitHub/main" />
                       </list>
                     </value>
                   </entry>
@@ -204,6 +215,7 @@
     <MESSAGE value="Delete all 2" />
     <MESSAGE value="Reset project settings" />
     <MESSAGE value="Initial commit (Official) | Upload design document" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit (Official) | Upload design document" />
+    <MESSAGE value="Add MainClass, Game, GameWindow, GamePanel  and draw rectangle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add MainClass, Game, GameWindow, GamePanel  and draw rectangle" />
   </component>
 </project>
