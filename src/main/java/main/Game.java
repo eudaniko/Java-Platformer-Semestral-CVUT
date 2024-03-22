@@ -4,6 +4,10 @@
 
 package main;
 
+import entities.Player;
+
+import java.awt.*;
+
 // Class representing the main game logic
 public class Game implements Runnable {
 
@@ -12,15 +16,20 @@ public class Game implements Runnable {
     private Thread gameThread; // Thread for the main game loop
     private final int FPS_SET = 120; // Set frames per second
     private final int UPS_SET = 200; // Set updates per second
-    private int frames = 0; // Frame counter
-    private long lastCheck = 0; // Variable for tracking the time of the last check
 
+    private Player player;
     // Constructor for the Game class
     public Game() {
-        gamePanel = new GamePanel(); // Create a new game panel
+        initClasses();
+        gamePanel = new GamePanel(this); // Create a new game panel
         gameWindow = new GameWindow(gamePanel); // Create a game window based on the game panel
         gamePanel.requestFocus(); // Set focus to the game panel
         startGameLoop(); // Start the game loop
+    }
+
+    private void initClasses(){
+        player = new Player(200,200);
+
     }
 
     // Method to start the game loop
@@ -31,7 +40,11 @@ public class Game implements Runnable {
 
     // Method for updating the game logic
     public void Update() {
-        gamePanel.updateGame(); // Game update method
+        player.update(); // Game update method
+    }
+    public void render(Graphics g){
+        player.render(g);
+
     }
 
     // Method required by the Runnable interface, contains the main game loop
@@ -73,5 +86,12 @@ public class Game implements Runnable {
             }
 
         }
+    }
+    public Player getPlayer(){
+        return player;
+    }
+
+    public void windowFocusLost() {
+        player.restetDirBooleans();
     }
 }

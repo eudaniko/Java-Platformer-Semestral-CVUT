@@ -5,6 +5,8 @@
 package main;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 // Class representing the game window
 public class GameWindow {
@@ -18,17 +20,23 @@ public class GameWindow {
         // Set up the game window properties
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(gamePanel);
-
         // Center the frame on the screen
         jFrame.setLocationRelativeTo(null);
-
         // Set the window to be non-resizable
         jFrame.setResizable(false);
-
         // Pack the components inside the frame
         jFrame.pack();
-
         // Make the frame visible
         jFrame.setVisible(true);
+        jFrame.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                gamePanel.getGame().windowFocusLost();
+            }
+        });
     }
 }
