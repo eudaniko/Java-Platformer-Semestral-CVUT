@@ -4,6 +4,7 @@
 
 package main;
 
+import Levels.LevelManager;
 import entities.Player;
 
 import java.awt.*;
@@ -18,11 +19,23 @@ public class Game implements Runnable {
     private final int UPS_SET = 200; // Set updates per second
 
     private Player player;
+    private LevelManager levelManager;
+
+    public final static int TILES_DEFAULT_SIZE = 32;
+    public final static float SCALE = 1.5f;
+    public final  static int TILES_IN_WIDTH = 26;
+    public final  static int TILES_IN_HEIGHT = 14;
+    public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+    public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+    public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+
+
     // Constructor for the Game class
     public Game() {
         initClasses();
         gamePanel = new GamePanel(this); // Create a new game panel
         gameWindow = new GameWindow(gamePanel); // Create a game window based on the game panel
+        levelManager = new LevelManager(this);
         gamePanel.requestFocus(); // Set focus to the game panel
         startGameLoop(); // Start the game loop
     }
@@ -40,10 +53,12 @@ public class Game implements Runnable {
 
     // Method for updating the game logic
     public void Update() {
+        levelManager.update();
         player.update(); // Game update method
     }
     public void render(Graphics g){
         player.render(g);
+        levelManager.draw(g);
 
     }
 

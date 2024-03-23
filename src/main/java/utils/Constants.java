@@ -27,7 +27,7 @@ public class Constants {
         public static final int ATTACK_JUMP_1 = 7;
 
         // Method to get the number of sprite frames based on player action type
-        public static int getSpriteAmount(int playerAction) {
+        public static int GetSpriteAmount(int playerAction) {
             switch (playerAction) {
                 case RUNNING:
                     return 6;

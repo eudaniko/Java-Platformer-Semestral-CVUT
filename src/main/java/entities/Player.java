@@ -1,17 +1,15 @@
 package entities;
 
-import javax.imageio.ImageIO;
+import utils.LoadSave;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 import static utils.Constants.PlayerConstants.*;
 
 public class Player extends Entity{
-    private String heroAtlasImg = "/player_sprites.png" ; // Image for player animations
     private BufferedImage[][] animations; // Array to store animation frames
-    private int aniSpeed = 10; // Animation speed
+    private int aniSpeed = 20; // Animation speed
     private int aniTick = 0, aniIndex = 0; // Animation tick and index variables
     // Player actions and direction variables
     private int playerAction = IDLE;
@@ -21,7 +19,7 @@ public class Player extends Entity{
 
     public Player(float x, float y) {
         super(x, y);
-        loadAnimations(heroAtlasImg);
+        loadAnimations();
     }
 
     public void  update() {
@@ -31,20 +29,13 @@ public class Player extends Entity{
     }
     public void render(Graphics g){
         // Draw the player animation frame
-        g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, 256, 160, null);
+        g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, 128, 80, null);
 
     }
 
     // Method to import image resources and to load animation frames from the sprite sheet
-    private void loadAnimations(String fileAdress) {
-        BufferedImage img;
-        InputStream is = getClass().getResourceAsStream(fileAdress);
-        try {
-             img = ImageIO.read(is);
-        } catch (IOException e) {
-            // TO DO catch
-            throw new RuntimeException(e);
-        }
+    private void loadAnimations() {
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         animations = new BufferedImage[9][6];
 
         for (int j = 0; j < animations.length; j++) {
@@ -81,7 +72,7 @@ public class Player extends Entity{
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= getSpriteAmount(playerAction)){
+            if (aniIndex >= GetSpriteAmount(playerAction)){
                 aniIndex = 0;
                 attacking = false;
             }
