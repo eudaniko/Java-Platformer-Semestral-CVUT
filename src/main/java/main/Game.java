@@ -6,7 +6,6 @@ package main;
 
 import Levels.LevelManager;
 import entities.Player;
-import utils.LoadSave;
 
 import java.awt.*;
 
@@ -112,6 +111,6 @@ public class Game implements Runnable {
     }
 
     public void windowFocusLost() {
-        player.restetDirBooleans();
+        player.resetDirBooleans();
     }
 }
