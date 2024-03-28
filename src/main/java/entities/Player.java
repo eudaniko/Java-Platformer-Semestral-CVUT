@@ -25,7 +25,7 @@ public class Player extends Entity {
 
     // Jumping | Gravity
     private float airSpeed = 0f;
-    private float gravity = 0.04f *Game.SCALE;
+    private float gravity = 0.04f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
@@ -64,8 +64,8 @@ public class Player extends Entity {
 
     public void loadLevelData(int[][] levelData) {
         this.levelData = levelData;
-        if(!IsEntityOnFloor(hitbox, levelData))
-            inAir =true;
+        if (!IsEntityOnFloor(hitbox, levelData))
+            inAir = true;
     }
 
     // Method to set player animation based on movement status
@@ -76,7 +76,7 @@ public class Player extends Entity {
         else
             playerAction = IDLE;
 
-        if (inAir){
+        if (inAir) {
             if (airSpeed < 0)
                 playerAction = JUMP;
             else
@@ -113,7 +113,7 @@ public class Player extends Entity {
     private void updatePos() {
         moving = false;
 
-        if(jump) jump();
+        if (jump) jump();
         if (!left && !right && !inAir)
             return;
 
@@ -124,26 +124,25 @@ public class Player extends Entity {
         if (right)
             xSpeed += playerSpeed;
 
-        if (!inAir){
-             if (!IsEntityOnFloor(hitbox, levelData)){
-                 inAir =true;
-             }
+        if (!inAir) {
+            if (!IsEntityOnFloor(hitbox, levelData))
+                inAir = true;
         }
 
-        if(inAir){
-            if(CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height,levelData)){
+        if (inAir) {
+            if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)) {
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
                 updateXPos(xSpeed);
-            }else {
+            } else {
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
                 if (airSpeed > 0)
                     resetInAir();
                 else
                     airSpeed = fallSpeedAfterCollision;
-                updateXPos( xSpeed);
+                updateXPos(xSpeed);
             }
-        }else
+        } else
             updateXPos(xSpeed);
         moving = true;
     }
@@ -151,11 +150,11 @@ public class Player extends Entity {
     private void jump() {
         if (inAir)
             return;
-        inAir =true;
+        inAir = true;
         airSpeed = jumpSpeed;
     }
 
-    private void resetInAir(){
+    private void resetInAir() {
         inAir = false;
         airSpeed = 0;
     }
@@ -211,7 +210,8 @@ public class Player extends Entity {
     public void setDown(boolean down) {
         this.down = down;
     }
-    public void setJump(boolean jump){
+
+    public void setJump(boolean jump) {
         this.jump = jump;
     }
 
