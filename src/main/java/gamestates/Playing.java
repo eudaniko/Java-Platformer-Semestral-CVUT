@@ -85,7 +85,7 @@ public class Playing extends State implements Statemethods{
                 player.setJump(true);
                 break;
             case KeyEvent.VK_ESCAPE:
-                GameState.state = GameState.MENU;
+                Gamestate.state = Gamestate.MENU;
         }
     }
 

@@ -4,7 +4,7 @@
 
 package main;
 
-import gamestates.GameState;
+import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
 
@@ -55,7 +55,7 @@ public class Game implements Runnable {
 
     // Method for updating the game logic
     public void Update() {
-        switch (GameState.state){
+        switch (Gamestate.state){
             case MENU:
                 menu.update();
                 break;
@@ -69,7 +69,7 @@ public class Game implements Runnable {
 
     public void render(Graphics g) {
 
-        switch (GameState.state){
+        switch (Gamestate.state){
             case MENU:
                 menu.draw(g);
                 break;
@@ -124,7 +124,7 @@ public class Game implements Runnable {
     }
 
     public void windowFocusLost() {
-        if (GameState.state == GameState.PLAYING)
+        if (Gamestate.state == Gamestate.PLAYING)
             playing.getPlayer().resetDirBooleans();
     }
 
