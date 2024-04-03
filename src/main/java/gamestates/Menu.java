@@ -95,9 +95,6 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-            Gamestate.state = Gamestate.PLAYING;
-
     }
 
     @Override
