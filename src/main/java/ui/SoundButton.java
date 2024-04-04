@@ -30,16 +30,14 @@ public class SoundButton extends PauseButton {
     }
 
     public void update() {
-        if (muted)
-            rowIndex = 1;
-        else rowIndex = 0;
-
         columnIndex = 0;
         if (mouseOver)
             columnIndex = 1;
-        else if (mousePressed)
+        if (mousePressed)
             columnIndex = 2;
-
+        if (muted)
+            rowIndex = 1;
+        else rowIndex = 0;
     }
 
     public void resetBools(){

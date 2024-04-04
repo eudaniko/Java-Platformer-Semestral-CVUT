@@ -29,10 +29,6 @@ public class LoadSave {
 
 
 
-
-
-
-
     public static BufferedImage GetSpriteAtlas(final String FilePath){
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream(FilePath);

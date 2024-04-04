@@ -139,6 +139,7 @@ public class PauseOverlay {
         menuButton.setMouseOver(false);
         replayButton.setMouseOver(false);
         unpauseButton.setMouseOver(false);
+        volumeButton.setMouseOver(false);
 
         if (isIn(e, musicButton))
             musicButton.setMouseOver(true);
