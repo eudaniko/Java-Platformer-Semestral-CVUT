@@ -4,17 +4,25 @@ import Levels.LevelManager;
 import entities.Player;
 import main.Game;
 import ui.PauseOverlay;
+import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class Playing extends State implements Statemethods{
+public class Playing extends State implements Statemethods {
 
     private Player player;
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
-    private boolean paused = true;
+    private boolean paused = false;
+
+    private int xLevelOffset;
+    private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
+    private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
+    private int levelTilesWide = LoadSave.GetLevelData()[0].length;
+    private int maxTilesOffset = levelTilesWide - Game.TILES_IN_WIDTH;
+    private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
 
 
     public Playing(Game game) {
@@ -37,7 +45,7 @@ public class Playing extends State implements Statemethods{
         player.resetDirBooleans();
     }
 
-    public void unpauseGame(){
+    public void unpauseGame() {
         paused = false;
 
     }
@@ -47,25 +55,42 @@ public class Playing extends State implements Statemethods{
         if (!paused) {
             levelManager.update();
             player.update();
+            checkCLoseToBorder();
+        } else {
+            pauseOverlay.update();
         }
-        else{
-             pauseOverlay.update();
-        }
+    }
+
+    private void checkCLoseToBorder() {
+        int playerX = (int) (player.getHitbox().x);
+        int diff = playerX - xLevelOffset;
+
+        if (diff > rightBorder)
+            xLevelOffset += diff - rightBorder;
+        else if (diff < leftBorder)
+            xLevelOffset +=  diff - leftBorder;
+
+        if(xLevelOffset > maxLevelOffsetX)
+            xLevelOffset = maxLevelOffsetX;
+        else if (xLevelOffset < 0)
+            xLevelOffset = 0;
     }
 
     @Override
     public void draw(Graphics g) {
-        levelManager.draw(g);
-        player.render(g);
-        if(paused)
+        levelManager.draw(g, xLevelOffset);
+        player.render(g, xLevelOffset);
+        if (paused){
+            g.setColor(new Color(0,0,0,150 ));
+            g.fillRect(0,0 , Game.GAME_WIDTH, Game.GAME_HEIGHT);
             pauseOverlay.draw(g);
-
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         // Action when the mouse is clicked
-        if(e.getButton() ==  MouseEvent.BUTTON1){
+        if (e.getButton() == MouseEvent.BUTTON1) {
             player.setAttacking(true);
         }
 
@@ -75,7 +100,6 @@ public class Playing extends State implements Statemethods{
     public void mousePressed(MouseEvent e) {
         if (paused)
             pauseOverlay.mousePressed(e);
-
     }
 
     @Override
@@ -90,8 +114,8 @@ public class Playing extends State implements Statemethods{
             pauseOverlay.mouseMoved(e);
     }
 
-    public void mouseDragged(MouseEvent e){
-        if(paused)
+    public void mouseDragged(MouseEvent e) {
+        if (paused)
             pauseOverlay.mouseDragged(e);
     }
 
