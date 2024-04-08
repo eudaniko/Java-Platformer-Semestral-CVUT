@@ -38,10 +38,10 @@ public class Playing extends State implements Statemethods {
     public Playing(Game game) {
         super(game);
         initClasses();
-
         backgroundImage = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BACKGROUND);
         bigCloud = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
         smallCloud = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUD);
+
         smallCloudsPos = new int[8];
         rnd = new Random();
         for (int i = 0; i < smallCloudsPos.length; i++)
@@ -114,7 +114,7 @@ public class Playing extends State implements Statemethods {
             g.drawImage(bigCloud, BIG_CLOUD_WIDTH * i - (int) (xLevelOffset * 0.3), (int) (204 * Game.SCALE), BIG_CLOUD_WIDTH, BIG_CLOUD_HEIGHT, null);
 
         for (int i = 0; i < smallCloudsPos.length; i++)
-            g.drawImage(smallCloud, SMALL_CLOUD_WIDTH * 4 * i - (int) (xLevelOffset * 0.5), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
+            g.drawImage(smallCloud, SMALL_CLOUD_WIDTH * 4 * i , smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
     }
 
     @Override
