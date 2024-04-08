@@ -26,6 +26,10 @@ public class LoadSave {
     public static final String URM_BUTTONS = "/urm_buttons.png";
     public static final String VOLUME_BUTTONS = "/volume_buttons.png";
     public static final String MENU_BACKGROUND = "background_menu.gif";
+    public static final String PLAYING_BACKGROUND = "/playing_bg_img.png";
+    public static final String BIG_CLOUDS = "/big_clouds.png";
+    public static final String SMALL_CLOUD = "/small_clouds.png";
+
 
 
 
