@@ -1,4 +1,4 @@
-package Levels;
+package levels;
 
 public class Level {
     private int[][] levelData;

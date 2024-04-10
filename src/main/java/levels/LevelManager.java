@@ -1,4 +1,4 @@
-package Levels;
+package levels;
 
 import main.Game;
 import utils.LoadSave;

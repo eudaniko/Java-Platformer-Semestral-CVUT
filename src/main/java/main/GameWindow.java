@@ -21,11 +21,11 @@ public class GameWindow {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(gamePanel);
         // Center the frame on the screen
-        jFrame.setLocationRelativeTo(null);
         // Set the window to be non-resizable
         jFrame.setResizable(false);
         // Pack the components inside the frame
         jFrame.pack();
+        jFrame.setLocationRelativeTo(null);
         // Make the frame visible
         jFrame.setVisible(true);
         jFrame.addWindowFocusListener(new WindowFocusListener() {
