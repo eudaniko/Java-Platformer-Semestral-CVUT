@@ -6,6 +6,7 @@ import utils.LoadSave;
 import static utils.HelpMethods.*;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
@@ -21,7 +22,7 @@ public class Player extends Entity {
     private float playerSpeed = 1.0f * Game.SCALE;
     private int[][] levelData;
     public float xDrawOffset = 21 * Game.SCALE;
-    private float yDrawOffset = 4 * Game.SCALE;
+    private float yDrawOffset = 3 * Game.SCALE;
 
     // Jumping | Gravity
     private float airSpeed = 0f;
@@ -49,27 +50,48 @@ public class Player extends Entity {
     private int currentHealth = 50;
     private int healthWidth = statusBarWidth;
 
+    // Attack
+    private Rectangle2D.Float attackBox;
+
+    private int flipX = 0;
+    private int flipW = 1;
+
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         loadAnimations();
-        intitHitBox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
+        initHitBox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
+        initAttackBox();
+    }
+
+    private void initAttackBox() {
+        attackBox = new Rectangle2D.Float(hitbox.x, hitbox.y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
     }
 
     public void update() {
         updateHealthBar();
+        updateAttackBox();
 
         updatePos();
         updateAnimationTick();
         setAnimation();
     }
 
+    private void updateAttackBox() {
+        if (right) {
+            attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
+        } else if (left) {
+            attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
+        } else
+            attackBox.y = hitbox.y + (Game.SCALE * 10);
+    }
+
     private void updateHealthBar() {
         healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
     }
 
-    private void changeHealth(int deltaHealth){
+    private void changeHealth(int deltaHealth) {
         currentHealth += deltaHealth;
 
         if (currentHealth <= 0)
@@ -81,23 +103,32 @@ public class Player extends Entity {
 
     public void render(Graphics g, int levelOffset) {
         // Draw the player animation frame
-        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - levelOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
+        g.drawImage(animations[playerAction][aniIndex],
+                (int) (hitbox.x - xDrawOffset) - levelOffset + flipX,
+                (int) (hitbox.y - yDrawOffset),
+                width * flipW, height, null);
         //        drawHitBox(g, levelOffset);
         drawUI(g);
+        drawAttackBox(g, levelOffset);
 
+    }
+
+    private void drawAttackBox(Graphics g, int levelOffsetX) {
+        g.setColor(Color.red);
+        g.drawRect((int) attackBox.x - levelOffsetX, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     private void drawUI(Graphics g) {
         g.drawImage(statusBar, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
         g.setColor(Color.red);
-        g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY,  healthWidth, healthBarHeight);
+        g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 
     }
 
     // Method to import image resources and to load animation frames from the sprite sheet
     private void loadAnimations() {
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-        animations = new BufferedImage[9][6];
+        animations = new BufferedImage[7][8];
 
         for (int j = 0; j < animations.length; j++) {
             for (int i = 0; i < animations[j].length; i++) {
@@ -128,7 +159,7 @@ public class Player extends Entity {
         }
 
         if (attacking)
-            playerAction = ATTACK_1;
+            playerAction = ATTACK;
 
         if (startAni != playerAction)
             resetAniTick();
@@ -166,10 +197,16 @@ public class Player extends Entity {
 
         float xSpeed = 0, ySpeed = 0;
 
-        if (left)
+        if (left) {
             xSpeed -= playerSpeed;
-        if (right)
+            flipX = width;
+            flipW = -1;
+        }
+        if (right) {
             xSpeed += playerSpeed;
+            flipX = 0;
+            flipW = 1;
+        }
 
         if (!inAir) {
             if (!IsEntityOnFloor(hitbox, levelData))

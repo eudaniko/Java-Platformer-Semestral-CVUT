@@ -23,7 +23,7 @@ public abstract class Enemy extends Entity {
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
         this.enemyType = enemyType;
-        intitHitBox(x, y, width, height);
+        initHitBox(x, y, width, height);
     }
 
     protected void updateAnimationTick() {
