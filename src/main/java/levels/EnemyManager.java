@@ -1,6 +1,7 @@
 package levels;
 
 import entities.Crabby;
+import entities.Player;
 import gamestates.Playing;
 import utils.LoadSave;
 
@@ -28,9 +29,9 @@ public class EnemyManager {
         System.out.println("size of crabs: " + crabbies.size());
     }
 
-    public void update(int[][] levelData) {
+    public void update(int[][] levelData, Player player) {
         for (Crabby c : crabbies)
-            c.update(levelData);
+            c.update(levelData, player);
 
     }
 
