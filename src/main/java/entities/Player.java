@@ -31,22 +31,66 @@ public class Player extends Entity {
     private boolean inAir = false;
     private boolean jump = false;
 
+
+    // Status Bar
+    private BufferedImage statusBar;
+    private int statusBarWidth = (int) (192 * Game.SCALE);
+    private int statusBarHeight = (int) (58 * Game.SCALE);
+    private int statusBarX = (int) (10 * Game.SCALE);
+    private int statusBarY = (int) (10 * Game.SCALE);
+
+    // Health Bar
+    private int healthBarWidth = (int) (150 * Game.SCALE);
+    private int healthBarHeight = (int) (4 * Game.SCALE);
+    private int healthBarXStart = (int) (34 * Game.SCALE);
+    private int healthBarYStart = (int) (14 * Game.SCALE);
+
+    private int maxHealth = 100;
+    private int currentHealth = 50;
+    private int healthWidth = statusBarWidth;
+
+
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
+        statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         loadAnimations();
         intitHitBox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
     }
 
     public void update() {
+        updateHealthBar();
+
         updatePos();
         updateAnimationTick();
         setAnimation();
     }
 
+    private void updateHealthBar() {
+        healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
+    }
+
+    private void changeHealth(int deltaHealth){
+        currentHealth += deltaHealth;
+
+        if (currentHealth <= 0)
+            currentHealth = 0;
+            //gameOver();
+        else if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
+    }
+
     public void render(Graphics g, int levelOffset) {
         // Draw the player animation frame
         g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - levelOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
-//        drawHitBox(g, levelOffset);
+        //        drawHitBox(g, levelOffset);
+        drawUI(g);
+
+    }
+
+    private void drawUI(Graphics g) {
+        g.drawImage(statusBar, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
+        g.setColor(Color.red);
+        g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY,  healthWidth, healthBarHeight);
 
     }
 
@@ -116,8 +160,8 @@ public class Player extends Entity {
         if (jump)
             jump();
 
-        if(!inAir)
-            if((!left && !right) || (right && left))
+        if (!inAir)
+            if ((!left && !right) || (right && left))
                 return;
 
         float xSpeed = 0, ySpeed = 0;

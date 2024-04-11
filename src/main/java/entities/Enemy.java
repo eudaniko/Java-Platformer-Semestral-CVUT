@@ -1,6 +1,5 @@
 package entities;
 
-
 import main.Game;
 
 import java.awt.*;

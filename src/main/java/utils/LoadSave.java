@@ -8,8 +8,6 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +33,7 @@ public class LoadSave {
     public static final String PLAYING_BACKGROUND = "/playing_bg_img.png";
     public static final String BIG_CLOUDS = "/big_clouds.png";
     public static final String SMALL_CLOUD = "/small_clouds.png";
+    public static final String STATUS_BAR = "/health_power_bar.png";
 
 
 
