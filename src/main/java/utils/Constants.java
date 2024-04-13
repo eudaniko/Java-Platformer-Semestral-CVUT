@@ -8,6 +8,10 @@ import main.Game;
 
 // Constants class containing game-related constant values
 public class Constants {
+    public static final class Player{
+        public static final int PLAYER_DAMAGE = 10;
+    }
+
     public static class EnemyConstants{
         public static final int CRABBY = 0;
 
@@ -43,6 +47,24 @@ public class Constants {
                     }
             }
             return 0;
+        }
+
+        public static int GetMaxHealth(int enemy_type){
+            switch (enemy_type){
+                case CRABBY:
+                    return 20;
+                default:
+                    return 1;
+            }
+        }
+
+        public static int GetEnemyDamage( int enemyType){
+            switch (enemyType){
+                case CRABBY:
+                    return 10;
+                default:
+                    return 10;
+            }
         }
 
     }
