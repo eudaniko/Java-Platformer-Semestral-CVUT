@@ -33,7 +33,7 @@ public class UrmButton extends PauseButton {
         index = 0;
         if (mouseOver)
             index = 1;
-        else if (mousePressed)
+        if (mousePressed)
             index = 2;
     }
 

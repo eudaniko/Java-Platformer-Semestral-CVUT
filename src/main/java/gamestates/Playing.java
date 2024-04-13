@@ -5,6 +5,7 @@ import levels.LevelManager;
 import entities.Player;
 import main.Game;
 import ui.GameOverOverlay;
+import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
 import utils.LoadSave;
 
@@ -26,6 +27,9 @@ public class Playing extends State implements Statemethods {
     private boolean paused = false;
     private GameOverOverlay gameOverOverlay;
     private boolean gameOver = false;
+
+    private LevelCompletedOverlay levelCompletedOverlay;
+    private boolean levelCompleted = true;
 
     private int xLevelOffset;
     private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
@@ -59,6 +63,7 @@ public class Playing extends State implements Statemethods {
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
+        levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
     public Player getPlayer() {
@@ -76,13 +81,17 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-        if (!paused && !gameOver) {
+        if (paused)
+            pauseOverlay.update();
+        else if (gameOver)
+            gameOverOverlay.update();
+        else if (levelCompleted)
+            levelCompletedOverlay.update();
+        else if (!gameOver) {
             levelManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             checkCLoseToBorder();
-        } else {
-            pauseOverlay.update();
         }
     }
 
@@ -114,7 +123,9 @@ public class Playing extends State implements Statemethods {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             pauseOverlay.draw(g);
-        } else if (gameOver)
+        } else if (levelCompleted)
+            levelCompletedOverlay.draw(g);
+        else if (gameOver)
             gameOverOverlay.draw(g);
     }
 
@@ -148,15 +159,16 @@ public class Playing extends State implements Statemethods {
         if (!gameOver)
             if (e.getButton() == MouseEvent.BUTTON1)
                 player.setAttacking(true);
-
-
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver){
             if (paused)
                 pauseOverlay.mousePressed(e);
+            else if (levelCompleted)
+                levelCompletedOverlay.mousePressed(e);
+            }
     }
 
     @Override
@@ -164,13 +176,18 @@ public class Playing extends State implements Statemethods {
         if (!gameOver)
             if (paused)
                 pauseOverlay.mouseReleased(e);
+        else if (levelCompleted)
+            levelCompletedOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver) {
             if (paused)
                 pauseOverlay.mouseMoved(e);
+            else if (levelCompleted)
+                levelCompletedOverlay.mouseMoved(e);
+        }
     }
 
     public void mouseDragged(MouseEvent e) {

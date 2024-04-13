@@ -34,6 +34,7 @@ public class LoadSave {
     public static final String BIG_CLOUDS = "/big_clouds.png";
     public static final String SMALL_CLOUD = "/small_clouds.png";
     public static final String STATUS_BAR = "/health_power_bar.png";
+    public static final String LEVEL_COMPLETED_BG = "/menu_background.png";
 
 
 

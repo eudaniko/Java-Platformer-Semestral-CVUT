@@ -37,6 +37,7 @@ public class Game implements Runnable {
         initClasses();
         gamePanel = new GamePanel(this); // Create a new game panel
         gameWindow = new GameWindow(gamePanel); // Create a game window based on the game panel
+        gamePanel.setFocusable(true);
         gamePanel.requestFocus(); // Set focus to the game panel
         startGameLoop(); // Start the game loop
     }
@@ -134,5 +135,9 @@ public class Game implements Runnable {
 
     public  Playing getPlaying(){
         return  playing;
+    }
+
+    public void QuitGame(){
+        System.exit(0);
     }
 }

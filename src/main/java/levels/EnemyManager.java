@@ -63,7 +63,6 @@ public class EnemyManager {
             if (c.isActive())
                 if (attackBox.intersects(c.getHitbox())) {
                     c.hurt(PLAYER_DAMAGE);
-                    System.out.println("HIT CRAB");
                     return;
                 }
     }
