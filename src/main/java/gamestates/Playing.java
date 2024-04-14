@@ -29,14 +29,12 @@ public class Playing extends State implements Statemethods {
     private boolean gameOver = false;
 
     private LevelCompletedOverlay levelCompletedOverlay;
-    private boolean levelCompleted = true;
+    private boolean levelCompleted = false;
 
     private int xLevelOffset;
     private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
     private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
-    private int levelTilesWide = LoadSave.GetLevelData()[0].length;
-    private int maxTilesOffset = levelTilesWide - Game.TILES_IN_WIDTH;
-    private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
+    private int maxLevelOffsetX;
 
     private BufferedImage backgroundImage, bigCloud, smallCloud;
     private int[] smallCloudsPos;
@@ -54,6 +52,23 @@ public class Playing extends State implements Statemethods {
         rnd = new Random();
         for (int i = 0; i < smallCloudsPos.length; i++)
             smallCloudsPos[i] = (int) (70 * Game.SCALE) + rnd.nextInt((int) (100 * Game.SCALE));
+
+        calculateLevelOffset();
+        loadStartLevel();
+    }
+
+    public void loadNextLevel() {
+        resetAll();
+        levelManager.loadNextLevel();
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+    }
+
+    private void loadStartLevel() {
+        enemyManager.loadEnemies(levelManager.getCurrentLevel());
+    }
+
+    private void calculateLevelOffset() {
+        maxLevelOffsetX = levelManager.getCurrentLevel().getMaxLevelOffset();
     }
 
     private void initClasses() {
@@ -61,6 +76,7 @@ public class Playing extends State implements Statemethods {
         enemyManager = new EnemyManager(this);
         player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE), this);
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
@@ -68,6 +84,10 @@ public class Playing extends State implements Statemethods {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
     }
 
     public void windowFocusLost() {
@@ -116,7 +136,7 @@ public class Playing extends State implements Statemethods {
 
         drawClouds(g);
 
-        levelManager.draw(g, xLevelOffset);
+        levelManager.draw(g,xLevelOffset);
         player.render(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
         if (paused) {
@@ -141,12 +161,22 @@ public class Playing extends State implements Statemethods {
         //Reset playing, enemies, level, etc..
         gameOver = false;
         paused = false;
+        levelCompleted = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public void setMaxLevelOffsetX(int maxLevelOffsetX) {
+        this.maxLevelOffsetX = maxLevelOffsetX;
+    }
+
+    public void setLevelComplete(boolean levelCompleted){
+        this.levelCompleted = levelCompleted;
+
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
@@ -163,12 +193,12 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!gameOver){
+        if (!gameOver) {
             if (paused)
                 pauseOverlay.mousePressed(e);
             else if (levelCompleted)
                 levelCompletedOverlay.mousePressed(e);
-            }
+        }
     }
 
     @Override
@@ -176,8 +206,8 @@ public class Playing extends State implements Statemethods {
         if (!gameOver)
             if (paused)
                 pauseOverlay.mouseReleased(e);
-        else if (levelCompleted)
-            levelCompletedOverlay.mouseReleased(e);
+            else if (levelCompleted)
+                levelCompletedOverlay.mouseReleased(e);
     }
 
     @Override

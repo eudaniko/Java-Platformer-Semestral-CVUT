@@ -29,14 +29,14 @@ public class LevelCompletedOverlay {
         backgroundImage = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_COMPLETED_BG);
         bgW = (int) (backgroundImage.getWidth() * Game.SCALE);
         bgH = (int) (backgroundImage.getHeight() * Game.SCALE);
-        bgX = (int) (GAME_WIDTH / 2 * Game.SCALE);
+        bgX = (int) ((Game.GAME_WIDTH / 2 * Game.SCALE) - bgW * Game.SCALE);
         bgY = (int) (75 * Game.SCALE);
 
     }
 
     private void initUrmButtons() {
         int menuX = (int) (330 * Game.SCALE);
-        int continueX = (int) (445 * Game.SCALE);
+        int continueX = (int) (415 * Game.SCALE);
         int bY = (int) (195 * Game.SCALE);
         menuButton = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);
         continueButton = new UrmButton(continueX, bY, URM_SIZE, URM_SIZE, 0);
@@ -49,9 +49,9 @@ public class LevelCompletedOverlay {
     }
 
     public void draw(Graphics g) {
+        g.drawImage(backgroundImage, bgX, bgY, bgW, bgH, null);
         continueButton.draw(g);
         menuButton.draw(g);
-        g.drawImage(backgroundImage, bgX, bgY, bgW, bgH, null);
     }
 
     public void mousePressed(MouseEvent e) {
@@ -64,7 +64,7 @@ public class LevelCompletedOverlay {
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, continueButton)) {
             if (continueButton.isMousePressed())
-                System.out.println("Continue Next Level!");
+                playing.loadNextLevel();
         } else if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed()) {
                 Gamestate.state = Gamestate.MENU;

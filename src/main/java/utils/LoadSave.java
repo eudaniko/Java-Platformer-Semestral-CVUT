@@ -8,8 +8,11 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,8 +24,8 @@ public class LoadSave {
     public static final String PLAYER_ATLAS = "/player_sprites.png";
     public static final String CRABBY_ATLAS = "/crabby_sprite.png";
     public static final String LEVEL_ATLAS = "/outside_sprites.png";
-//    public static final String LEVEL_ONE_DATA = "/level_one_data.png";
-    public static final String LEVEL_ONE_DATA = "/level_one_data_long.png";
+    //    public static final String LEVEL_ONE_DATA = "/3.png";
+//    public static final String LEVEL_ONE_DATA = "/gameLevels/2.png";
     public static final String MENU_BUTTONS_ATLAS = "/button_atlas.png";
     public static final String UI_MENU_BACKGROUND = "/menu_background.png";
     public static final String PAUSE_BACKGROUND = "/pause_menu.png";
@@ -34,12 +37,10 @@ public class LoadSave {
     public static final String BIG_CLOUDS = "/big_clouds.png";
     public static final String SMALL_CLOUD = "/small_clouds.png";
     public static final String STATUS_BAR = "/health_power_bar.png";
-    public static final String LEVEL_COMPLETED_BG = "/menu_background.png";
+    public static final String LEVEL_COMPLETED_BG = "/completed_sprite.png";
 
 
-
-
-    public static BufferedImage GetSpriteAtlas(final String FilePath){
+    public static BufferedImage GetSpriteAtlas(final String FilePath) {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream(FilePath);
         try {
@@ -48,7 +49,7 @@ public class LoadSave {
             // TO DO catch
             throw new RuntimeException(e);
         }
-        return  img;
+        return img;
     }
 
     public static BufferedImage[] GetGIF(String filePath) {
@@ -80,37 +81,5 @@ public class LoadSave {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
-
-    public static ArrayList<Crabby> GetCrabs() {
-        BufferedImage image = GetSpriteAtlas(LEVEL_ONE_DATA);
-        ArrayList<Crabby> list = new ArrayList<>();
-
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getGreen();
-                if (value == CRABBY)
-                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
-
-            }
-
-        return list;
-    }
-
-    public static int[][] GetLevelData(){
-        BufferedImage image = GetSpriteAtlas(LEVEL_ONE_DATA);
-        int[][] levelData =  new int[image.getHeight()][image.getWidth()];
-
-
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++){
-                Color color = new Color(image.getRGB(i,j));
-                int value = color.getRed();
-
-                if(value >= 48) value = 0;
-                levelData[j][i] = value;
-            }
-        return levelData;
     }
 }
