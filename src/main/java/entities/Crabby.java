@@ -22,8 +22,8 @@ public class Crabby extends Enemy {
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x, y, (int)( 82 * Game.SCALE), (int) (19 * Game.SCALE));
-        attackBoxOffsetX =  (int) (Game.SCALE * 30);
+        attackBox = new Rectangle2D.Float(x, y, (int) (82 * Game.SCALE), (int) (19 * Game.SCALE));
+        attackBoxOffsetX = (int) (Game.SCALE * 30);
     }
 
     public void update(int[][] levelData, Player player) {
@@ -60,8 +60,8 @@ public class Crabby extends Enemy {
                 case ATTACK:
                     if (aniIndex == 0)
                         attackChecked = false;
-                    if (aniIndex ==3 && !attackChecked)
-                        checkPlayerHit( attackBox,player);
+                    if (aniIndex == 3 && !attackChecked)
+                        checkPlayerHit(attackBox, player);
                     break;
                 case HIT:
 
@@ -85,8 +85,8 @@ public class Crabby extends Enemy {
             return 1;
     }
 
-    public void drawAttackBox(Graphics g, int xlevelOffset){
+    public void drawAttackBox(Graphics g, int xlevelOffset) {
         g.setColor(Color.red);
-        g.drawRect((int) (attackBox.x - xlevelOffset), (int)attackBox.y, (int) attackBox.width, (int) attackBox.height);
+        g.drawRect((int) (attackBox.x - xlevelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 }

@@ -1,31 +1,21 @@
 package utils;
 
-import entities.Crabby;
-import main.Game;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static utils.Constants.EnemyConstants.CRABBY;
 
 public class LoadSave {
 
     public static final String PLAYER_ATLAS = "/player_sprites.png";
     public static final String CRABBY_ATLAS = "/crabby_sprite.png";
     public static final String LEVEL_ATLAS = "/outside_sprites.png";
-    //    public static final String LEVEL_ONE_DATA = "/3.png";
-//    public static final String LEVEL_ONE_DATA = "/gameLevels/2.png";
     public static final String MENU_BUTTONS_ATLAS = "/button_atlas.png";
     public static final String UI_MENU_BACKGROUND = "/menu_background.png";
     public static final String PAUSE_BACKGROUND = "/pause_menu.png";

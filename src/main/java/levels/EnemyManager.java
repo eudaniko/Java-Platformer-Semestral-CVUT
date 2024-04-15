@@ -64,7 +64,7 @@ public class EnemyManager {
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         for (Crabby c : crabbies)
             if (c.isActive())
-                if (attackBox.intersects(c.getHitbox())) {
+                if (attackBox.intersects(c.getHitbox()) && c.getEnemyState() != DEAD) {
                     c.hurt(PLAYER_DAMAGE);
                     return;
                 }

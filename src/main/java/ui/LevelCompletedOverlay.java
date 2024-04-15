@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import static main.Game.GAME_WIDTH;
 import static utils.Constants.UI.URMButtons.URM_SIZE;
 
 public class LevelCompletedOverlay {
