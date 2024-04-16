@@ -8,6 +8,9 @@ import main.Game;
 
 // Constants class containing game-related constant values
 public class Constants {
+    public static final float GRAVITY = 0.04f * Game.SCALE;
+    public static final int ANI_SPEED = 25;
+
     public static final class Player{
         public static final int PLAYER_DAMAGE = 10;
     }

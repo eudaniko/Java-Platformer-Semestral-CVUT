@@ -2,23 +2,21 @@ package entities;
 
 import main.Game;
 
-
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import static utils.Constants.Directions.RIGHT;
+import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy {
 
     //AttackBox
-    private Rectangle2D.Float attackBox;
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
-        initHitBox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
+        initHitBox(22, 19);
         initAttackBox();
+        walkSpeed = 0.3f * Game.SCALE;
     }
 
     private void initAttackBox() {
@@ -45,7 +43,7 @@ public class Crabby extends Enemy {
         if (inAir)
             updateInAir(levelData);
         else {
-            switch (enemyState) {
+            switch (state) {
                 case IDLE:
                     newState(RUNNING);
                     break;
@@ -83,10 +81,5 @@ public class Crabby extends Enemy {
             return -1;
         else
             return 1;
-    }
-
-    public void drawAttackBox(Graphics g, int xlevelOffset) {
-        g.setColor(Color.red);
-        g.drawRect((int) (attackBox.x - xlevelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 }
