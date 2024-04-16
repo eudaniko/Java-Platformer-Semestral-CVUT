@@ -43,18 +43,14 @@ public class EnemyManager {
 
     public void draw(Graphics g, int xLevelOffset) {
         drawCrabs(g, xLevelOffset);
-        for (Crabby c : crabbies)
-            c.draw(g, xLevelOffset);
-
-
     }
 
     private void drawCrabs(Graphics g, int xLevelOffset) {
         for (Crabby c : crabbies)
             if (c.isActive()) {
                 g.drawImage(crabbyArray[c.getEntityState()][c.getAniIndex()],
-                        (int) c.getHitbox().x - xLevelOffset - CRABBY_DRAW_OFFSET_X + c.flipX(),
-                        (int) c.getHitbox().y - CRABBY_DRAW_OFFSET_Y,
+                        (int) c.getHitBox().x - xLevelOffset - CRABBY_DRAW_OFFSET_X + c.flipX(),
+                        (int) c.getHitBox().y - CRABBY_DRAW_OFFSET_Y,
                         CRABBY_WIDTH * c.flipW(),
                         CRABBY_HEIGHT, null);
 //                c.drawAttackBox(g, xLevelOffset);
@@ -64,7 +60,7 @@ public class EnemyManager {
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         for (Crabby c : crabbies)
             if (c.isActive())
-                if (attackBox.intersects(c.getHitbox()) && c.getEntityState() != DEAD) {
+                if (attackBox.intersects(c.getHitBox()) && c.getEntityState() != DEAD) {
                     c.hurt(PLAYER_DAMAGE);
                     return;
                 }

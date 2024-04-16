@@ -3,6 +3,7 @@ package gamestates;
 import levels.EnemyManager;
 import levels.LevelManager;
 import entities.Player;
+import levels.ObjectManager;
 import main.Game;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
@@ -23,6 +24,7 @@ public class Playing extends State implements Statemethods {
     private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
+    private ObjectManager objectManager;
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
     private GameOverOverlay gameOverOverlay;
@@ -74,6 +76,7 @@ public class Playing extends State implements Statemethods {
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
+        objectManager = new ObjectManager(this);
         player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE), this);
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -111,12 +114,13 @@ public class Playing extends State implements Statemethods {
             levelManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
+            objectManager.update();
             checkCLoseToBorder();
         }
     }
 
     private void checkCLoseToBorder() {
-        int playerX = (int) (player.getHitbox().x);
+        int playerX = (int) (player.getHitBox().x);
         int diff = playerX - xLevelOffset;
 
         if (diff > rightBorder)
@@ -139,6 +143,7 @@ public class Playing extends State implements Statemethods {
         levelManager.draw(g,xLevelOffset);
         player.render(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
+        objectManager.draw(g,xLevelOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);

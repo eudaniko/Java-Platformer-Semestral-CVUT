@@ -63,12 +63,12 @@ public class Player extends Entity {
     public void setSpawn(Point spawn){
         this.x = spawn.x;
         this.y = spawn.y;
-        hitbox.x = spawn.x;
-        hitbox.y = spawn.y;
+        hitBox.x = spawn.x;
+        hitBox.y = spawn.y;
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(hitbox.x, hitbox.y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
+        attackBox = new Rectangle2D.Float(hitBox.x, hitBox.y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
     }
 
     public void update() {
@@ -98,11 +98,11 @@ public class Player extends Entity {
 
     private void updateAttackBox() {
         if (right) {
-            attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
+            attackBox.x = hitBox.x + hitBox.width + (int) (Game.SCALE * 10);
         } else if (left) {
-            attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
+            attackBox.x = hitBox.x - hitBox.width - (int) (Game.SCALE * 10);
         } else
-            attackBox.y = hitbox.y + (Game.SCALE * 10);
+            attackBox.y = hitBox.y + (Game.SCALE * 10);
     }
 
     private void updateHealthBar() {
@@ -122,8 +122,8 @@ public class Player extends Entity {
     public void render(Graphics g, int levelOffset) {
         // Draw the player animation frame
         g.drawImage(animations[state][aniIndex],
-                (int) (hitbox.x - xDrawOffset) - levelOffset + flipX,
-                (int) (hitbox.y - yDrawOffset),
+                (int) (hitBox.x - xDrawOffset) - levelOffset + flipX,
+                (int) (hitBox.y - yDrawOffset),
                 width * flipW, height, null);
         //        drawHitBox(g, levelOffset);
         drawUI(g);
@@ -152,7 +152,7 @@ public class Player extends Entity {
 
     public void loadLevelData(int[][] levelData) {
         this.levelData = levelData;
-        if (!IsEntityOnFloor(hitbox, levelData))
+        if (!IsEntityOnFloor(hitBox, levelData))
             inAir = true;
     }
 
@@ -227,17 +227,17 @@ public class Player extends Entity {
         }
 
         if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, levelData))
+            if (!IsEntityOnFloor(hitBox, levelData))
                 inAir = true;
         }
 
         if (inAir) {
-            if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)) {
-                hitbox.y += airSpeed;
+            if (CanMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, levelData)) {
+                hitBox.y += airSpeed;
                 airSpeed += GRAVITY;
                 updateXPos(xSpeed);
             } else {
-                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+                hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
                 if (airSpeed > 0)
                     resetInAir();
                 else
@@ -262,10 +262,10 @@ public class Player extends Entity {
     }
 
     private void updateXPos(float xSpeed) {
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-            hitbox.x += xSpeed;
+        if (CanMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, levelData)) {
+            hitBox.x += xSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            hitBox.x = GetEntityXPosNextToWall(hitBox, xSpeed);
         }
 
     }
@@ -307,10 +307,10 @@ public class Player extends Entity {
         state = IDLE;
         currentHealth = maxHealth;
 
-        hitbox.x = x;
-        hitbox.y = y;
+        hitBox.x = x;
+        hitBox.y = y;
 
-        if (!IsEntityOnFloor(hitbox, levelData))
+        if (!IsEntityOnFloor(hitBox, levelData))
             inAir = true;
     }
 }

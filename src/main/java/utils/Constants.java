@@ -11,11 +11,44 @@ public class Constants {
     public static final float GRAVITY = 0.04f * Game.SCALE;
     public static final int ANI_SPEED = 25;
 
-    public static final class Player{
+
+    public static final class ObjectConstants {
+        public static final int RED_POTION = 0;
+        public static final int BLUE_POTION = 1;
+        public static final int BARREL = 2;
+        public static final int BOX = 3;
+
+        public static final int RED_POTION_VALUE = 15;
+        public static final int BLUE_POTION_VALUE = 10;
+
+        public static final int CONTAINER_WIDTH_DEFAULT = 40;
+        public static final int CONTAINER_HEIGHT_DEFAULT = 30;
+        public static final int CONTAINER_WIDTH = (int) (CONTAINER_WIDTH_DEFAULT * Game.SCALE);
+        public static final int CONTAINER_HEIGHT = (int) (CONTAINER_HEIGHT_DEFAULT * Game.SCALE);
+
+        public static final int POTION_WIDTH_DEFAULT = 12;
+        public static final int POTION_HEIGHT_DEFAULT = 16;
+        public static final int POTION_WIDTH = (int) (POTION_WIDTH_DEFAULT * Game.SCALE);
+        public static final int POTION_HEIGHT = (int) (POTION_HEIGHT_DEFAULT * Game.SCALE);
+
+        public static int GetSpriteAmount(int object_type){
+            switch (object_type){
+                case BARREL, BOX:
+                    return 8;
+                case RED_POTION, BLUE_POTION:
+                    return 7;
+            }
+            return 1;
+        }
+
+
+    }
+
+    public static final class Player {
         public static final int PLAYER_DAMAGE = 10;
     }
 
-    public static class EnemyConstants{
+    public static class EnemyConstants {
         public static final int CRABBY = 0;
 
         public static final int IDLE = 0;
@@ -27,16 +60,16 @@ public class Constants {
         public static final int CRABBY_WIDTH_DEFAULT = 72;
         public static final int CRABBY_HEIGHT_DEFAULT = 32;
 
-        public static final int CRABBY_WIDTH =  (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
-        public static final int CRABBY_HEIGHT =  (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
+        public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
 
         public static final int CRABBY_DRAW_OFFSET_X = (int) (26 * Game.SCALE);
         public static final int CRABBY_DRAW_OFFSET_Y = (int) (9 * Game.SCALE);
 
-        public static int GetSpriteAmount(int enemyType, int enemyState){
-            switch (enemyType){
+        public static int GetSpriteAmount(int enemyType, int enemyState) {
+            switch (enemyType) {
                 case CRABBY:
-                    switch (enemyState){
+                    switch (enemyState) {
                         case IDLE:
                             return 9;
                         case RUNNING:
@@ -52,8 +85,8 @@ public class Constants {
             return 0;
         }
 
-        public static int GetMaxHealth(int enemy_type){
-            switch (enemy_type){
+        public static int GetMaxHealth(int enemy_type) {
+            switch (enemy_type) {
                 case CRABBY:
                     return 30;
                 default:
@@ -61,8 +94,8 @@ public class Constants {
             }
         }
 
-        public static int GetEnemyDamage( int enemyType){
-            switch (enemyType){
+        public static int GetEnemyDamage(int enemyType) {
+            switch (enemyType) {
                 case CRABBY:
                     return 10;
                 default:
@@ -71,6 +104,7 @@ public class Constants {
         }
 
     }
+
     public static class Environment {
         public static final int BIG_CLOUD_WIDTH_DEFAULT = 448;
         public static final int BIG_CLOUD_HEIGHT_DEFAULT = 101;

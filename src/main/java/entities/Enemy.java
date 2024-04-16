@@ -50,20 +50,20 @@ public abstract class Enemy extends Entity {
 
     protected void firstUpdateCheck(int[][] levelData) {
         if (firstUpdate) {
-            if (!IsEntityOnFloor(hitbox, levelData))
+            if (!IsEntityOnFloor(hitBox, levelData))
                 inAir = true;
             firstUpdate = false;
         }
     }
 
     protected void updateInAir(int[][] levelData) {
-        if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)) {
-            hitbox.y += airSpeed;
+        if (CanMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, levelData)) {
+            hitBox.y += airSpeed;
             airSpeed += GRAVITY;
         } else {
             inAir = false;
-            hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
-            tileY = (int) (hitbox.y / Game.TILES_SIZE);
+            hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
+            tileY = (int) (hitBox.y / Game.TILES_SIZE);
         }
     }
 
@@ -75,9 +75,9 @@ public abstract class Enemy extends Entity {
         else
             xSpeed = walkSpeed;
 
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData))
-            if (IsFloor(hitbox, xSpeed, walkDir, levelData)) {
-                hitbox.x += xSpeed;
+        if (CanMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, levelData))
+            if (IsFloor(hitBox, xSpeed, walkDir, levelData)) {
+                hitBox.x += xSpeed;
                 return;
             }
 
@@ -85,7 +85,7 @@ public abstract class Enemy extends Entity {
     }
 
     protected void turnTowardsPlayer(Player player) {
-        if (player.hitbox.x > hitbox.x)
+        if (player.hitBox.x > hitBox.x)
             walkDir = RIGHT;
         else
             walkDir = LEFT;
@@ -106,31 +106,31 @@ public abstract class Enemy extends Entity {
     }
 
     protected void checkPlayerHit(Rectangle2D.Float attackBox, Player player) {
-        if (attackBox.intersects(player.hitbox))
+        if (attackBox.intersects(player.hitBox))
             player.changeHealth(-GetEnemyDamage(enemyType));
         attackChecked = true;
 
     }
 
     protected boolean canSeePlayer(int[][] levelData, Player player) {
-        int playerTileY = (int) (player.hitbox.y / Game.TILES_SIZE);
+        int playerTileY = (int) (player.hitBox.y / Game.TILES_SIZE);
 
         if (playerTileY == tileY)
             if (isPlayerInRange(player)) {
-                if (isSightClear(levelData, hitbox, player.hitbox, tileY))
+                if (isSightClear(levelData, hitBox, player.hitBox, tileY))
                     return true;
             }
         return false;
     }
 
     private boolean isPlayerInRange(Player player) {
-        int absValue = (int) Math.abs(player.hitbox.x - hitbox.x);
+        int absValue = (int) Math.abs(player.hitBox.x - hitBox.x);
         return absValue <= viewDistance;
 
     }
 
     protected boolean isPlayerCloseForAttack(Player player) {
-        int absValue = (int) Math.abs(player.hitbox.x - hitbox.x);
+        int absValue = (int) Math.abs(player.hitBox.x - hitBox.x);
         return absValue <= attackDistance;
     }
 
@@ -150,8 +150,8 @@ public abstract class Enemy extends Entity {
     }
 
     public void resetEnemy() {
-        hitbox.x = x;
-        hitbox.y = y;
+        hitBox.x = x;
+        hitBox.y = y;
         firstUpdate = true;
         currentHealth = maxHealth;
         newState(IDLE);

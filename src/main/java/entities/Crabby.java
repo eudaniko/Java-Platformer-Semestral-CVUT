@@ -31,8 +31,8 @@ public class Crabby extends Enemy {
     }
 
     private void updateAttackBox() {
-        attackBox.x = hitbox.x - attackBoxOffsetX;
-        attackBox.y = hitbox.y;
+        attackBox.x = hitBox.x - attackBoxOffsetX;
+        attackBox.y = hitBox.y;
     }
 
 

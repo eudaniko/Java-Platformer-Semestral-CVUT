@@ -9,7 +9,7 @@ public abstract class Entity {
 
     protected float x, y;
     protected int width, height;
-    protected Rectangle2D.Float hitbox;
+    protected Rectangle2D.Float hitBox;
     protected int aniTick, aniIndex;
     protected int state;
     protected float airSpeed = 5;
@@ -30,7 +30,7 @@ public abstract class Entity {
     //for debugging the hitBox
     protected void drawHitBox(Graphics g, int levelOffset) {
         g.setColor(Color.PINK);
-        g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+        g.drawRect((int) hitBox.x - levelOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     protected void drawAttackBox(Graphics g, int xlevelOffset) {
@@ -39,11 +39,11 @@ public abstract class Entity {
     }
 
     protected void initHitBox(int width, int height) {
-        hitbox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
+        hitBox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
     }
 
-    public Rectangle2D.Float getHitbox() {
-        return hitbox;
+    public Rectangle2D.Float getHitBox() {
+        return hitBox;
     }
 
     public int getEntityState() {
