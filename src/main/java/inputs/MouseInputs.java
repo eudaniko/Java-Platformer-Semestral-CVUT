@@ -65,6 +65,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseReleased(e);
                 break;
+            case QUIT:
+                gamePanel.getGame().QuitGame();
+                break;
             default:
                 break;
         }
@@ -96,6 +99,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
                 break;
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseMoved(e);
+                break;
+            case QUIT:
+                gamePanel.getGame().QuitGame();
                 break;
             default:
                 break;

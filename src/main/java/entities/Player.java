@@ -26,6 +26,8 @@ public class Player extends Entity {
     private Playing playing;
     private boolean moving, attacking;
     private boolean attackChecked;
+    private int maxPower;
+    private int currentPower;
     private boolean left, right;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
@@ -54,6 +56,8 @@ public class Player extends Entity {
         this.state = IDLE;
         this.maxHealth = 100;
         this.currentHealth = maxHealth;
+        this.maxPower = 100;
+        this.currentPower = maxPower;
         this.walkSpeed = 1.0f * Game.SCALE;
         statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         loadAnimations();
@@ -93,6 +97,7 @@ public class Player extends Entity {
             return;
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
+        playing.checkObjectHit(attackBox);
 
     }
 
@@ -117,6 +122,16 @@ public class Player extends Entity {
             //gameOver();
         else if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
+    }
+
+    public void changePower(int deltaPower) {
+        currentPower += deltaPower;
+
+        if (currentPower <= 0)
+            currentPower = 0;
+        else if (currentPower >= maxPower)
+            currentPower = maxPower;
+
     }
 
     public void render(Graphics g, int levelOffset) {

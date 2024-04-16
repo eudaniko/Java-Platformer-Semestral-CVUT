@@ -2,6 +2,8 @@ package utils;
 
 import entities.Crabby;
 import main.Game;
+import objects.GameContainer;
+import objects.Potion;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.ObjectConstants.*;
 
 public class HelpMethods {
 
@@ -40,7 +43,7 @@ public class HelpMethods {
         return IsTileSolid((int) xIndex, (int) yIndex, levelData);
     }
 
-    public static boolean IsTileSolid(int xTile, int yTile, int[][] levelData){
+    public static boolean IsTileSolid(int xTile, int yTile, int[][] levelData) {
         int value = levelData[yTile][xTile];
 
         if (value >= 48 || value < 0 || value != 11)
@@ -83,13 +86,14 @@ public class HelpMethods {
         return true;
     }
 
-    public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int walkDir,int[][] levelData) {
+    public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int walkDir, int[][] levelData) {
         if (walkDir == RIGHT)
             return IsSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, levelData);
         else
             return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, levelData);
     }
-    public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] levelData){
+
+    public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] levelData) {
         for (int i = 0; i < xEnd - xStart; i++) {
             if (IsTileSolid(xStart + i, y, levelData))
                 return false;
@@ -98,7 +102,7 @@ public class HelpMethods {
     }
 
     public static boolean isSightClear(int[][] levelData, Rectangle2D.Float firstHitbox,
-                                       Rectangle2D.Float secondHitbox, int yTile){
+                                       Rectangle2D.Float secondHitbox, int yTile) {
         int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
         int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
 
@@ -145,7 +149,7 @@ public class HelpMethods {
 
         BufferedImage[] levelImages = new BufferedImage[filesSorted.length];
 
-        for (int i =0 ; i <levelImages.length; i++) {
+        for (int i = 0; i < levelImages.length; i++) {
             try {
                 levelImages[i] = ImageIO.read(filesSorted[i]);
             } catch (IOException e) {
@@ -168,17 +172,43 @@ public class HelpMethods {
         return list;
     }
 
-    public static Point GetPlayerSpawn(BufferedImage image){
+    public static Point GetPlayerSpawn(BufferedImage image) {
         for (int j = 0; j < image.getHeight(); j++)
             for (int i = 0; i < image.getWidth(); i++) {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == 100)
-                    return new Point(i* Game.TILES_SIZE, j * Game.TILES_SIZE);
+                    return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
             }
 
         return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
 
 
+    }
+
+    public static ArrayList<Potion> GetPotions(BufferedImage image) {
+        ArrayList<Potion> list = new ArrayList<>();
+        for (int j = 0; j < image.getHeight(); j++)
+            for (int i = 0; i < image.getWidth(); i++) {
+                Color color = new Color(image.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == RED_POTION || value == BLUE_POTION)
+                    list.add(new Potion(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+            }
+
+        return list;
+    }
+
+    public static ArrayList<GameContainer> GetGameContainers(BufferedImage image) {
+        ArrayList<GameContainer> list = new ArrayList<>();
+        for (int j = 0; j < image.getHeight(); j++)
+            for (int i = 0; i < image.getWidth(); i++) {
+                Color color = new Color(image.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == BOX || value == BARREL)
+                    list.add(new GameContainer(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+            }
+
+        return list;
     }
 }

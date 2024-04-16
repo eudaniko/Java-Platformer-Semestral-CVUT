@@ -13,7 +13,6 @@ public abstract class GameObject {
     protected Rectangle2D.Float hitBox;
     protected boolean doAnimation, active = true;
     protected int aniTick, aniIndex;
-    protected int state;
     protected int xDrawOffset, yDrawOffset;
 
     public GameObject(int x, int y, int objectType) {
@@ -27,7 +26,7 @@ public abstract class GameObject {
         if (aniTick >= ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= GetSpriteAmount(state)) {
+            if (aniIndex >= GetSpriteAmount(objectType)) {
                 aniIndex = 0;
             }
         }
@@ -38,20 +37,10 @@ public abstract class GameObject {
     }
 
 
-    protected void resetAll(){
-        active = true;
-        aniTick = 0;
-        aniIndex = 0;
-        doAnimation = true;
-//        state = IDLE;
-    }
+
 
     public Rectangle2D.Float getHitBox() {
         return hitBox;
-    }
-
-    public int getEntityState() {
-        return state;
     }
 
     public int getAniIndex() {
@@ -73,4 +62,13 @@ public abstract class GameObject {
     public int getYDrawOffset(){
         return yDrawOffset;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setAnimation(boolean doAnimation) {
+        this.doAnimation = doAnimation;
+    }
+
 }

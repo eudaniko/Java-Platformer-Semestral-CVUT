@@ -13,8 +13,8 @@ public class Constants {
 
 
     public static final class ObjectConstants {
-        public static final int RED_POTION = 0;
-        public static final int BLUE_POTION = 1;
+        public static final int RED_POTION = 1;
+        public static final int BLUE_POTION = 0;
         public static final int BARREL = 2;
         public static final int BOX = 3;
 

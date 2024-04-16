@@ -9,8 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import static gamestates.Gamestate.*;
-
 
 public class Menu extends State implements Statemethods {
 
