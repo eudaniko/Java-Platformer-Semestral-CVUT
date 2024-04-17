@@ -43,4 +43,8 @@ public class GameContainer extends GameObject {
         aniIndex = 0;
         doAnimation = false;
     }
+
+    public boolean doAnimation() {
+        return doAnimation;
+    }
 }

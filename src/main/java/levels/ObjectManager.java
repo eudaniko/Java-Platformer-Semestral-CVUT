@@ -100,7 +100,7 @@ public class ObjectManager {
 
     public void checkObjectHit(Rectangle2D.Float attackBox) {
         for (GameContainer gc : gameContainers)
-            if (gc.isActive())
+            if (gc.isActive() && !gc.doAnimation())
                 if (gc.getHitBox().intersects(attackBox)) {
                     gc.setAnimation(true);
                     int type = RED_POTION;
@@ -147,7 +147,6 @@ public class ObjectManager {
     }
 
     public void resetAllObjects() {
-        System.out.println("SIZE of arrays " + potions.size() + " " + gameContainers.size());
         loadObjects(playing.getLevelManager().getCurrentLevel());
         for (Potion p : potions)
             p.reset();
@@ -155,7 +154,6 @@ public class ObjectManager {
         for (GameContainer gc : gameContainers)
             gc.resetAll();
 
-        System.out.println("SIZE of arrays " + potions.size() + " " + gameContainers.size());
     }
 
 }
