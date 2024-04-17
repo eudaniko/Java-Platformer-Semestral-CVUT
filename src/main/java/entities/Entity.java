@@ -53,4 +53,5 @@ public abstract class Entity {
     public int getAniIndex() {
         return aniIndex;
     }
+
 }

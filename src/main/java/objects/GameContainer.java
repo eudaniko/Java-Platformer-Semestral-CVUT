@@ -37,13 +37,6 @@ public class GameContainer extends GameObject {
         }
     }
 
-    public void resetAll() {
-        active = true;
-        aniTick = 0;
-        aniIndex = 0;
-        doAnimation = false;
-    }
-
     public boolean doAnimation() {
         return doAnimation;
     }

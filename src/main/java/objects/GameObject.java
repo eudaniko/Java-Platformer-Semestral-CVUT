@@ -36,8 +36,15 @@ public abstract class GameObject {
         hitBox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
     }
 
-
-
+    public void reset() {
+        active = true;
+        aniTick = 0;
+        aniIndex = 0;
+        if (objectType == RED_POTION || objectType == BLUE_POTION)
+            doAnimation = true;
+        else
+            doAnimation = false;
+    }
 
     public Rectangle2D.Float getHitBox() {
         return hitBox;
@@ -47,19 +54,19 @@ public abstract class GameObject {
         return aniIndex;
     }
 
-    public int getObjectType(){
+    public int getObjectType() {
         return objectType;
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
         return active;
     }
 
-    public int getXDrawOffset(){
+    public int getXDrawOffset() {
         return xDrawOffset;
     }
 
-    public int getYDrawOffset(){
+    public int getYDrawOffset() {
         return yDrawOffset;
     }
 

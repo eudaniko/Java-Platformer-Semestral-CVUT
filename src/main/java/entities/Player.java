@@ -339,4 +339,8 @@ public class Player extends Entity {
         if (!IsEntityOnFloor(hitBox, levelData))
             inAir = true;
     }
+
+    public int getTileY() {
+        return (int) (hitBox.y / Game.TILES_SIZE);
+    }
 }

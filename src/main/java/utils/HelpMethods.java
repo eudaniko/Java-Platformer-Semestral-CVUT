@@ -1,7 +1,9 @@
 package utils;
 
 import entities.Crabby;
+import entities.Player;
 import main.Game;
+import objects.Cannon;
 import objects.GameContainer;
 import objects.Potion;
 import objects.Spike;
@@ -21,6 +23,23 @@ import static utils.Constants.EnemyConstants.CRABBY;
 import static utils.Constants.ObjectConstants.*;
 
 public class HelpMethods {
+
+    public static boolean CannonCanSeePlayer(Player player, Cannon cannon, int yTile, int[][] levelData) {
+        int firstXTile = (int) (cannon.getHitBox().x / Game.TILES_SIZE);
+        int secondXTile = (int) (player.getHitBox().x / Game.TILES_SIZE);
+
+        if (firstXTile > secondXTile)
+            return IsAllTilesClear(secondXTile, firstXTile, yTile, levelData);
+        else
+            return IsAllTilesClear(firstXTile, secondXTile, yTile, levelData);
+    }
+
+    public static boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
+        for (int i = 0; i < xEnd - xStart; i++)
+            if (IsTileSolid(xStart + i, y, lvlData))
+                return false;
+        return true;
+    }
 
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] levelData) {
         if (!IsSolid(x, y, levelData))
@@ -221,6 +240,19 @@ public class HelpMethods {
                 int value = color.getBlue();
                 if (value == SPIKE)
                     list.add(new Spike(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+            }
+
+        return list;
+    }
+
+    public static ArrayList<Cannon> GetCannons(BufferedImage image) {
+        ArrayList<Cannon> list = new ArrayList<>();
+        for (int j = 0; j < image.getHeight(); j++)
+            for (int i = 0; i < image.getWidth(); i++) {
+                Color color = new Color(image.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == CANNON_LEFT || value == CANNON_RIGHT)
+                    list.add(new Cannon(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
             }
 
         return list;
