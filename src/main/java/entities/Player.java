@@ -24,7 +24,7 @@ public class Player extends Entity {
 
     // Moving && Jumping && Attacking
     private Playing playing;
-    private boolean moving, attacking;
+    private boolean moving, attacking, gettingHit;
     private boolean attackChecked;
     private int maxPower;
     private int currentPower;
@@ -122,15 +122,12 @@ public class Player extends Entity {
 
     public void changeHealth(int deltaHealth) {
         currentHealth += deltaHealth;
+        gettingHit = true;
 
         if (currentHealth <= 0)
             currentHealth = 0;
         else if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
-    }
-
-    public void kill() {
-        currentHealth = 0;
     }
 
     public void changePower(int deltaPower) {
@@ -183,7 +180,9 @@ public class Player extends Entity {
     // Method to set player animation based on movement status
     private void setAnimation() {
         int startAni = state;
-        if (moving)
+        if (gettingHit)
+            state = HIT;
+        else if (moving)
             state = RUNNING;
         else
             state = IDLE;
@@ -224,6 +223,7 @@ public class Player extends Entity {
                 aniIndex = 0;
                 attacking = false;
                 attackChecked = false;
+                gettingHit = false;
             }
         }
     }
@@ -239,7 +239,7 @@ public class Player extends Entity {
             if ((!left && !right) || (right && left))
                 return;
 
-        float xSpeed = 0, ySpeed = 0;
+        float xSpeed = 0;
 
         if (left) {
             xSpeed -= walkSpeed;
@@ -305,16 +305,8 @@ public class Player extends Entity {
         this.attacking = attacking;
     }
 
-    public boolean isLeft() {
-        return left;
-    }
-
     public void setLeft(boolean left) {
         this.left = left;
-    }
-
-    public boolean isRight() {
-        return right;
     }
 
     public void setRight(boolean right) {

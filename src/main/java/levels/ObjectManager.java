@@ -155,9 +155,8 @@ public class ObjectManager {
     public void checkSpikesTouched() {
         for (Spike s : spikes)
             if (playing.getPlayer().getHitBox().intersects(s.getHitBox()))
-                playing.getPlayer().kill();
+                playing.getPlayer().changeHealth(-9999);
     }
-
 
     public void applyEffectsToPlayer(Potion p) {
         switch (p.getObjectType()) {
