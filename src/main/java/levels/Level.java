@@ -4,6 +4,7 @@ import entities.Crabby;
 import main.Game;
 import objects.GameContainer;
 import objects.Potion;
+import objects.Spike;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class Level {
     private ArrayList<Crabby> crabbies;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> gameContainers;
+    private ArrayList<Spike> spikes;
     private int levelTilesWide;
     private int maxTilesOffset;
     private int maxLevelOffsetX;
@@ -44,6 +46,7 @@ public class Level {
     private void createGameObjects(){
         potions = GetPotions(levelImage);
         gameContainers = GetGameContainers(levelImage);
+        spikes = GetSpikes(levelImage);
     }
 
     private void createEnemies() {
@@ -75,6 +78,9 @@ public class Level {
     }
     public ArrayList<GameContainer> getGameContainers(){
         return gameContainers;
+    }
+    public ArrayList<Spike> getSpikes(){
+        return spikes;
     }
 
     public Point getPlayerSpawn(){

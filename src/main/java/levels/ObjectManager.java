@@ -1,8 +1,10 @@
 package levels;
 
+import entities.Player;
 import gamestates.Playing;
 import objects.GameContainer;
 import objects.Potion;
+import objects.Spike;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -16,8 +18,10 @@ public class ObjectManager {
 
     private Playing playing;
     private BufferedImage[][] potionImages, containerImages;
+    private BufferedImage spikeAtlas;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> gameContainers;
+    private ArrayList<Spike> spikes;
 
     public ObjectManager(Playing playing) {
         this.playing = playing;
@@ -34,6 +38,7 @@ public class ObjectManager {
     public void loadObjects(Level newLevel) {
         potions = new ArrayList<>(newLevel.getPotions());
         gameContainers = new ArrayList<>(newLevel.getGameContainers());
+        spikes = new ArrayList<>(newLevel.getSpikes());
     }
 
     private void loadImages() {
@@ -57,6 +62,8 @@ public class ObjectManager {
                         CONTAINER_WIDTH_DEFAULT, CONTAINER_HEIGHT_DEFAULT);
 
 
+        spikeAtlas = LoadSave.GetSpriteAtlas(LoadSave.SPIKE_ATLAS);
+
     }
 
     public void update() {
@@ -67,24 +74,34 @@ public class ObjectManager {
         for (GameContainer c : gameContainers)
             if (c.isActive())
                 c.update();
-        checkObjectTouched(playing.getPlayer().getHitBox());
     }
 
     public void draw(Graphics g, int xLevelOffset) {
         drawPotions(g, xLevelOffset);
         drawContainers(g, xLevelOffset);
+        drawSpikes(g, xLevelOffset);
 
     }
 
-    public void checkObjectTouched(Rectangle2D.Float hitBox) {
+    private void drawSpikes(Graphics g, int xLevelOffset) {
+        for (Spike s : spikes)
+            g.drawImage(spikeAtlas, (int) (s.getHitBox().x - s.getXDrawOffset() - xLevelOffset), (int) (s.getHitBox().y - s.getYDrawOffset()), SPIKE_WIDTH, SPIKE_HEIGHT, null);
+    }
+
+    public void checkPotionsTouched() {
         for (Potion p : potions)
             if (p.isActive())
-                if (hitBox.intersects(p.getHitBox())) {
+                if (playing.getPlayer().getHitBox().intersects(p.getHitBox())) {
                     p.setActive(false);
                     applyEffectsToPlayer(p);
                 }
-
     }
+    public void checkSpikesTouched(){
+        for( Spike s: spikes)
+            if(playing.getPlayer().getHitBox().intersects(s.getHitBox()))
+                playing.getPlayer().kill();
+    }
+
 
     public void applyEffectsToPlayer(Potion p) {
         switch (p.getObjectType()) {
