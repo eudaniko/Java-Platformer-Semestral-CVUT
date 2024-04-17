@@ -203,8 +203,10 @@ public class Playing extends State implements Statemethods {
     public void mouseClicked(MouseEvent e) {
         // Action when the mouse is clicked
         if (!gameOver)
-            if (e.getButton() == MouseEvent.BUTTON1)
+            if (e.getButton() == MouseEvent.BUTTON1){
                 player.setAttacking(true);
+            }
+
     }
 
     @Override
@@ -282,5 +284,9 @@ public class Playing extends State implements Statemethods {
                     break;
             }
 
+    }
+
+    public LevelManager getLevelManager() {
+        return levelManager;
     }
 }

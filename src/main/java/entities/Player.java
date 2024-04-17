@@ -49,7 +49,6 @@ public class Player extends Entity {
     private int healthWidth = statusBarWidth;
 
 
-
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
@@ -61,10 +60,11 @@ public class Player extends Entity {
         this.walkSpeed = 1.0f * Game.SCALE;
         statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         loadAnimations();
-        initHitBox(20,28);
+        initHitBox(20, 28);
         initAttackBox();
     }
-    public void setSpawn(Point spawn){
+
+    public void setSpawn(Point spawn) {
         this.x = spawn.x;
         this.y = spawn.y;
         hitBox.x = spawn.x;
@@ -77,15 +77,14 @@ public class Player extends Entity {
 
     public void update() {
         updateHealthBar();
-        if(currentHealth <= 0){
+        if (currentHealth <= 0) {
             playing.setGameOver(true);
             return;
         }
         updateAttackBox();
 
         updatePos();
-        if (attacking){
-            attackChecked = false;
+        if (attacking) {
             checkAttack();
         }
         updateAnimationTick();
@@ -93,7 +92,7 @@ public class Player extends Entity {
     }
 
     private void checkAttack() {
-        if(attackChecked || aniIndex != 1)
+        if (attackChecked || aniIndex != 1)
             return;
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
@@ -188,9 +187,10 @@ public class Player extends Entity {
 
         if (attacking) {
             state = ATTACK;
-            if(startAni != ATTACK){
+            if (startAni != ATTACK) {
                 aniIndex = 1;
                 aniTick = 0;
+                return;
             }
         }
 
@@ -213,6 +213,7 @@ public class Player extends Entity {
             if (aniIndex >= GetSpriteAmount(state)) {
                 aniIndex = 0;
                 attacking = false;
+                attackChecked = false;
             }
         }
     }
@@ -288,7 +289,7 @@ public class Player extends Entity {
     public void resetDirBooleans() {
         left = false;
         right = false;
-     }
+    }
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;

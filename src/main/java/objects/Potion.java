@@ -35,7 +35,7 @@ public class Potion extends GameObject {
     }
 
 
-    public void resetAll() {
+    public void reset() {
         active = true;
         aniTick = 0;
         aniIndex = 0;

@@ -32,8 +32,8 @@ public class ObjectManager {
     }
 
     public void loadObjects(Level newLevel) {
-        potions = newLevel.getPotions();
-        gameContainers = newLevel.getGameContainers();
+        potions = new ArrayList<>(newLevel.getPotions());
+        gameContainers = new ArrayList<>(newLevel.getGameContainers());
     }
 
     private void loadImages() {
@@ -106,7 +106,7 @@ public class ObjectManager {
                     int type = RED_POTION;
                     if (gc.getObjectType() == BARREL)
                         type = BLUE_POTION;
-                    potions.add(new Potion((int) (gc.getHitBox().x + gc.getHitBox().width / 2), (int) (gc.getHitBox().y + gc.getHitBox().height / 4), type));
+                    potions.add(new Potion((int) (gc.getHitBox().x + gc.getHitBox().width / 2), (int) (gc.getHitBox().y - gc.getHitBox().height / 2), type));
                     return;
                 }
 
@@ -147,10 +147,15 @@ public class ObjectManager {
     }
 
     public void resetAllObjects() {
-         for (Potion p : potions)
-             p.resetAll();
+        System.out.println("SIZE of arrays " + potions.size() + " " + gameContainers.size());
+        loadObjects(playing.getLevelManager().getCurrentLevel());
+        for (Potion p : potions)
+            p.reset();
 
-         for (GameContainer gc : gameContainers)
-             gc.resetAll();
+        for (GameContainer gc : gameContainers)
+            gc.resetAll();
+
+        System.out.println("SIZE of arrays " + potions.size() + " " + gameContainers.size());
     }
+
 }
