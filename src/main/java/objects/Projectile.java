@@ -1,16 +1,16 @@
 package objects;
 
-import main.Game;
-
 import java.awt.geom.Rectangle2D;
 
+
+import static utils.Constants.GameConstants.SCALE;
+import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 
 public class Projectile {
-    private Rectangle2D.Float hitBox;
-    private int dir;
+    private final Rectangle2D.Float hitBox;
+    private final int dir;
     private boolean active = true;
-    private int spawnOffsetX, spawnOffaetY = 6;
 
     public Projectile(int x, int y, int dir) {
         this.hitBox = new Rectangle2D.Float(x, y, CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT);
@@ -28,12 +28,14 @@ public class Projectile {
     }
 
     public void setPos(int x, int y) {
+        int spawnOffsetX;
         if (dir == 1)
-            spawnOffsetX = (int) (30 * Game.SCALE);
+            spawnOffsetX = (int) (30 * SCALE);
         else
-            spawnOffsetX = (int) (-10 * Game.SCALE);
+            spawnOffsetX = (int) (-10 * SCALE);
         hitBox.x = x + spawnOffsetX;
-        hitBox.y = y + spawnOffaetY;
+        int spawnOffsetY = 6;
+        hitBox.y = y + spawnOffsetY;
     }
 
     public Rectangle2D.Float getHitBox() {
@@ -49,10 +51,10 @@ public class Projectile {
     }
 
     public int getTileX() {
-        return (int) (hitBox.x / Game.TILES_SIZE);
+        return (int) (hitBox.x / TILES_SIZE);
     }
 
     public int getTileY() {
-        return (int) (hitBox.y / Game.TILES_SIZE);
+        return (int) (hitBox.y / TILES_SIZE);
     }
 }

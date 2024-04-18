@@ -1,10 +1,12 @@
 package objects;
 
 import main.Game;
+import utils.Constants;
 
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.ANI_SPEED;
+import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.ObjectConstants.*;
 
 public abstract class GameObject {
@@ -34,7 +36,7 @@ public abstract class GameObject {
     }
 
     protected void initHitBox(int width, int height) {
-        hitBox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
+        hitBox = new Rectangle2D.Float(x, y, (int) (width * SCALE), (int) (height * SCALE));
     }
 
     public void reset() {

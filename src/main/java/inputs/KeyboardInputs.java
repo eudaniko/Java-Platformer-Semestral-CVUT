@@ -4,7 +4,7 @@
 
 package inputs;
 
-import gamestates.Gamestate;
+import gamestates.GameState;
 import main.GamePanel;
 
 import java.awt.event.KeyEvent;
@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 // Class for handling keyboard inputs
 public class KeyboardInputs implements KeyListener {
 
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
 
     // Constructor for the KeyboardInputs class
     public KeyboardInputs(GamePanel gamePanel) {
@@ -28,7 +28,7 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (Gamestate.state){
+        switch (GameState.state){
             case MENU:
                 gamePanel.getGame().getMenu().keyPressed(e);
                 break;
@@ -41,7 +41,7 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (Gamestate.state){
+        switch (GameState.state){
             case MENU:
                 gamePanel.getGame().getMenu().keyReleased(e);
                 break;

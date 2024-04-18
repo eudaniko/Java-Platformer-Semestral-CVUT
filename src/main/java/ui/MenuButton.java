@@ -1,6 +1,6 @@
 package ui;
 
-import gamestates.Gamestate;
+import gamestates.GameState;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -11,12 +11,12 @@ import static utils.Constants.UI.Buttons.*;
 public class MenuButton {
     private int xPos, yPos, rowIndex, index;
     private int xOffsetCenter = B_WIDTH / 2;
-    private Gamestate state;
+    private GameState state;
     private BufferedImage[] images;
     private boolean mouseOver, mousePressed;
     private Rectangle bounds;
 
-    public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state) {
+    public MenuButton(int xPos, int yPos, int rowIndex, GameState state) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.rowIndex = rowIndex;
@@ -71,7 +71,7 @@ public class MenuButton {
     }
 
     public void applyGamestate() {
-        Gamestate.state = state;
+        GameState.state = state;
     }
 
     public void resetBools() {

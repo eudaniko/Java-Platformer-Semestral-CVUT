@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 
 public class LoadSave {
@@ -36,10 +37,10 @@ public class LoadSave {
 
 
     public static BufferedImage GetSpriteAtlas(final String FilePath) {
-        BufferedImage img = null;
+        BufferedImage img;
         InputStream is = LoadSave.class.getResourceAsStream(FilePath);
         try {
-            img = ImageIO.read(is);
+            img = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
             // TO DO catch
             throw new RuntimeException(e);
@@ -50,7 +51,7 @@ public class LoadSave {
     public static BufferedImage[] GetGIF(String filePath) {
         try {
             InputStream inputStream = LoadSave.class.getClassLoader().getResourceAsStream(filePath);
-            ImageInputStream stream = ImageIO.createImageInputStream(inputStream);
+            ImageInputStream stream = ImageIO.createImageInputStream(Objects.requireNonNull(inputStream));
             Iterator<ImageReader> readers = ImageIO.getImageReaders(stream);
 
             if (!readers.hasNext()) {

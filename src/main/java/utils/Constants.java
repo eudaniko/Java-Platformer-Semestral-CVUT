@@ -8,8 +8,21 @@ import main.Game;
 
 // Constants class containing game-related constant values
 public class Constants {
-    public static final float GRAVITY = 0.04f * Game.SCALE;
+    public static final float GRAVITY = 0.04f * GameConstants.SCALE;
     public static final int ANI_SPEED = 25;
+
+    public final static int FPS_SET = 120;
+    public final static int UPS_SET = 200;
+
+    public static class GameConstants {
+        public static final int TILES_DEFAULT_SIZE = 32;
+        public final static float SCALE = 1.5f;
+        public static final int TILES_IN_WIDTH = 26;
+        public static final  int TILES_IN_HEIGHT = 14;
+        public static final  int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+        public static final  int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+        public static final  int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+    }
 
 
     public static final class ObjectConstants {
@@ -26,40 +39,36 @@ public class Constants {
 
         public static final int CONTAINER_WIDTH_DEFAULT = 40;
         public static final int CONTAINER_HEIGHT_DEFAULT = 30;
-        public static final int CONTAINER_WIDTH = (int) (CONTAINER_WIDTH_DEFAULT * Game.SCALE);
-        public static final int CONTAINER_HEIGHT = (int) (CONTAINER_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int CONTAINER_WIDTH = (int) (CONTAINER_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int CONTAINER_HEIGHT = (int) (CONTAINER_HEIGHT_DEFAULT * GameConstants.SCALE);
 
         public static final int POTION_WIDTH_DEFAULT = 12;
         public static final int POTION_HEIGHT_DEFAULT = 16;
-        public static final int POTION_WIDTH = (int) (POTION_WIDTH_DEFAULT * Game.SCALE);
-        public static final int POTION_HEIGHT = (int) (POTION_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int POTION_WIDTH = (int) (POTION_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int POTION_HEIGHT = (int) (POTION_HEIGHT_DEFAULT * GameConstants.SCALE);
 
         public static final int SPIKE_WIDTH_DEFAULT = 32;
         public static final int SPIKE_HEIGHT_DEFAULT = 32;
-        public static final int SPIKE_WIDTH = (int) (SPIKE_WIDTH_DEFAULT * Game.SCALE);
-        public static final int SPIKE_HEIGHT = (int) (SPIKE_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int SPIKE_WIDTH = (int) (SPIKE_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int SPIKE_HEIGHT = (int) (SPIKE_HEIGHT_DEFAULT * GameConstants.SCALE);
 
         public static final int CANNON_WIDTH_DEFAULT = 40;
         public static final int CANNON_HEIGHT_DEFAULT = 26;
-        public static final int CANNON_WIDTH = (int) (CANNON_WIDTH_DEFAULT * Game.SCALE);
-        public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int CANNON_WIDTH = (int) (CANNON_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * GameConstants.SCALE);
 
         public static final int CANNON_BALL_WIDTH_DEFAULT = 15;
         public static final int CANNON_BALL_HEIGHT_DEFAULT = 15;
-        public static final int CANNON_BALL_WIDTH = (int) (CANNON_BALL_WIDTH_DEFAULT * Game.SCALE);
-        public static final int CANNON_BALL_HEIGHT = (int) (CANNON_BALL_HEIGHT_DEFAULT * Game.SCALE);
-        public static final float CANNON_BALL_SPEED = 0.5f * Game.SCALE;
+        public static final int CANNON_BALL_WIDTH = (int) (CANNON_BALL_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int CANNON_BALL_HEIGHT = (int) (CANNON_BALL_HEIGHT_DEFAULT * GameConstants.SCALE);
+        public static final float CANNON_BALL_SPEED = 0.5f * GameConstants.SCALE;
 
         public static int GetSpriteAmount(int object_type) {
-            switch (object_type) {
-                case BARREL, BOX:
-                    return 8;
-                case RED_POTION, BLUE_POTION:
-                    return 7;
-                case CANNON_LEFT, CANNON_RIGHT:
-                    return 7;
-            }
-            return 1;
+            return switch (object_type) {
+                case BARREL, BOX -> 8;
+                case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT -> 7;
+                default -> 1;
+            };
         }
     }
 
@@ -75,47 +84,42 @@ public class Constants {
         public static final int CRABBY_WIDTH_DEFAULT = 72;
         public static final int CRABBY_HEIGHT_DEFAULT = 32;
 
-        public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
-        public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * GameConstants.SCALE);
 
-        public static final int CRABBY_DRAW_OFFSET_X = (int) (26 * Game.SCALE);
-        public static final int CRABBY_DRAW_OFFSET_Y = (int) (9 * Game.SCALE);
+        public static final int CRABBY_DRAW_OFFSET_X = (int) (26 * GameConstants.SCALE);
+        public static final int CRABBY_DRAW_OFFSET_Y = (int) (9 * GameConstants.SCALE);
 
         public static int GetSpriteAmount(int enemyType, int enemyState) {
-            switch (enemyType) {
-                case CRABBY:
-                    switch (enemyState) {
-                        case IDLE:
-                            return 9;
-                        case RUNNING:
-                            return 6;
-                        case ATTACK:
-                            return 7;
-                        case HIT:
-                            return 4;
-                        case DEAD:
-                            return 5;
-                    }
+            if (enemyType == CRABBY) {
+                switch (enemyState) {
+                    case IDLE:
+                        return 9;
+                    case RUNNING:
+                        return 6;
+                    case ATTACK:
+                        return 7;
+                    case HIT:
+                        return 4;
+                    case DEAD:
+                        return 5;
+                }
             }
             return 0;
         }
 
         public static int GetMaxHealth(int enemy_type) {
-            switch (enemy_type) {
-                case CRABBY:
-                    return 30;
-                default:
-                    return 1;
-            }
+            return switch (enemy_type) {
+                case CRABBY -> 30;
+                default -> 0;
+            };
         }
 
         public static int GetEnemyDamage(int enemyType) {
-            switch (enemyType) {
-                case CRABBY:
-                    return 10;
-                default:
-                    return 10;
+            if (enemyType == CRABBY) {
+                return 10;
             }
+            return 100;
         }
 
     }
@@ -126,31 +130,45 @@ public class Constants {
         public static final int SMALL_CLOUD_WIDTH_DEFAULT = 74;
         public static final int SMALL_CLOUD_HEIGHT_DEFAULT = 24;
 
-        public static final int BIG_CLOUD_WIDTH = (int) (BIG_CLOUD_WIDTH_DEFAULT * Game.SCALE);
-        public static final int BIG_CLOUD_HEIGHT = (int) (BIG_CLOUD_HEIGHT_DEFAULT * Game.SCALE);
-        public static final int SMALL_CLOUD_WIDTH = (int) (SMALL_CLOUD_WIDTH_DEFAULT * Game.SCALE);
-        public static final int SMALL_CLOUD_HEIGHT = (int) (SMALL_CLOUD_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int BIG_CLOUD_WIDTH = (int) (BIG_CLOUD_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int BIG_CLOUD_HEIGHT = (int) (BIG_CLOUD_HEIGHT_DEFAULT * GameConstants.SCALE);
+        public static final int SMALL_CLOUD_WIDTH = (int) (SMALL_CLOUD_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int SMALL_CLOUD_HEIGHT = (int) (SMALL_CLOUD_HEIGHT_DEFAULT * GameConstants.SCALE);
 
 
     }
 
     public static class UI {
+        public static class StatusBar {
+            // Status Bar
+            public static final int statusBarWidth = (int) (192 * GameConstants.SCALE);
+            public static final int statusBarHeight = (int) (58 * GameConstants.SCALE);
+            public static final int statusBarX = (int) (10 * GameConstants.SCALE);
+            public static final int statusBarY = (int) (10 * GameConstants.SCALE);
+
+            // Health Bar
+            public static final int healthBarWidth = (int) (150 * GameConstants.SCALE);
+            public static final int healthBarHeight = (int) (4 * GameConstants.SCALE);
+            public static final int healthBarXStart = (int) (34 * GameConstants.SCALE);
+            public static final int healthBarYStart = (int) (14 * GameConstants.SCALE);
+        }
+
         public static class Buttons {
             public static final int B_WIDTH_DEFAULT = 140;
             public static final int B_HEIGHT_DEFAULT = 56;
-            public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);
-            public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.SCALE);
+            public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * GameConstants.SCALE);
+            public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * GameConstants.SCALE);
 
         }
 
         public static class PauseButtons {
             public static final int SOUND_SIZE_DEFAULT = 42;
-            public static final int SOUND_SIZE = (int) (SOUND_SIZE_DEFAULT * Game.SCALE);
+            public static final int SOUND_SIZE = (int) (SOUND_SIZE_DEFAULT * GameConstants.SCALE);
         }
 
         public static class URMButtons {
             public static final int URM_SIZE_DEFAULT = 56;
-            public static final int URM_SIZE = (int) (URM_SIZE_DEFAULT * Game.SCALE);
+            public static final int URM_SIZE = (int) (URM_SIZE_DEFAULT * GameConstants.SCALE);
         }
 
         public static class VolumeButtons {
@@ -158,9 +176,9 @@ public class Constants {
             public static final int VOLUME_HEIGHT_DEFAULT = 44;
             public static final int SLIDER_WIDTH_DEFAULT = 215;
 
-            public static final int VOLUME_WIDTH = (int) (VOLUME_WIDTH_DEFAULT * Game.SCALE);
-            public static final int VOLUME_HEIGHT = (int) (VOLUME_HEIGHT_DEFAULT * Game.SCALE);
-            public static final int SLIDER_WIDTH = (int) (SLIDER_WIDTH_DEFAULT * Game.SCALE);
+            public static final int VOLUME_WIDTH = (int) (VOLUME_WIDTH_DEFAULT * GameConstants.SCALE);
+            public static final int VOLUME_HEIGHT = (int) (VOLUME_HEIGHT_DEFAULT * GameConstants.SCALE);
+            public static final int SLIDER_WIDTH = (int) (SLIDER_WIDTH_DEFAULT * GameConstants.SCALE);
 
         }
     }
@@ -168,14 +186,22 @@ public class Constants {
     // Directions constants for player movement
     public static class Directions {
         public static final int LEFT = 0;
-        public static final int UP = 1;
         public static final int RIGHT = 2;
-        public static final int DOWN = 3;
     }
 
     // Player animation constants
     public static class PlayerConstants {
         public static final int PLAYER_DAMAGE = 10;
+        public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (10 * GameConstants.SCALE);
+        public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (10 * GameConstants.SCALE);
+        public static final int PLAYER_MAX_HEALTH = 100;
+        public static final int PLAYER_MAX_POWER = 100;
+        public static final float PLAYER_WALK_SPEED = GameConstants.SCALE;
+
+        public static final float xDrawOffset = 21 * GameConstants.SCALE;
+        public static final float yDrawOffset = 3 * GameConstants.SCALE;
+        public static final float jumpSpeed = -2.25f * GameConstants.SCALE;
+        public static final float fallSpeedAfterCollision = 0.5f * GameConstants.SCALE;
 
 
         public static final int IDLE = 0;
@@ -188,22 +214,14 @@ public class Constants {
 
         // Method to get the number of sprite frames based on player action type
         public static int GetSpriteAmount(int playerAction) {
-            switch (playerAction) {
-                case DEAD:
-                    return 8;
-                case RUNNING:
-                    return 6;
-                case IDLE:
-                    return 5;
-                case HIT:
-                    return 2;
-                case JUMP:
-                case ATTACK:
-                    return 3;
-                case FALLING:
-                default:
-                    return 1;
-            }
+            return switch (playerAction) {
+                case DEAD -> 8;
+                case RUNNING -> 6;
+                case IDLE -> 5;
+                case HIT -> 2;
+                case JUMP, ATTACK -> 3;
+                default -> 1;
+            };
         }
     }
 }

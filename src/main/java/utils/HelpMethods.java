@@ -21,13 +21,15 @@ import java.util.Objects;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.GameConstants.GAME_HEIGHT;
+import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 
 public class HelpMethods {
 
     public static boolean CanCannonSeePlayer(Player player, Cannon cannon, int yTile, int[][] levelData) {
-        int firstXTile = (int) (cannon.getHitBox().x / Game.TILES_SIZE);
-        int secondXTile = (int) (player.getHitBox().x / Game.TILES_SIZE);
+        int firstXTile = (int) (cannon.getHitBox().x / TILES_SIZE);
+        int secondXTile = (int) (player.getHitBox().x / TILES_SIZE);
 
         if (firstXTile > secondXTile)
             return IsAllTilesClear(secondXTile, firstXTile, yTile, levelData);
@@ -52,14 +54,14 @@ public class HelpMethods {
     }
 
     private static boolean IsSolid(float x, float y, int[][] levelData) {
-        int maxWidth = levelData[0].length * Game.TILES_SIZE;
+        int maxWidth = levelData[0].length * TILES_SIZE;
         if (x < 0 || x >= maxWidth)
             return true;
-        if (y < 0 || y >= Game.GAME_HEIGHT)
+        if (y < 0 || y >= GAME_HEIGHT)
             return true;
 
-        float xIndex = x / Game.TILES_SIZE;
-        float yIndex = y / Game.TILES_SIZE;
+        float xIndex = x / TILES_SIZE;
+        float yIndex = y / TILES_SIZE;
 
         return IsTileSolid((int) xIndex, (int) yIndex, levelData);
     }
@@ -71,28 +73,28 @@ public class HelpMethods {
     }
 
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitBox, float xSpeed) {
-        int currentTile = (int) (hitBox.x / Game.TILES_SIZE);
+        int currentTile = (int) (hitBox.x / TILES_SIZE);
         if (xSpeed > 0) {
             //Right
-            int tileXPos = currentTile * Game.TILES_SIZE;
-            int xOffset = (int) (Game.TILES_SIZE - hitBox.width);
+            int tileXPos = currentTile * TILES_SIZE;
+            int xOffset = (int) (TILES_SIZE - hitBox.width);
             return tileXPos + xOffset - 1;
         } else
             //Left
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * TILES_SIZE;
     }
 
     public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitBox, float airSpeed) {
-        int currentTile = (int) (hitBox.y / Game.TILES_SIZE);
+        int currentTile = (int) (hitBox.y / TILES_SIZE);
 
         if (airSpeed > 0) {
             //Falling
-            int tilePos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int) (Game.TILES_SIZE - hitBox.height);
+            int tilePos = currentTile * TILES_SIZE;
+            int yOffset = (int) (TILES_SIZE - hitBox.height);
             return tilePos + yOffset - 1;
         } else {
             //Jumping
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * TILES_SIZE;
         }
 
     }
@@ -119,10 +121,10 @@ public class HelpMethods {
         return true;
     }
 
-    public static boolean isSightClear(int[][] levelData, Rectangle2D.Float firstHitbox,
-                                       Rectangle2D.Float secondHitbox, int yTile) {
-        int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
-        int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
+    public static boolean isSightClear(int[][] levelData, Rectangle2D.Float firstHitBox,
+                                       Rectangle2D.Float secondHitBox, int yTile) {
+        int firstXTile = (int) (firstHitBox.x / TILES_SIZE);
+        int secondXTile = (int) (secondHitBox.x / TILES_SIZE);
 
         if (firstXTile > secondXTile)
             return IsAllTilesWalkable(secondXTile, firstXTile, yTile, levelData);
@@ -190,7 +192,7 @@ public class HelpMethods {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == CRABBY)
-                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                    list.add(new Crabby(i * TILES_SIZE, j * TILES_SIZE));
             }
 
         return list;
@@ -202,10 +204,10 @@ public class HelpMethods {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == 100)
-                    return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
+                    return new Point(i * TILES_SIZE, j * TILES_SIZE);
             }
 
-        return new Point(Game.TILES_SIZE, Game.TILES_SIZE);
+        return new Point(TILES_SIZE, TILES_SIZE);
 
 
     }
@@ -217,7 +219,7 @@ public class HelpMethods {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == RED_POTION || value == BLUE_POTION)
-                    list.add(new Potion(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new Potion(i * TILES_SIZE, j * TILES_SIZE, value));
             }
 
         return list;
@@ -230,7 +232,7 @@ public class HelpMethods {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == BOX || value == BARREL)
-                    list.add(new GameContainer(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new GameContainer(i * TILES_SIZE, j * TILES_SIZE, value));
             }
 
         return list;
@@ -243,7 +245,7 @@ public class HelpMethods {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == SPIKE)
-                    list.add(new Spike(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new Spike(i * TILES_SIZE, j * TILES_SIZE, value));
             }
 
         return list;
@@ -256,7 +258,7 @@ public class HelpMethods {
                 Color color = new Color(image.getRGB(i, j));
                 int value = color.getBlue();
                 if (value == CANNON_LEFT || value == CANNON_RIGHT)
-                    list.add(new Cannon(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+                    list.add(new Cannon(i * TILES_SIZE, j * TILES_SIZE, value));
             }
 
         return list;

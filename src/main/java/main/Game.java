@@ -4,39 +4,30 @@
 
 package main;
 
-import gamestates.Gamestate;
+import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
 
 import java.awt.*;
 
+import static utils.Constants.FPS_SET;
+import static utils.Constants.UPS_SET;
+
 // Class representing the main game logic
 public class Game implements Runnable {
 
-    private GameWindow gameWindow; // Variable for managing the game window
-    private GamePanel gamePanel; // Variable for managing the game panel
+    private final GamePanel gamePanel; // Variable for managing the game panel
     private Thread gameThread; // Thread for the main game loop
-    private final int FPS_SET = 120; // Set frames per second
-    private final int UPS_SET = 200; // Set updates per second
-
     private Playing playing;
     private Menu menu;
-
-
-    public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 1.5f;
-    public final static int TILES_IN_WIDTH = 26;
-    public final static int TILES_IN_HEIGHT = 14;
-    public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
-    public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
-    public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
 
     // Constructor for the Game class
     public Game() {
         initClasses();
         gamePanel = new GamePanel(this); // Create a new game panel
-        gameWindow = new GameWindow(gamePanel); // Create a game window based on the game panel
+        // Variable for managing the game window
+        new GameWindow(gamePanel);// Create a game window based on the game panel
         gamePanel.setFocusable(true);
         gamePanel.requestFocus(); // Set focus to the game panel
         startGameLoop(); // Start the game loop
@@ -56,7 +47,7 @@ public class Game implements Runnable {
 
     // Method for updating the game logic
     public void Update() {
-        switch (Gamestate.state){
+        switch (GameState.state){
             case MENU:
                 menu.update();
                 break;
@@ -70,7 +61,7 @@ public class Game implements Runnable {
 
     public void render(Graphics g) {
 
-        switch (Gamestate.state){
+        switch (GameState.state){
             case MENU:
                 menu.draw(g);
                 break;
@@ -95,7 +86,7 @@ public class Game implements Runnable {
         long previousTime = System.nanoTime(); // Get current time in nanoseconds
 
         // Main game loop
-        while (true) {
+        while (gameThread.isAlive()) {
             long currentTime = System.nanoTime(); // Get current time in nanoseconds
 
             deltaU += (currentTime - previousTime) / timePerUpdate; // Calculate delta time for updates
@@ -125,7 +116,7 @@ public class Game implements Runnable {
     }
 
     public void windowFocusLost() {
-        if (Gamestate.state == Gamestate.PLAYING)
+        if (GameState.state == GameState.PLAYING)
             playing.getPlayer().resetDirBooleans();
     }
 

@@ -10,8 +10,8 @@ import inputs.MouseInputs;
 import javax.swing.*;
 import java.awt.*;
 
-import static main.Game.GAME_HEIGHT;
-import static main.Game.GAME_WIDTH;
+import static utils.Constants.GameConstants.GAME_HEIGHT;
+import static utils.Constants.GameConstants.GAME_WIDTH;
 
 
 // Class representing the game panel for displaying game graphics
@@ -49,6 +49,6 @@ public class GamePanel extends JPanel {
     }
 
     public Game getGame(){
-        return  game;
+        return game;
     }
 }

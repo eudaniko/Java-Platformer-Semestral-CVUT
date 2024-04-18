@@ -1,6 +1,8 @@
 package objects;
 
-import main.Game;
+import utils.Constants;
+
+import static utils.Constants.GameConstants.SCALE;
 
 public class Cannon extends GameObject {
 
@@ -8,8 +10,8 @@ public class Cannon extends GameObject {
     public Cannon(int x, int y, int objectType) {
         super(x, y, objectType);
         initHitBox(40, 26);
-        hitBox.x -= (int) (4 * Game.SCALE);
-        hitBox.y += (int) (6 * Game.SCALE);
+        hitBox.x -= (int) (4 * SCALE);
+        hitBox.y += (int) (6 * SCALE);
     }
 
     public void update() {
@@ -18,6 +20,6 @@ public class Cannon extends GameObject {
     }
 
     public int getTileY() {
-        return (int) (hitBox.y / Game.TILES_SIZE);
+        return (int) (hitBox.y / Constants.GameConstants.TILES_SIZE);
     }
 }

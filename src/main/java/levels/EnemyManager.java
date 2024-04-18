@@ -15,7 +15,7 @@ import static utils.Constants.PlayerConstants.PLAYER_DAMAGE;
 
 public class EnemyManager {
 
-    private Playing playing;
+    private final Playing playing;
     private BufferedImage[][] crabbyArray;
     private ArrayList<Crabby> crabbies = new ArrayList<>();
 

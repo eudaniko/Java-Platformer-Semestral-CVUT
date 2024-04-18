@@ -2,8 +2,8 @@ package levels;
 
 import entities.Player;
 import gamestates.Playing;
-import main.Game;
 import objects.*;
+import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -120,7 +120,7 @@ public class ObjectManager {
 
     private boolean isPlayerInRange(Cannon c, Player player) {
         int absRange = (int) Math.abs(player.getHitBox().x - c.getHitBox().x);
-        return absRange <= Game.TILES_SIZE * 5;
+        return absRange <= Constants.GameConstants.TILES_SIZE * 5;
     }
 
     private boolean isPlayerInFrontOfCannon(Cannon c, Player player) {

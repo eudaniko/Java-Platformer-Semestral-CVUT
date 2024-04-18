@@ -9,17 +9,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import static utils.Constants.ANI_SPEED;
+import static utils.Constants.GameConstants.*;
+
 
 public class Menu extends State implements Statemethods {
 
-    private MenuButton[] buttons = new MenuButton[3];
+    private final MenuButton[] buttons = new MenuButton[3];
     private BufferedImage uiBackgroundImage;
     private BufferedImage[] backgroundGIF;
     private int menuX, menuY, menuWidth, menuHeight;
 
     //BackGroundAnimation
-    private int aniTick  = 0, aniIndex = 0;
-    private int aniSpeed = 25;
+    private int aniTick = 0, aniIndex = 0;
 
     public Menu(Game game) {
         super(game);
@@ -31,16 +33,16 @@ public class Menu extends State implements Statemethods {
         backgroundGIF = LoadSave.GetGIF(LoadSave.MENU_BACKGROUND);
         uiBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.UI_MENU_BACKGROUND);
 
-        menuWidth = (int) (uiBackgroundImage.getWidth() * Game.SCALE);
-        menuHeight = (int) (uiBackgroundImage.getHeight() * Game.SCALE);
-        menuX = Game.GAME_WIDTH / 2 - menuWidth / 2;
-        menuY = (int) (45 * Game.SCALE);
+        menuWidth = (int) (uiBackgroundImage.getWidth() * SCALE);
+        menuHeight = (int) (uiBackgroundImage.getHeight() * SCALE);
+        menuX = GAME_WIDTH / 2 - menuWidth / 2;
+        menuY = (int) (45 * SCALE);
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, Gamestate.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 1, Gamestate.OPTIONS);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 2, Gamestate.QUIT);
+        buttons[0] = new MenuButton(GAME_WIDTH / 2, (int) (150 * SCALE), 0, GameState.PLAYING);
+        buttons[1] = new MenuButton(GAME_WIDTH / 2, (int) (220 * SCALE), 1, GameState.OPTIONS);
+        buttons[2] = new MenuButton(GAME_WIDTH / 2, (int) (290 * SCALE), 2, GameState.QUIT);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class Menu extends State implements Statemethods {
 
     private void updateBGAnimationTick() {
         aniTick++;
-        if (aniTick >= aniSpeed) {
+        if (aniTick >= ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= backgroundGIF.length) {
@@ -63,7 +65,7 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(backgroundGIF[aniIndex], 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        g.drawImage(backgroundGIF[aniIndex], 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
         g.drawImage(uiBackgroundImage, menuX, menuY, menuWidth, menuHeight, null);
         for (MenuButton mb : buttons)
             mb.draw(g);
@@ -85,9 +87,9 @@ public class Menu extends State implements Statemethods {
     @Override
     public void mouseReleased(MouseEvent e) {
         for (MenuButton mb : buttons) {
-            if(isIn(e,mb))
+            if (isIn(e, mb))
                 if (mb.isMousePressed())
-                     mb.applyGamestate();
+                    mb.applyGamestate();
         }
         resetButtons();
     }
@@ -104,8 +106,7 @@ public class Menu extends State implements Statemethods {
             if (isIn(e, mb)) {
                 mb.setMouseOver(true);
                 break;
-            }
-            else
+            } else
                 mb.setMouseOver(false);
         }
     }

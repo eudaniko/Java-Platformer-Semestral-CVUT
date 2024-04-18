@@ -1,7 +1,8 @@
 package levels;
 
-import gamestates.Gamestate;
+import gamestates.GameState;
 import main.Game;
+import utils.Constants;
 import utils.HelpMethods;
 import utils.LoadSave;
 
@@ -9,14 +10,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static main.Game.TILES_SIZE;
+import static utils.Constants.GameConstants.TILES_SIZE;
 
 
 public class LevelManager {
 
-    private Game game;
+    private final Game game;
     private BufferedImage[] levelSprite;
-    private ArrayList<Level> levels;
+    private final ArrayList<Level> levels;
     private int levelIndex = 0;
 
     public LevelManager(Game game) {
@@ -31,7 +32,7 @@ public class LevelManager {
         if (levelIndex >= levels.size()){
             levelIndex =0;
             System.out.println("No more levels, The Game completed!");
-            Gamestate.state = Gamestate.MENU;
+            GameState.state = GameState.MENU;
         }
 
         Level newLevel = levels.get(levelIndex);
@@ -59,7 +60,7 @@ public class LevelManager {
     }
 
     public void draw(Graphics g, int levelOffset) {
-        for (int j = 0; j < Game.TILES_IN_HEIGHT; j++)
+        for (int j = 0; j < Constants.GameConstants.TILES_IN_HEIGHT; j++)
             for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
                 int index = levels.get(levelIndex).getSpriteIndex(i, j);
                 g.drawImage(levelSprite[index], TILES_SIZE * i - levelOffset, TILES_SIZE * j, TILES_SIZE, TILES_SIZE, null);

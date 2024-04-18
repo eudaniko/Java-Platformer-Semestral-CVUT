@@ -2,6 +2,9 @@ package objects;
 
 
 import main.Game;
+import utils.Constants;
+
+import static utils.Constants.GameConstants.SCALE;
 
 public class Potion extends GameObject {
 
@@ -14,9 +17,9 @@ public class Potion extends GameObject {
         super(x, y, objectType);
         doAnimation = true;
         initHitBox(7, 14);
-        this.xDrawOffset = (int) (3 * Game.SCALE);
-        this.yDrawOffset = (int) (2 * Game.SCALE);
-        maxHoverOffset = (int) (3 * Game.SCALE);
+        this.xDrawOffset = (int) (3 * SCALE);
+        this.yDrawOffset = (int) (2 * SCALE);
+        maxHoverOffset = (int) (3 * SCALE);
 
     }
 
@@ -26,7 +29,7 @@ public class Potion extends GameObject {
     }
 
     private void updateHover() {
-        hoverOffset += (0.04f * Game.SCALE * hoverDir);
+        hoverOffset += (0.04f * SCALE * hoverDir);
         if (hoverOffset >= maxHoverOffset)
             hoverDir = -1;
         else if (hoverOffset < 0)

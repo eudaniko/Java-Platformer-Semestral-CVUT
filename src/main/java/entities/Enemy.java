@@ -2,12 +2,12 @@ package entities;
 
 import main.Game;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.*;
+import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.HelpMethods.*;
 
 public abstract class Enemy extends Entity {
@@ -15,8 +15,8 @@ public abstract class Enemy extends Entity {
     protected boolean firstUpdate = true;
     protected int walkDir = LEFT;
     protected int tileY;
-    protected float attackDistance = Game.TILES_SIZE;
-    protected float viewDistance = 5 * Game.TILES_SIZE;
+    protected float attackDistance = TILES_SIZE;
+    protected float viewDistance = 5 * TILES_SIZE;
     protected boolean active = true;
     protected boolean attackChecked;
 
@@ -44,10 +44,6 @@ public abstract class Enemy extends Entity {
         }
     }
 
-
-    public void update(int[][] levelData) {
-    }
-
     protected void firstUpdateCheck(int[][] levelData) {
         if (firstUpdate) {
             if (IsEntityUpToFloor(hitBox, levelData))
@@ -63,7 +59,7 @@ public abstract class Enemy extends Entity {
         } else {
             inAir = false;
             hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
-            tileY = (int) (hitBox.y / Game.TILES_SIZE);
+            tileY = (int) (hitBox.y / TILES_SIZE);
         }
     }
 
@@ -113,12 +109,11 @@ public abstract class Enemy extends Entity {
     }
 
     protected boolean canSeePlayer(int[][] levelData, Player player) {
-        int playerTileY = (int) (player.hitBox.y / Game.TILES_SIZE);
+        int playerTileY = (int) (player.hitBox.y / TILES_SIZE);
 
         if (playerTileY == tileY)
             if (isPlayerInRange(player)) {
-                if (isSightClear(levelData, hitBox, player.hitBox, tileY))
-                    return true;
+                return isSightClear(levelData, hitBox, player.hitBox, tileY);
             }
         return false;
     }
@@ -132,10 +127,6 @@ public abstract class Enemy extends Entity {
     protected boolean isPlayerCloseForAttack(Player player) {
         int absValue = (int) Math.abs(player.hitBox.x - hitBox.x);
         return absValue <= attackDistance;
-    }
-
-    public void draw(Graphics g, float xLevelOffset) {
-//        drawHitBox(g, xLevelOffset);
     }
 
     protected void changeWalkDir() {

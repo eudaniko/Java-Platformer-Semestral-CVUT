@@ -1,9 +1,12 @@
 package entities;
 
 import main.Game;
+import utils.Constants;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import static utils.Constants.GameConstants.SCALE;
 
 public abstract class Entity {
 
@@ -28,18 +31,18 @@ public abstract class Entity {
     }
 
     //for debugging the hitBox
-    protected void drawHitBox(Graphics g, int levelOffset) {
+    protected void drawHitBox(Graphics g, int xLevelOffset) {
         g.setColor(Color.PINK);
-        g.drawRect((int) hitBox.x - levelOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+        g.drawRect((int) hitBox.x - xLevelOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
-    protected void drawAttackBox(Graphics g, int xlevelOffset) {
+    protected void drawAttackBox(Graphics g, int xLevelOffset) {
         g.setColor(Color.red);
-        g.drawRect((int) (attackBox.x - xlevelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+        g.drawRect((int) (attackBox.x - xLevelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     protected void initHitBox(int width, int height) {
-        hitBox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
+        hitBox = new Rectangle2D.Float(x, y, (int) (width * SCALE), (int) (height * SCALE));
     }
 
     public Rectangle2D.Float getHitBox() {

@@ -1,11 +1,13 @@
 package entities;
 
 import main.Game;
+import utils.Constants;
 
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
+import static utils.Constants.GameConstants.SCALE;
 
 public class Crabby extends Enemy {
 
@@ -16,12 +18,12 @@ public class Crabby extends Enemy {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
         initHitBox(22, 19);
         initAttackBox();
-        walkSpeed = 0.3f * Game.SCALE;
+        walkSpeed = 0.3f * SCALE;
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x, y, (int) (82 * Game.SCALE), (int) (19 * Game.SCALE));
-        attackBoxOffsetX = (int) (Game.SCALE * 30);
+        attackBox = new Rectangle2D.Float(x, y, (int) (82 * SCALE), (int) (19 * SCALE));
+        attackBoxOffsetX = (int) (SCALE * 30);
     }
 
     public void update(int[][] levelData, Player player) {

@@ -1,6 +1,6 @@
 package ui;
 
-import gamestates.Gamestate;
+import gamestates.GameState;
 import gamestates.Playing;
 import main.Game;
 import utils.LoadSave;
@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import static utils.Constants.GameConstants.GAME_WIDTH;
+import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.UI.PauseButtons.*;
 import static utils.Constants.UI.URMButtons.URM_SIZE;
 import static utils.Constants.UI.VolumeButtons.SLIDER_WIDTH;
@@ -31,16 +33,16 @@ public class PauseOverlay {
     }
 
     private void createVolumeButton() {
-        int vX = (int) (309 * Game.SCALE);
-        int vY = (int)(278 * Game.SCALE);
+        int vX = (int) (309 * SCALE);
+        int vY = (int)(278 * SCALE);
         volumeButton = new VolumeButton(vX, vY,SLIDER_WIDTH, VOLUME_WIDTH);
     }
 
     private void createUrmButtons() {
-        int menuX = (int) (313 * Game.SCALE);
-        int replayX = (int) (387 * Game.SCALE);
-        int unpauseX = (int) (462 * Game.SCALE);
-        int bY = (int) (325 * Game.SCALE);
+        int menuX = (int) (313 * SCALE);
+        int replayX = (int) (387 * SCALE);
+        int unpauseX = (int) (462 * SCALE);
+        int bY = (int) (325 * SCALE);
 
         menuButton = new UrmButton(menuX,  bY, URM_SIZE, URM_SIZE, 2);
         replayButton = new UrmButton(replayX,  bY, URM_SIZE, URM_SIZE, 1);
@@ -49,19 +51,19 @@ public class PauseOverlay {
     }
 
     private void createSoundButtons() {
-        int soundX = (int) (450 * Game.SCALE);
-        int musicY = (int) (140 * Game.SCALE);
-        int sfxY = (int) (186 * Game.SCALE);
+        int soundX = (int) (450 * SCALE);
+        int musicY = (int) (140 * SCALE);
+        int sfxY = (int) (186 * SCALE);
         musicButton = new SoundButton(soundX, musicY, SOUND_SIZE, SOUND_SIZE);
         sfxButton = new SoundButton(soundX, sfxY, SOUND_SIZE, SOUND_SIZE);
     }
 
     private void loadBackground() {
         backgroundImage = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
-        bgW = (int) (backgroundImage.getWidth() * Game.SCALE);
-        bgH = (int) (backgroundImage.getHeight() * Game.SCALE);
-        bgX = Game.GAME_WIDTH / 2 - bgW / 2;
-        bgY = (int) (25 * Game.SCALE);
+        bgW = (int) (backgroundImage.getWidth() * SCALE);
+        bgH = (int) (backgroundImage.getHeight() * SCALE);
+        bgX = GAME_WIDTH / 2 - bgW / 2;
+        bgY = (int) (25 * SCALE);
     }
 
     public void update() {
@@ -114,7 +116,7 @@ public class PauseOverlay {
                 sfxButton.setMuted(!sfxButton.isMuted());
         } else if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed()) {
-                Gamestate.state = Gamestate.MENU;
+                GameState.state = GameState.MENU;
                 playing.unpauseGame();
             }
         }else if (isIn(e,replayButton)){

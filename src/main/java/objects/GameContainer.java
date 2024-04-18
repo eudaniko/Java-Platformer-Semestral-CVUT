@@ -1,8 +1,10 @@
 package objects;
 
 import main.Game;
+import utils.Constants;
 
 
+import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.ObjectConstants.*;
 
 public class GameContainer extends GameObject {
@@ -17,16 +19,16 @@ public class GameContainer extends GameObject {
     private void createHitBox() {
         if (objectType == BOX) {
             initHitBox(25, 18);
-            xDrawOffset = (int) (7 * Game.SCALE);
-            yDrawOffset = (int) (12 * Game.SCALE);
+            xDrawOffset = (int) (7 * SCALE);
+            yDrawOffset = (int) (12 * SCALE);
         } else if (objectType == BARREL) {
             initHitBox(23, 15);
-            xDrawOffset = (int) (8 * Game.SCALE);
-            yDrawOffset = (int) (5 * Game.SCALE);
+            xDrawOffset = (int) (8 * SCALE);
+            yDrawOffset = (int) (5 * SCALE);
         }
 
-        hitBox.y += yDrawOffset + (int) (Game.SCALE * 2);
-        hitBox.x += xDrawOffset / 2;
+        hitBox.y += yDrawOffset + (int) (SCALE * 2);
+        hitBox.x += (float) xDrawOffset / 2;
     }
 
     public void update() {

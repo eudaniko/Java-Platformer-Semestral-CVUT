@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import static utils.Constants.Environment.*;
+import static utils.Constants.GameConstants.*;
 
 public class Playing extends State implements Statemethods {
 
@@ -52,7 +53,7 @@ public class Playing extends State implements Statemethods {
         smallCloudsPos = new int[8];
         Random rnd = new Random();
         for (int i = 0; i < smallCloudsPos.length; i++)
-            smallCloudsPos[i] = (int) (70 * Game.SCALE) + rnd.nextInt((int) (100 * Game.SCALE));
+            smallCloudsPos[i] = (int) (70 * SCALE) + rnd.nextInt((int) (100 * SCALE));
 
         calculateLevelOffset();
         loadStartLevel();
@@ -77,7 +78,7 @@ public class Playing extends State implements Statemethods {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
         objectManager = new ObjectManager(this);
-        player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE), this);
+        player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE), this);
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         pauseOverlay = new PauseOverlay(this);
@@ -124,8 +125,8 @@ public class Playing extends State implements Statemethods {
         int playerX = (int) (player.getHitBox().x);
         int diff = playerX - xLevelOffset;
 
-        int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
-        int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
+        int leftBorder = (int) (0.2 * GAME_WIDTH);
+        int rightBorder = (int) (0.8 * GAME_WIDTH);
         if (diff > rightBorder)
             xLevelOffset += diff - rightBorder;
         else if (diff < leftBorder)
@@ -139,7 +140,7 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        g.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
         drawClouds(g);
 
@@ -149,7 +150,7 @@ public class Playing extends State implements Statemethods {
         objectManager.draw(g, xLevelOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
-            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+            g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             pauseOverlay.draw(g);
         } else if (levelCompleted)
             levelCompletedOverlay.draw(g);
@@ -159,7 +160,7 @@ public class Playing extends State implements Statemethods {
 
     private void drawClouds(Graphics g) {
         for (int i = 0; i < 3; i++)
-            g.drawImage(bigCloud, BIG_CLOUD_WIDTH * i - (int) (xLevelOffset * 0.3), (int) (204 * Game.SCALE), BIG_CLOUD_WIDTH, BIG_CLOUD_HEIGHT, null);
+            g.drawImage(bigCloud, BIG_CLOUD_WIDTH * i - (int) (xLevelOffset * 0.3), (int) (204 * SCALE), BIG_CLOUD_WIDTH, BIG_CLOUD_HEIGHT, null);
 
         for (int i = 0; i < smallCloudsPos.length; i++)
             g.drawImage(smallCloud, SMALL_CLOUD_WIDTH * 4 * i, smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
@@ -250,7 +251,7 @@ public class Playing extends State implements Statemethods {
             gameOverOverlay.keyPressed(e);
         else
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
+                case KeyEvent.VK_W, KeyEvent.VK_SPACE:
                     player.setJump(true);
                     break;
                 case KeyEvent.VK_A:
@@ -258,9 +259,6 @@ public class Playing extends State implements Statemethods {
                     break;
                 case KeyEvent.VK_D:
                     player.setRight(true);
-                    break;
-                case KeyEvent.VK_SPACE:
-                    player.setJump(true);
                     break;
                 case KeyEvent.VK_ESCAPE:
                     paused = !paused;
@@ -271,7 +269,7 @@ public class Playing extends State implements Statemethods {
     public void keyReleased(KeyEvent e) {
         if (!gameOver)
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
+                case KeyEvent.VK_W, KeyEvent.VK_SPACE:
                     player.setJump(false);
                     break;
                 case KeyEvent.VK_A:
@@ -279,9 +277,6 @@ public class Playing extends State implements Statemethods {
                     break;
                 case KeyEvent.VK_D:
                     player.setRight(false);
-                    break;
-                case KeyEvent.VK_SPACE:
-                    player.setJump(false);
                     break;
             }
 

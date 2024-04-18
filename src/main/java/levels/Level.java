@@ -6,6 +6,7 @@ import objects.Cannon;
 import objects.GameContainer;
 import objects.Potion;
 import objects.Spike;
+import utils.Constants;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,15 +15,13 @@ import java.util.ArrayList;
 import static utils.HelpMethods.*;
 
 public class Level {
-    private BufferedImage levelImage;
+    private final BufferedImage levelImage;
     private int[][] levelData;
     private ArrayList<Crabby> crabbies;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> gameContainers;
     private ArrayList<Spike> spikes;
     private ArrayList<Cannon> cannons;
-    private int levelTilesWide;
-    private int maxTilesOffset;
     private int maxLevelOffsetX;
     private Point playerSpawn;
 
@@ -40,9 +39,9 @@ public class Level {
     }
 
     private void calculateLevelOffsets() {
-        levelTilesWide = levelImage.getWidth();
-        maxTilesOffset = levelTilesWide - Game.TILES_IN_WIDTH;
-        maxLevelOffsetX = Game.TILES_SIZE * maxTilesOffset;
+        int levelTilesWide = levelImage.getWidth();
+        int maxTilesOffset = levelTilesWide - Constants.GameConstants.TILES_IN_WIDTH;
+        maxLevelOffsetX = Constants.GameConstants.TILES_SIZE * maxTilesOffset;
     }
 
     private void createGameObjects() {

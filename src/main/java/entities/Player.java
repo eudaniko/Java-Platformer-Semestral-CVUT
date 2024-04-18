@@ -5,6 +5,8 @@ import main.Game;
 import utils.LoadSave;
 
 import static utils.Constants.*;
+import static utils.Constants.GameConstants.SCALE;
+import static utils.Constants.UI.StatusBar.*;
 import static utils.HelpMethods.*;
 
 import java.awt.*;
@@ -18,46 +20,28 @@ public class Player extends Entity {
     //Drawing
     private int[][] levelData;
     private BufferedImage[][] animations;
-    public float xDrawOffset = 21 * Game.SCALE;
-    private float yDrawOffset = 3 * Game.SCALE;
     private int flipX = 0, flipW = 1;
 
     // Moving && Jumping && Attacking
-    private Playing playing;
+    private final Playing playing;
     private boolean moving, attacking, gettingHit;
     private boolean attackChecked;
-    private int maxPower;
+    private final int maxPower;
     private int currentPower;
     private boolean left, right;
-    private float jumpSpeed = -2.25f * Game.SCALE;
-    private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean jump = false;
-
-    // Status Bar
-    private BufferedImage statusBar;
-    private int statusBarWidth = (int) (192 * Game.SCALE);
-    private int statusBarHeight = (int) (58 * Game.SCALE);
-    private int statusBarX = (int) (10 * Game.SCALE);
-    private int statusBarY = (int) (10 * Game.SCALE);
-
-    // Health Bar
-    private int healthBarWidth = (int) (150 * Game.SCALE);
-    private int healthBarHeight = (int) (4 * Game.SCALE);
-    private int healthBarXStart = (int) (34 * Game.SCALE);
-    private int healthBarYStart = (int) (14 * Game.SCALE);
-
+    private final BufferedImage statusBar;
     private int healthWidth = statusBarWidth;
-
 
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
         this.state = IDLE;
-        this.maxHealth = 100;
+        this.maxHealth = PLAYER_MAX_HEALTH;
         this.currentHealth = maxHealth;
-        this.maxPower = 100;
+        this.maxPower = PLAYER_MAX_POWER;
         this.currentPower = maxPower;
-        this.walkSpeed = 1.0f * Game.SCALE;
+        this.walkSpeed = PLAYER_WALK_SPEED;
         statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         loadAnimations();
         initHitBox(20, 28);
@@ -72,7 +56,7 @@ public class Player extends Entity {
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(hitBox.x, hitBox.y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
+        attackBox = new Rectangle2D.Float(hitBox.x, hitBox.y, (PLAYER_ATTACK_HIT_BOX_WIDTH), (PLAYER_ATTACK_HIT_BOX_HEIGHT));
     }
 
     public void update() {
@@ -109,11 +93,11 @@ public class Player extends Entity {
 
     private void updateAttackBox() {
         if (right) {
-            attackBox.x = hitBox.x + hitBox.width + (int) (Game.SCALE * 10);
+            attackBox.x = hitBox.x + hitBox.width + (int) (SCALE * 10);
         } else if (left) {
-            attackBox.x = hitBox.x - hitBox.width - (int) (Game.SCALE * 10);
+            attackBox.x = hitBox.x - hitBox.width - (int) (SCALE * 10);
         } else
-            attackBox.y = hitBox.y + (Game.SCALE * 10);
+            attackBox.y = hitBox.y + (SCALE * 10);
     }
 
     private void updateHealthBar() {
@@ -182,17 +166,15 @@ public class Player extends Entity {
         int startAni = state;
         if (gettingHit)
             state = HIT;
-        else if (moving)
-            state = RUNNING;
-        else
-            state = IDLE;
-
-        if (inAir) {
+        else if (inAir) {
             if (airSpeed < 0)
                 state = JUMP;
             else
                 state = FALLING;
-        }
+        } else if (moving)
+            state = RUNNING;
+        else
+            state = IDLE;
 
         if (attacking) {
             state = ATTACK;
@@ -206,6 +188,7 @@ public class Player extends Entity {
         if (startAni != state)
             resetAniTick();
     }
+
 
     private void resetAniTick() {
         aniTick = 0;
@@ -333,6 +316,6 @@ public class Player extends Entity {
     }
 
     public int getTileY() {
-        return (int) (hitBox.y / Game.TILES_SIZE);
+        return (int) (hitBox.y / GameConstants.TILES_SIZE);
     }
 }
