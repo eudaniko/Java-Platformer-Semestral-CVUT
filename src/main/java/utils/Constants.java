@@ -17,9 +17,9 @@ public class Constants {
         public static final int BLUE_POTION = 0;
         public static final int BARREL = 2;
         public static final int BOX = 3;
-        public static final int SPIKE = 4 ;
-        public static final int CANNON_LEFT = 5 ;
-        public static final int CANNON_RIGHT = 6 ;
+        public static final int SPIKE = 4;
+        public static final int CANNON_LEFT = 5;
+        public static final int CANNON_RIGHT = 6;
 
         public static final int RED_POTION_VALUE = 15;
         public static final int BLUE_POTION_VALUE = 10;
@@ -44,21 +44,23 @@ public class Constants {
         public static final int CANNON_WIDTH = (int) (CANNON_WIDTH_DEFAULT * Game.SCALE);
         public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * Game.SCALE);
 
-        public static int GetSpriteAmount(int object_type){
-            switch (object_type){
+        public static final int CANNON_BALL_WIDTH_DEFAULT = 15;
+        public static final int CANNON_BALL_HEIGHT_DEFAULT = 15;
+        public static final int CANNON_BALL_WIDTH = (int) (CANNON_BALL_WIDTH_DEFAULT * Game.SCALE);
+        public static final int CANNON_BALL_HEIGHT = (int) (CANNON_BALL_HEIGHT_DEFAULT * Game.SCALE);
+        public static final float CANNON_BALL_SPEED = 0.5f * Game.SCALE;
+
+        public static int GetSpriteAmount(int object_type) {
+            switch (object_type) {
                 case BARREL, BOX:
                     return 8;
                 case RED_POTION, BLUE_POTION:
                     return 7;
-                case  CANNON_LEFT, CANNON_RIGHT:
+                case CANNON_LEFT, CANNON_RIGHT:
                     return 7;
             }
             return 1;
         }
-    }
-
-    public static final class Player {
-        public static final int PLAYER_DAMAGE = 10;
     }
 
     public static class EnemyConstants {
@@ -173,6 +175,9 @@ public class Constants {
 
     // Player animation constants
     public static class PlayerConstants {
+        public static final int PLAYER_DAMAGE = 10;
+
+
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
         public static final int JUMP = 2;

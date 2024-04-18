@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.CRABBY;
@@ -24,7 +25,7 @@ import static utils.Constants.ObjectConstants.*;
 
 public class HelpMethods {
 
-    public static boolean CannonCanSeePlayer(Player player, Cannon cannon, int yTile, int[][] levelData) {
+    public static boolean CanCannonSeePlayer(Player player, Cannon cannon, int yTile, int[][] levelData) {
         int firstXTile = (int) (cannon.getHitBox().x / Game.TILES_SIZE);
         int secondXTile = (int) (player.getHitBox().x / Game.TILES_SIZE);
 
@@ -33,6 +34,7 @@ public class HelpMethods {
         else
             return IsAllTilesClear(firstXTile, secondXTile, yTile, levelData);
     }
+
 
     public static boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
         for (int i = 0; i < xEnd - xStart; i++)
@@ -45,8 +47,7 @@ public class HelpMethods {
         if (!IsSolid(x, y, levelData))
             if (!IsSolid(x + width, y + height, levelData))
                 if (!IsSolid(x + width, y, levelData))
-                    if (!IsSolid(x, y + height, levelData))
-                        return true;
+                    return !IsSolid(x, y + height, levelData);
         return false;
     }
 
@@ -66,9 +67,7 @@ public class HelpMethods {
     public static boolean IsTileSolid(int xTile, int yTile, int[][] levelData) {
         int value = levelData[yTile][xTile];
 
-        if (value >= 48 || value < 0 || value != 11)
-            return true;
-        return false;
+        return value != 11;
     }
 
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitBox, float xSpeed) {
@@ -98,19 +97,18 @@ public class HelpMethods {
 
     }
 
-    public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] levelData) {
+    public static boolean IsEntityUpToFloor(Rectangle2D.Float hitBox, int[][] levelData) {
         // Check the pixel below bottomLeft and bottomRight
-        if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, levelData))
-            if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, levelData))
-                return false;
-        return true;
+        if (!IsSolid(hitBox.x, hitBox.y + hitBox.height + 1, levelData))
+            return !IsSolid(hitBox.x + hitBox.width, hitBox.y + hitBox.height + 1, levelData);
+        return false;
     }
 
-    public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int walkDir, int[][] levelData) {
+    public static boolean IsFloor(Rectangle2D.Float hitBox, float xSpeed, int walkDir, int[][] levelData) {
         if (walkDir == RIGHT)
-            return IsSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, levelData);
+            return IsSolid(hitBox.x + xSpeed + hitBox.width, hitBox.y + hitBox.height + 1, levelData);
         else
-            return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, levelData);
+            return IsSolid(hitBox.x + xSpeed, hitBox.y + hitBox.height + 1, levelData);
     }
 
     public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] levelData) {
@@ -150,21 +148,27 @@ public class HelpMethods {
 
     public static BufferedImage[] GetAllLevels() {
         URL url = LoadSave.class.getResource("/gameLevels");
-        File file;
+        File file = null;
 
         try {
-            file = new File(url.toURI());
+            if (url != null) {
+                file = new File(url.toURI());
+            }
         } catch (URISyntaxException e) {
+            System.err.println("Cannot read gameLevels URL!");
             throw new RuntimeException(e);
         }
 
-        File[] files = file.listFiles();
-        File[] filesSorted = new File[files.length];
+        File[] files = Objects.requireNonNull(file).listFiles();
+        File[] filesSorted = new File[0];
+        if (files != null) {
+            filesSorted = new File[files.length];
+        }
 
         for (int i = 0; i < filesSorted.length; i++)
-            for (int j = 0; j < files.length; j++) {
-                if (files[j].getName().equals((i + 1) + ".png"))
-                    filesSorted[i] = files[j];
+            for (File f : files) {
+                if (f.getName().equals((i + 1) + ".png"))
+                    filesSorted[i] = f;
             }
 
         BufferedImage[] levelImages = new BufferedImage[filesSorted.length];
@@ -201,7 +205,7 @@ public class HelpMethods {
                     return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
             }
 
-        return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
+        return new Point(Game.TILES_SIZE, Game.TILES_SIZE);
 
 
     }

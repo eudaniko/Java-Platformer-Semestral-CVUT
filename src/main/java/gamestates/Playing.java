@@ -34,13 +34,12 @@ public class Playing extends State implements Statemethods {
     private boolean levelCompleted = false;
 
     private int xLevelOffset;
-    private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
-    private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
     private int maxLevelOffsetX;
 
-    private BufferedImage backgroundImage, bigCloud, smallCloud;
-    private int[] smallCloudsPos;
-    private Random rnd;
+    private final BufferedImage backgroundImage;
+    private final BufferedImage bigCloud;
+    private final BufferedImage smallCloud;
+    private final int[] smallCloudsPos;
 
 
     public Playing(Game game) {
@@ -51,7 +50,7 @@ public class Playing extends State implements Statemethods {
         smallCloud = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUD);
 
         smallCloudsPos = new int[8];
-        rnd = new Random();
+        Random rnd = new Random();
         for (int i = 0; i < smallCloudsPos.length; i++)
             smallCloudsPos[i] = (int) (70 * Game.SCALE) + rnd.nextInt((int) (100 * Game.SCALE));
 
@@ -100,23 +99,24 @@ public class Playing extends State implements Statemethods {
 
     public void unpauseGame() {
         paused = false;
-
     }
 
     @Override
     public void update() {
         if (paused)
             pauseOverlay.update();
-        else if (gameOver)
-            gameOverOverlay.update();
-        else if (levelCompleted)
-            levelCompletedOverlay.update();
         else if (!gameOver) {
-            levelManager.update();
-            player.update();
-            enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
-            objectManager.update();
-            checkCLoseToBorder();
+            if (levelCompleted)
+                levelCompletedOverlay.update();
+            else {
+                levelManager.update();
+                player.update();
+                enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
+                objectManager.update();
+                checkCLoseToBorder();
+            }
+        } else {
+            gameOverOverlay.update();
         }
     }
 
@@ -124,6 +124,8 @@ public class Playing extends State implements Statemethods {
         int playerX = (int) (player.getHitBox().x);
         int diff = playerX - xLevelOffset;
 
+        int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
+        int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
         if (diff > rightBorder)
             xLevelOffset += diff - rightBorder;
         else if (diff < leftBorder)
@@ -141,10 +143,10 @@ public class Playing extends State implements Statemethods {
 
         drawClouds(g);
 
-        levelManager.draw(g,xLevelOffset);
+        levelManager.draw(g, xLevelOffset);
         player.render(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
-        objectManager.draw(g,xLevelOffset);
+        objectManager.draw(g, xLevelOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
@@ -181,7 +183,7 @@ public class Playing extends State implements Statemethods {
         this.maxLevelOffsetX = maxLevelOffsetX;
     }
 
-    public void setLevelComplete(boolean levelCompleted){
+    public void setLevelComplete(boolean levelCompleted) {
         this.levelCompleted = levelCompleted;
     }
 
@@ -194,8 +196,7 @@ public class Playing extends State implements Statemethods {
     }
 
 
-
-    public ObjectManager getObjectManager(){
+    public ObjectManager getObjectManager() {
         return objectManager;
     }
 
@@ -203,7 +204,7 @@ public class Playing extends State implements Statemethods {
     public void mouseClicked(MouseEvent e) {
         // Action when the mouse is clicked
         if (!gameOver)
-            if (e.getButton() == MouseEvent.BUTTON1){
+            if (e.getButton() == MouseEvent.BUTTON1) {
                 player.setAttacking(true);
             }
 

@@ -173,7 +173,7 @@ public class Player extends Entity {
 
     public void loadLevelData(int[][] levelData) {
         this.levelData = levelData;
-        if (!IsEntityOnFloor(hitBox, levelData))
+        if (IsEntityUpToFloor(hitBox, levelData))
             inAir = true;
     }
 
@@ -253,7 +253,7 @@ public class Player extends Entity {
         }
 
         if (!inAir) {
-            if (!IsEntityOnFloor(hitBox, levelData))
+            if (IsEntityUpToFloor(hitBox, levelData))
                 inAir = true;
         }
 
@@ -328,7 +328,7 @@ public class Player extends Entity {
         hitBox.x = x;
         hitBox.y = y;
 
-        if (!IsEntityOnFloor(hitBox, levelData))
+        if (IsEntityUpToFloor(hitBox, levelData))
             inAir = true;
     }
 

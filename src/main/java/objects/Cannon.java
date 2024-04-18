@@ -17,7 +17,6 @@ public class Cannon extends GameObject {
             updateAnimationTick();
     }
 
-
     public int getTileY() {
         return (int) (hitBox.y / Game.TILES_SIZE);
     }

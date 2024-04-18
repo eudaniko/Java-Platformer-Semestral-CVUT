@@ -28,6 +28,7 @@ public abstract class GameObject {
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(objectType)) {
                 aniIndex = 0;
+                doAnimation = false;
             }
         }
     }
@@ -40,10 +41,10 @@ public abstract class GameObject {
         active = true;
         aniTick = 0;
         aniIndex = 0;
-        if (objectType == RED_POTION || objectType == BLUE_POTION)
-            doAnimation = true;
-        else
-            doAnimation = false;
+        doAnimation = objectType == RED_POTION || objectType == BLUE_POTION;
+    }
+    public int getAniTick(){
+        return aniTick;
     }
 
     public Rectangle2D.Float getHitBox() {
@@ -73,6 +74,8 @@ public abstract class GameObject {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public boolean doAnimations(){return  doAnimation;}
 
     public void setAnimation(boolean doAnimation) {
         this.doAnimation = doAnimation;

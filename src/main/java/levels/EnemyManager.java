@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static utils.Constants.EnemyConstants.*;
-import static utils.Constants.Player.PLAYER_DAMAGE;
+import static utils.Constants.PlayerConstants.PLAYER_DAMAGE;
 
 public class EnemyManager {
 
