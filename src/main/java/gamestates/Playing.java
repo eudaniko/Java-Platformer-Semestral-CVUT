@@ -211,9 +211,10 @@ public class Playing extends State implements StateMethods {
         // Action when the mouse is clicked
         if (!gameOver)
             if (e.getButton() == MouseEvent.BUTTON1) {
-                player.changePower(-POWER_FOR_ATTACK);
-                if (player.getCurrentPower() >= POWER_FOR_ATTACK)
+                if (player.getCurrentPower() >= Math.abs(POWER_FOR_ATTACK)) {
+                    player.changePower(-POWER_FOR_ATTACK);
                     player.setAttacking(true);
+                }
             }
 
     }
