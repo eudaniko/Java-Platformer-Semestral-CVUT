@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package gamestates;
 
 public enum GameState {

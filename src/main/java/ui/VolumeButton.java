@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package ui;
 
 import utils.LoadSave;
@@ -13,13 +16,16 @@ public class VolumeButton extends PauseButton {
     private BufferedImage slider;
     private int index;
     private boolean mousePressed, mouseOver;
-    private int buttonX, minX, maxX;
+    private int buttonX;
+    private final int minX;
+    private final int maxX;
 
     public VolumeButton(int x, int y, int width, int height) {
         super(x + width / 2, y, VOLUME_WIDTH, VOLUME_HEIGHT);
         bounds.x -= VOLUME_WIDTH / 2;
         this.x = x;
         this.width = width;
+        this.height = height;
         minX = x + VOLUME_WIDTH / 2;
         maxX = x + width - VOLUME_WIDTH / 2;
         buttonX = x + width / 2;
@@ -53,9 +59,7 @@ public class VolumeButton extends PauseButton {
     public void changeX(int x) {
         if (x < minX)
             buttonX = minX;
-        else if (x > maxX)
-            buttonX = maxX;
-        else buttonX = x;
+        else buttonX = Math.min(x, maxX);
 
         bounds.x = x;
     }

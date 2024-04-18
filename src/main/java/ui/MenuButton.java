@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package ui;
 
 import gamestates.GameState;
@@ -9,9 +12,12 @@ import java.awt.image.BufferedImage;
 import static utils.Constants.UI.Buttons.*;
 
 public class MenuButton {
-    private int xPos, yPos, rowIndex, index;
-    private int xOffsetCenter = B_WIDTH / 2;
-    private GameState state;
+    private final int xPos;
+    private final int yPos;
+    private final int rowIndex;
+    private int index;
+    private final int xOffsetCenter = B_WIDTH / 2;
+    private final GameState state;
     private BufferedImage[] images;
     private boolean mouseOver, mousePressed;
     private Rectangle bounds;
@@ -48,10 +54,6 @@ public class MenuButton {
             index = 1;
         if (mousePressed)
             index = 2;
-    }
-
-    public boolean isMouseOver() {
-        return mouseOver;
     }
 
     public void setMouseOver(boolean mouseOver) {

@@ -1,15 +1,14 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package objects;
-
-
-import main.Game;
-import utils.Constants;
 
 import static utils.Constants.GameConstants.SCALE;
 
 public class Potion extends GameObject {
 
     private float hoverOffset;
-    private int maxHoverOffset;
+    private final int maxHoverOffset;
     private int hoverDir = -1;
 
 

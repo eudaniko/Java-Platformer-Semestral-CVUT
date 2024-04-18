@@ -1,8 +1,10 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package ui;
 
 import gamestates.GameState;
 import gamestates.Playing;
-import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -17,7 +19,7 @@ import static utils.Constants.UI.VolumeButtons.SLIDER_WIDTH;
 import static utils.Constants.UI.VolumeButtons.VOLUME_WIDTH;
 
 public class PauseOverlay {
-    private  Playing playing;
+    private final Playing playing;
     private BufferedImage backgroundImage;
     private int bgX, bgY, bgW, bgH;
     private SoundButton musicButton, sfxButton;
@@ -34,8 +36,8 @@ public class PauseOverlay {
 
     private void createVolumeButton() {
         int vX = (int) (309 * SCALE);
-        int vY = (int)(278 * SCALE);
-        volumeButton = new VolumeButton(vX, vY,SLIDER_WIDTH, VOLUME_WIDTH);
+        int vY = (int) (278 * SCALE);
+        volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_WIDTH);
     }
 
     private void createUrmButtons() {
@@ -44,9 +46,9 @@ public class PauseOverlay {
         int unpauseX = (int) (462 * SCALE);
         int bY = (int) (325 * SCALE);
 
-        menuButton = new UrmButton(menuX,  bY, URM_SIZE, URM_SIZE, 2);
-        replayButton = new UrmButton(replayX,  bY, URM_SIZE, URM_SIZE, 1);
-        unpauseButton = new UrmButton(unpauseX,  bY, URM_SIZE, URM_SIZE, 0);
+        menuButton = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);
+        replayButton = new UrmButton(replayX, bY, URM_SIZE, URM_SIZE, 1);
+        unpauseButton = new UrmButton(unpauseX, bY, URM_SIZE, URM_SIZE, 0);
 
     }
 
@@ -88,7 +90,7 @@ public class PauseOverlay {
         replayButton.draw(g);
         unpauseButton.draw(g);
 
-        volumeButton.draw(g );
+        volumeButton.draw(g);
 
     }
 
@@ -99,7 +101,7 @@ public class PauseOverlay {
             sfxButton.setMousePressed(true);
         else if (isIn(e, menuButton))
             menuButton.setMousePressed(true);
-        else if (isIn(e,replayButton))
+        else if (isIn(e, replayButton))
             replayButton.setMousePressed(true);
         else if (isIn(e, unpauseButton))
             unpauseButton.setMousePressed(true);
@@ -119,10 +121,10 @@ public class PauseOverlay {
                 GameState.state = GameState.MENU;
                 playing.unpauseGame();
             }
-        }else if (isIn(e,replayButton)){
+        } else if (isIn(e, replayButton)) {
             if (replayButton.isMousePressed())
                 playing.resetAll();
-        } else if (isIn(e,unpauseButton)){
+        } else if (isIn(e, unpauseButton)) {
             if (unpauseButton.isMousePressed())
                 playing.unpauseGame();
         }
@@ -158,7 +160,7 @@ public class PauseOverlay {
     }
 
     public void mouseDragged(MouseEvent e) {
-        if(volumeButton.isMousePressed())
+        if (volumeButton.isMousePressed())
             volumeButton.changeX(e.getX());
 
     }

@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package gamestates;
 
 import main.Game;
@@ -9,11 +12,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import static utils.Constants.ANI_SPEED;
 import static utils.Constants.GameConstants.*;
 
 
-public class Menu extends State implements Statemethods {
+public class Menu extends State implements StateMethods {
 
     private final MenuButton[] buttons = new MenuButton[3];
     private BufferedImage uiBackgroundImage;

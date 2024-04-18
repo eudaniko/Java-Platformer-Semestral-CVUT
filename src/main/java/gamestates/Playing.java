@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package gamestates;
 
 import levels.EnemyManager;
@@ -20,7 +23,7 @@ import java.util.Random;
 import static utils.Constants.Environment.*;
 import static utils.Constants.GameConstants.*;
 
-public class Playing extends State implements Statemethods {
+public class Playing extends State implements StateMethods {
 
     private Player player;
     private LevelManager levelManager;

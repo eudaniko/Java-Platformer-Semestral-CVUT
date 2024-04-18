@@ -1,7 +1,9 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package levels;
 
 import entities.Crabby;
-import main.Game;
 import objects.Cannon;
 import objects.GameContainer;
 import objects.Potion;

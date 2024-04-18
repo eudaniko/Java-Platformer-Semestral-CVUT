@@ -1,8 +1,10 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package utils;
 
 import entities.Crabby;
 import entities.Player;
-import main.Game;
 import objects.Cannon;
 import objects.GameContainer;
 import objects.Potion;

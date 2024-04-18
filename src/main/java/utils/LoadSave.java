@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package utils;
 
 import javax.imageio.ImageIO;

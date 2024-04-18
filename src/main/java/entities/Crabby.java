@@ -1,7 +1,7 @@
-package entities;
+// Daniil Nikonenko
+// PJV Semestral
 
-import main.Game;
-import utils.Constants;
+package entities;
 
 import java.awt.geom.Rectangle2D;
 

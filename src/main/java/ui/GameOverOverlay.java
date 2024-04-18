@@ -1,8 +1,10 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package ui;
 
 import gamestates.GameState;
 import gamestates.Playing;
-import main.Game;
 import utils.Constants;
 
 import java.awt.*;
@@ -10,7 +12,7 @@ import java.awt.event.KeyEvent;
 
 public class GameOverOverlay {
 
-    private Playing playing;
+    private final Playing playing;
 
     public GameOverOverlay(Playing playing){
         this.playing =playing;

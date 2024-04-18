@@ -1,9 +1,10 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package ui;
 
 import gamestates.GameState;
 import gamestates.Playing;
-import main.Game;
-import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.UI.URMButtons.URM_SIZE;
 
 public class LevelCompletedOverlay {
-    private Playing playing;
+    private final Playing playing;
     private BufferedImage backgroundImage;
     private int bgX, bgY, bgW, bgH;
     private UrmButton menuButton, continueButton;

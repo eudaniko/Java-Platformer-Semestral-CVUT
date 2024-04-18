@@ -1,8 +1,7 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package objects;
-
-import main.Game;
-import utils.Constants;
-
 
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.ObjectConstants.*;

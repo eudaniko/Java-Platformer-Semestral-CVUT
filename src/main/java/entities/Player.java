@@ -1,7 +1,9 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package entities;
 
 import gamestates.Playing;
-import main.Game;
 import utils.LoadSave;
 
 import static utils.Constants.*;
@@ -141,6 +143,9 @@ public class Player extends Entity {
         g.setColor(Color.red);
         g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 
+        g.setColor(Color.YELLOW);
+        g.fillRect(PowerBarXStart + statusBarX, PowerBarYStart + statusBarY , PowerBarWidth, PowerBarHeight);
+
     }
 
     // Method to import image resources and to load animation frames from the sprite sheet
@@ -199,7 +204,7 @@ public class Player extends Entity {
     // Method to update animation frames
     private void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED) {
+        if (aniTick >= GameConstants.ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(state)) {
@@ -243,7 +248,7 @@ public class Player extends Entity {
         if (inAir) {
             if (CanMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, levelData)) {
                 hitBox.y += airSpeed;
-                airSpeed += GRAVITY;
+                airSpeed += GameConstants.GRAVITY;
                 updateXPos(xSpeed);
             } else {
                 hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);

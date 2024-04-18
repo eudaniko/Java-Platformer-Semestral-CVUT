@@ -1,6 +1,5 @@
 // Daniil Nikonenko
-// 19.03.2024
-// PJV Semestral: GamePanel
+// PJV Semestral
 
 package main;
 
@@ -16,12 +15,12 @@ import static utils.Constants.GameConstants.GAME_WIDTH;
 
 // Class representing the game panel for displaying game graphics
 public class GamePanel extends JPanel {
-    private MouseInputs mouseInputs; // Variable for managing mouse inputs
-    private Game game;
+    private final Game game;
 
     // Constructor for the GamePanel class
     public GamePanel(Game game) {
-        mouseInputs = new MouseInputs(this);
+        // Variable for managing mouse inputs
+        MouseInputs mouseInputs = new MouseInputs(this);
         this.game = game;
 
         setPanelSize();  // Set panel size

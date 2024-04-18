@@ -1,12 +1,13 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package entities;
-
-import main.Game;
-
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.*;
+import static utils.Constants.GameConstants.GRAVITY;
 import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.HelpMethods.*;
 
@@ -30,7 +31,7 @@ public abstract class Enemy extends Entity {
 
     protected void updateAnimationTick() {
         aniTick++;
-        while (aniTick >= ANI_SPEED) {
+        while (aniTick >= GameConstants.ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, state)) {

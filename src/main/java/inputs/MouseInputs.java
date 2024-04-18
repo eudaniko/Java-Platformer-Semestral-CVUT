@@ -1,6 +1,5 @@
 // Daniil Nikonenko
-// 19.03.2024
-// PJV Semestral: MouseInputs
+// PJV Semestral
 
 package inputs;
 

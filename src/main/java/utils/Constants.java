@@ -1,6 +1,5 @@
 // Daniil Nikonenko
-// 22.03.2024
-// PJV Semestral: GamePanel
+// PJV Semestral
 
 package utils;
 
@@ -8,20 +7,19 @@ import main.Game;
 
 // Constants class containing game-related constant values
 public class Constants {
-    public static final float GRAVITY = 0.04f * GameConstants.SCALE;
-    public static final int ANI_SPEED = 25;
-
-    public final static int FPS_SET = 120;
-    public final static int UPS_SET = 200;
-
     public static class GameConstants {
         public static final int TILES_DEFAULT_SIZE = 32;
         public final static float SCALE = 1.5f;
+        public static final float GRAVITY = 0.04f * GameConstants.SCALE;
         public static final int TILES_IN_WIDTH = 26;
         public static final  int TILES_IN_HEIGHT = 14;
         public static final  int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
         public static final  int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
         public static final  int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+
+        public final static int FPS_SET = 120;
+        public final static int UPS_SET = 200;
+        public static final int ANI_SPEED = 25;
     }
 
 
@@ -151,6 +149,12 @@ public class Constants {
             public static final int healthBarHeight = (int) (4 * GameConstants.SCALE);
             public static final int healthBarXStart = (int) (34 * GameConstants.SCALE);
             public static final int healthBarYStart = (int) (14 * GameConstants.SCALE);
+
+            // Power Bar
+            public static final int PowerBarWidth = (int) (104 * GameConstants.SCALE);
+            public static final int PowerBarHeight = (int) (2 * GameConstants.SCALE);
+            public static final int PowerBarXStart = (int) (44 * GameConstants.SCALE);
+            public static final int PowerBarYStart = (int) (34 * GameConstants.SCALE);
         }
 
         public static class Buttons {

@@ -1,7 +1,9 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package objects;
 
 import java.awt.geom.Rectangle2D;
-
 
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.GameConstants.TILES_SIZE;

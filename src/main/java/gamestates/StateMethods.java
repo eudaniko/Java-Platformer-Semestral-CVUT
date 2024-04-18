@@ -1,10 +1,13 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package gamestates;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public interface Statemethods {
+public interface StateMethods {
     public void update();
     public void draw(Graphics g);
     public void mouseClicked(MouseEvent e);

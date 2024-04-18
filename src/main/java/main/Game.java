@@ -1,17 +1,15 @@
 // Daniil Nikonenko
-// 19.03.2024
-// PJV Semestral: Game
+// PJV Semestral
 
 package main;
 
 import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
+import utils.Constants;
 
 import java.awt.*;
 
-import static utils.Constants.FPS_SET;
-import static utils.Constants.UPS_SET;
 
 // Class representing the main game logic
 public class Game implements Runnable {
@@ -77,8 +75,8 @@ public class Game implements Runnable {
     // Method required by the Runnable interface, contains the main game loop
     @Override
     public void run() {
-        double timePerFrame = 1000000000.0 / FPS_SET; // Calculate time per frame
-        double timePerUpdate = 1000000000.0 / UPS_SET; // Calculate time per update
+        double timePerFrame = 1000000000.0 / Constants.GameConstants.FPS_SET; // Calculate time per frame
+        double timePerUpdate = 1000000000.0 / Constants.GameConstants.UPS_SET; // Calculate time per update
         long lastCheck = System.currentTimeMillis(); // Get current time in milliseconds
 
         int updates = 0, frames = 0; // Update and frame counters

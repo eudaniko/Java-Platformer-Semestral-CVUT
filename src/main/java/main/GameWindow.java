@@ -1,6 +1,5 @@
 // Daniil Nikonenko
-// 19.03.2024
-// PJV Semestral: GameWindow
+// PJV Semestral
 
 package main;
 
@@ -11,11 +10,9 @@ import java.awt.event.WindowFocusListener;
 // Class representing the game window
 public class GameWindow {
 
-    private JFrame jFrame;
-
     // Constructor for the GameWindow class
     public GameWindow(GamePanel gamePanel) {
-        jFrame = new JFrame();
+        JFrame jFrame = new JFrame();
 
         // Set up the game window properties
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

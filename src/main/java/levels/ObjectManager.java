@@ -1,3 +1,6 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package levels;
 
 import entities.Player;
@@ -204,7 +207,7 @@ public class ObjectManager {
                 playing.getPlayer().changeHealth(RED_POTION_VALUE);
                 break;
             case BLUE_POTION:
-                playing.getPlayer().changePower(BLUE_POTION);
+                playing.getPlayer().changePower(BLUE_POTION_VALUE);
                 break;
         }
     }

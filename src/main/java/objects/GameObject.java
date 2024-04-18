@@ -1,11 +1,12 @@
+// Daniil Nikonenko
+// PJV Semestral
+
 package objects;
 
-import main.Game;
 import utils.Constants;
 
 import java.awt.geom.Rectangle2D;
 
-import static utils.Constants.ANI_SPEED;
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.ObjectConstants.*;
 
@@ -25,7 +26,7 @@ public abstract class GameObject {
 
     protected void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED) {
+        if (aniTick >= Constants.GameConstants.ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(objectType)) {
