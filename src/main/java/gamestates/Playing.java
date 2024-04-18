@@ -11,6 +11,7 @@ import main.Game;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
+import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -22,6 +23,7 @@ import java.util.Random;
 
 import static utils.Constants.Environment.*;
 import static utils.Constants.GameConstants.*;
+import static utils.Constants.PlayerConstants.POWER_FOR_ATTACK;
 
 public class Playing extends State implements StateMethods {
 
@@ -209,7 +211,9 @@ public class Playing extends State implements StateMethods {
         // Action when the mouse is clicked
         if (!gameOver)
             if (e.getButton() == MouseEvent.BUTTON1) {
-                player.setAttacking(true);
+                player.changePower(-POWER_FOR_ATTACK);
+                if (player.getCurrentPower() >= POWER_FOR_ATTACK)
+                    player.setAttacking(true);
             }
 
     }

@@ -12,10 +12,10 @@ public class Constants {
         public final static float SCALE = 1.5f;
         public static final float GRAVITY = 0.04f * GameConstants.SCALE;
         public static final int TILES_IN_WIDTH = 26;
-        public static final  int TILES_IN_HEIGHT = 14;
-        public static final  int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
-        public static final  int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
-        public static final  int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+        public static final int TILES_IN_HEIGHT = 14;
+        public static final int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+        public static final int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+        public static final int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
         public final static int FPS_SET = 120;
         public final static int UPS_SET = 200;
@@ -200,6 +200,9 @@ public class Constants {
         public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (10 * GameConstants.SCALE);
         public static final int PLAYER_MAX_HEALTH = 100;
         public static final int PLAYER_MAX_POWER = 100;
+        public static final int MAX_ATTACKS_AMOUNT = 7;
+        public static final int POWER_FOR_ATTACK = (PLAYER_MAX_POWER / MAX_ATTACKS_AMOUNT);
+        public static final int POWER_DEFAULT_INCREASE = 4;
         public static final float PLAYER_WALK_SPEED = GameConstants.SCALE;
 
         public static final float xDrawOffset = 21 * GameConstants.SCALE;

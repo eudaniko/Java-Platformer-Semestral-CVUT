@@ -34,6 +34,7 @@ public class Player extends Entity {
     private boolean jump = false;
     private final BufferedImage statusBar;
     private int healthWidth = statusBarWidth;
+    private int powerWidth = PowerBarWidth;
 
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
@@ -62,7 +63,7 @@ public class Player extends Entity {
     }
 
     public void update() {
-        updateHealthBar();
+        updateStatusBar();
         if (currentHealth <= 0) {
             playing.setGameOver(true);
             return;
@@ -102,8 +103,9 @@ public class Player extends Entity {
             attackBox.y = hitBox.y + (SCALE * 10);
     }
 
-    private void updateHealthBar() {
+    private void updateStatusBar() {
         healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
+        powerWidth = (int) ((currentPower / (float) maxPower) * PowerBarWidth);
     }
 
     public void changeHealth(int deltaHealth) {
@@ -144,7 +146,7 @@ public class Player extends Entity {
         g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 
         g.setColor(Color.YELLOW);
-        g.fillRect(PowerBarXStart + statusBarX, PowerBarYStart + statusBarY , PowerBarWidth, PowerBarHeight);
+        g.fillRect(PowerBarXStart + statusBarX, PowerBarYStart + statusBarY, powerWidth, PowerBarHeight);
 
     }
 
@@ -209,6 +211,7 @@ public class Player extends Entity {
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(state)) {
                 aniIndex = 0;
+                changePower(POWER_DEFAULT_INCREASE);
                 attacking = false;
                 attackChecked = false;
                 gettingHit = false;
@@ -312,6 +315,7 @@ public class Player extends Entity {
         moving = false;
         state = IDLE;
         currentHealth = maxHealth;
+        currentPower = maxPower;
 
         hitBox.x = x;
         hitBox.y = y;
@@ -322,5 +326,9 @@ public class Player extends Entity {
 
     public int getTileY() {
         return (int) (hitBox.y / GameConstants.TILES_SIZE);
+    }
+
+    public int getCurrentPower() {
+        return currentPower;
     }
 }
