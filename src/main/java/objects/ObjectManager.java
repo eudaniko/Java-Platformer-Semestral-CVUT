@@ -1,12 +1,11 @@
 // Daniil Nikonenko
 // PJV Semestral
 
-package levels;
+package objects;
 
 import entities.Player;
 import gamestates.Playing;
-import objects.*;
-import utils.Constants;
+import levels.Level;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -15,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 import static utils.HelpMethods.CanCannonSeePlayer;
 import static utils.HelpMethods.IsTileSolid;
@@ -24,12 +24,13 @@ public class ObjectManager {
     private final Playing playing;
     private BufferedImage[][] potionImages, containerImages;
     private BufferedImage spikeImage, ballImage;
-    private BufferedImage[] cannonImages;
+    private BufferedImage[] cannonImages, grassImages;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> gameContainers;
     private ArrayList<Spike> spikes;
     private ArrayList<Cannon> cannons;
     private final ArrayList<Projectile> projectiles;
+    private ArrayList<Grass> grasses;
 
     public ObjectManager(Playing playing) {
         this.playing = playing;
@@ -45,6 +46,7 @@ public class ObjectManager {
         gameContainers = new ArrayList<>(newLevel.getGameContainers());
         spikes = new ArrayList<>(newLevel.getSpikes());
         cannons = new ArrayList<>(newLevel.getCannons());
+        grasses = new ArrayList<>(newLevel.getGrasses());
     }
 
     private void loadImages() {
@@ -77,6 +79,11 @@ public class ObjectManager {
             cannonImages[i] = cannonAtlas.getSubimage(i * CANNON_WIDTH_DEFAULT, 0, CANNON_WIDTH_DEFAULT, CANNON_HEIGHT_DEFAULT);
 
         ballImage = LoadSave.GetSpriteAtlas(LoadSave.BALL);
+
+        grassImages = new BufferedImage[2];
+        BufferedImage grassAtlas = LoadSave.GetSpriteAtlas(LoadSave.GRASS_ATLAS);
+        for (int i = 0; i < grassImages.length; i++)
+            grassImages[i] = grassAtlas.getSubimage(i * GRASS_WIDTH_HEIGHT_DEFAULT, 0, GRASS_WIDTH_HEIGHT_DEFAULT, GRASS_WIDTH_HEIGHT_DEFAULT);
     }
 
     public void update() {
@@ -123,7 +130,7 @@ public class ObjectManager {
 
     private boolean isPlayerInRange(Cannon c, Player player) {
         int absRange = (int) Math.abs(player.getHitBox().x - c.getHitBox().x);
-        return absRange <= Constants.GameConstants.TILES_SIZE * 5;
+        return absRange <= TILES_SIZE * 5;
     }
 
     private boolean isPlayerInFrontOfCannon(Cannon c, Player player) {
@@ -140,7 +147,13 @@ public class ObjectManager {
         drawSpikes(g, xLevelOffset);
         drawCannons(g, xLevelOffset);
         drawProjectiles(g, xLevelOffset);
+        drawGrass(g, xLevelOffset);
 
+    }
+
+    private void drawGrass(Graphics g, int xLevelOffset) {
+        for (Grass grass : grasses)
+            g.drawImage(grassImages[grass.objectType], grass.x * TILES_SIZE - xLevelOffset, grass.y * TILES_SIZE - TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
     }
 
     private void drawProjectiles(Graphics g, int xLevelOffset) {
@@ -149,7 +162,7 @@ public class ObjectManager {
                 g.drawImage(ballImage,
                         (int) (p.getHitBox().x - xLevelOffset),
                         (int) (p.getHitBox().y),
-                        CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT, null);
+                        CANNON_BALL_WIDTH_HEIGHT, CANNON_BALL_WIDTH_HEIGHT, null);
     }
 
     private void drawCannons(Graphics g, int xLevelOffset) {

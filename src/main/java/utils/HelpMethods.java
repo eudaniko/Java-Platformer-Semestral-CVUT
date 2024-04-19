@@ -5,10 +5,8 @@ package utils;
 
 import entities.Crabby;
 import entities.Player;
-import objects.Cannon;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
+import levels.Level;
+import objects.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,6 +18,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.CRABBY;
@@ -261,6 +260,24 @@ public class HelpMethods {
                 int value = color.getBlue();
                 if (value == CANNON_LEFT || value == CANNON_RIGHT)
                     list.add(new Cannon(i * TILES_SIZE, j * TILES_SIZE, value));
+            }
+
+        return list;
+    }
+
+    public static ArrayList<Grass> GetGrasses(int[][] levelData, Level level) {
+        ArrayList<Grass> list = new ArrayList<>();
+        Random random = new Random();
+
+        for (int y = 0; y < Constants.GameConstants.TILES_IN_HEIGHT; y++)
+            for (int x = 0; x < levelData[0].length; x++) {
+                int index = level.getTileSpriteIndex(x, y);
+                if (index >= 0 && index <= 4 || index >= 31 && index <= 33 || index == 28 || index == 29 || index >= 34 && index <= 37) {
+                    // outside_sprites.png grass indexes
+                    int grassType = random.nextInt(-(GRASS_RARELY), 2);
+                    if (grassType >= 0)
+                        list.add(new Grass(x, y, grassType));
+                }
             }
 
         return list;

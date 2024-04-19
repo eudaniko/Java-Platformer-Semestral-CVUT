@@ -3,8 +3,6 @@
 
 package utils;
 
-import main.Game;
-
 // Constants class containing game-related constant values
 public class Constants {
     public static class GameConstants {
@@ -55,11 +53,13 @@ public class Constants {
         public static final int CANNON_WIDTH = (int) (CANNON_WIDTH_DEFAULT * GameConstants.SCALE);
         public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * GameConstants.SCALE);
 
-        public static final int CANNON_BALL_WIDTH_DEFAULT = 15;
-        public static final int CANNON_BALL_HEIGHT_DEFAULT = 15;
-        public static final int CANNON_BALL_WIDTH = (int) (CANNON_BALL_WIDTH_DEFAULT * GameConstants.SCALE);
-        public static final int CANNON_BALL_HEIGHT = (int) (CANNON_BALL_HEIGHT_DEFAULT * GameConstants.SCALE);
+        public static final int CANNON_BALL_WIDTH_HEIGHT_DEFAULT = 15;
+        public static final int CANNON_BALL_WIDTH_HEIGHT = (int) (CANNON_BALL_WIDTH_HEIGHT_DEFAULT * GameConstants.SCALE);
         public static final float CANNON_BALL_SPEED = 0.5f * GameConstants.SCALE;
+
+        public static final int GRASS_WIDTH_HEIGHT_DEFAULT = 32;
+        public static final int GRASS_WIDTH_HEIGHT = (int) (GRASS_WIDTH_HEIGHT_DEFAULT * GameConstants.SCALE);
+        public static final int GRASS_RARELY = 2;
 
         public static int GetSpriteAmount(int object_type) {
             return switch (object_type) {

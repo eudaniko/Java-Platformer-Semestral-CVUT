@@ -6,7 +6,7 @@ package gamestates;
 import levels.EnemyManager;
 import levels.LevelManager;
 import entities.Player;
-import levels.ObjectManager;
+import objects.ObjectManager;
 import main.Game;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;

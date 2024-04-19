@@ -4,10 +4,7 @@
 package levels;
 
 import entities.Crabby;
-import objects.Cannon;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
+import objects.*;
 import utils.Constants;
 
 import java.awt.*;
@@ -24,6 +21,7 @@ public class Level {
     private ArrayList<GameContainer> gameContainers;
     private ArrayList<Spike> spikes;
     private ArrayList<Cannon> cannons;
+    private ArrayList<Grass> grasses;
     private int maxLevelOffsetX;
     private Point playerSpawn;
 
@@ -51,6 +49,7 @@ public class Level {
         gameContainers = GetGameContainers(levelImage);
         spikes = GetSpikes(levelImage);
         cannons = GetCannons(levelImage);
+        grasses = GetGrasses(levelData, this);
     }
 
     private void createEnemies() {
@@ -61,7 +60,7 @@ public class Level {
         levelData = GetLevelData(levelImage);
     }
 
-    public int getSpriteIndex(int x, int y) {
+    public int getTileSpriteIndex(int x, int y) {
         return levelData[y][x];
     }
 
@@ -95,5 +94,9 @@ public class Level {
 
     public Point getPlayerSpawn() {
         return playerSpawn;
+    }
+
+    public ArrayList<Grass> getGrasses() {
+        return grasses;
     }
 }

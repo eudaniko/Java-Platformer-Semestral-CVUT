@@ -15,7 +15,7 @@ public class Projectile {
     private boolean active = true;
 
     public Projectile(int x, int y, int dir) {
-        this.hitBox = new Rectangle2D.Float(x, y, CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT);
+        this.hitBox = new Rectangle2D.Float(x, y, CANNON_BALL_WIDTH_HEIGHT, CANNON_BALL_WIDTH_HEIGHT);
         this.dir = dir;
         setPos(x, y);
     }
