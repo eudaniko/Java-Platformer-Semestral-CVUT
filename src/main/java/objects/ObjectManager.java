@@ -3,41 +3,30 @@
 
 package objects;
 
-import entities.Player;
 import gamestates.Playing;
 import levels.Level;
-import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
-import static utils.HelpMethods.CanCannonSeePlayer;
 import static utils.HelpMethods.IsTileSolid;
 
 public class ObjectManager {
 
     private final Playing playing;
-    private BufferedImage[][] potionImages, containerImages;
-    private BufferedImage spikeImage, ballImage;
-    private BufferedImage[] cannonImages, grassImages;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> gameContainers;
     private ArrayList<Spike> spikes;
     private ArrayList<Cannon> cannons;
     private final ArrayList<Projectile> projectiles;
     private ArrayList<Grass> grasses;
+    private ArrayList<Tree> trees;
 
     public ObjectManager(Playing playing) {
         this.playing = playing;
-        loadImages();
-        potions = new ArrayList<>();
-        gameContainers = new ArrayList<>();
-        cannons = new ArrayList<>();
         projectiles = new ArrayList<>();
     }
 
@@ -47,141 +36,48 @@ public class ObjectManager {
         spikes = new ArrayList<>(newLevel.getSpikes());
         cannons = new ArrayList<>(newLevel.getCannons());
         grasses = new ArrayList<>(newLevel.getGrasses());
+        trees = new ArrayList<>(newLevel.getTrees());
     }
 
-    private void loadImages() {
-        BufferedImage potionAtlas = LoadSave.GetSpriteAtlas(LoadSave.POTION_ATLAS);
-        potionImages = new BufferedImage[2][GetSpriteAmount(BLUE_POTION)];
-
-        for (int j = 0; j < potionImages.length; j++)
-            for (int i = 0; i < potionImages[j].length; i++)
-                potionImages[j][i] = potionAtlas.getSubimage(
-                        i * POTION_WIDTH_DEFAULT, j * POTION_HEIGHT_DEFAULT,
-                        POTION_WIDTH_DEFAULT, POTION_HEIGHT_DEFAULT);
-
-
-        BufferedImage containerAtlas = LoadSave.GetSpriteAtlas(LoadSave.CONTAINER_ATLAS);
-        containerImages = new BufferedImage[2][GetSpriteAmount(BOX)];
-
-        for (int j = 0; j < containerImages.length; j++)
-            for (int i = 0; i < containerImages[j].length; i++)
-                containerImages[j][i] = containerAtlas.getSubimage(
-                        i * CONTAINER_WIDTH_DEFAULT, j * CONTAINER_HEIGHT_DEFAULT,
-                        CONTAINER_WIDTH_DEFAULT, CONTAINER_HEIGHT_DEFAULT);
-
-
-        spikeImage = LoadSave.GetSpriteAtlas(LoadSave.SPIKE_ATLAS);
-
-        cannonImages = new BufferedImage[GetSpriteAmount(CANNON_LEFT)];
-        BufferedImage cannonAtlas = LoadSave.GetSpriteAtlas(LoadSave.CANNON_ATLAS);
-
-        for (int i = 0; i < cannonImages.length; i++)
-            cannonImages[i] = cannonAtlas.getSubimage(i * CANNON_WIDTH_DEFAULT, 0, CANNON_WIDTH_DEFAULT, CANNON_HEIGHT_DEFAULT);
-
-        ballImage = LoadSave.GetSpriteAtlas(LoadSave.BALL);
-
-        grassImages = new BufferedImage[2];
-        BufferedImage grassAtlas = LoadSave.GetSpriteAtlas(LoadSave.GRASS_ATLAS);
-        for (int i = 0; i < grassImages.length; i++)
-            grassImages[i] = grassAtlas.getSubimage(i * GRASS_WIDTH_HEIGHT_DEFAULT, 0, GRASS_WIDTH_HEIGHT_DEFAULT, GRASS_WIDTH_HEIGHT_DEFAULT);
-    }
 
     public void update() {
-        for (Potion p : potions)
-            if (p.isActive())
-                p.update();
-
-        for (GameContainer gc : gameContainers)
-            if (gc.isActive())
-                gc.update();
-
-        updateCannons(playing.getLevelManager().getCurrentLevel().getLevelData(), playing.getPlayer());
-
-        for (Projectile p : projectiles)
-            if (p.isActive())
-                p.update();
+        updateObjects(potions);
+        updateObjects(gameContainers);
+        updateCannons();
+        updateObjects(projectiles);
         checkProjectilesTouched();
     }
 
-    private void updateCannons(int[][] levelData, Player player) {
-        for (Cannon c : cannons) {
-            if (!c.doAnimations())
-                if (c.getTileY() == player.getTileY())
-                    if (isPlayerInRange(c, player))
-                        if (isPlayerInFrontOfCannon(c, player))
-                            if (CanCannonSeePlayer(player, c, c.getTileY(), levelData))
-                                c.setAnimation(true);
 
-            c.update();
-            if (c.getAniIndex() == 4 && c.getAniTick() == 0)
-                shootCannon(c);
-        }
+    private void updateObjects(ArrayList<? extends GameObject> objects) {
+        for (GameObject obj : objects)
+            if (obj.isActive())
+                obj.update();
     }
 
-    private void shootCannon(Cannon c) {
-        int dir = 1;
-        if (c.getObjectType() == CANNON_LEFT)
-            dir = -1;
-
-        projectiles.add(new Projectile((int) c.getHitBox().x, (int) c.getHitBox().y, dir));
-
-    }
-
-
-    private boolean isPlayerInRange(Cannon c, Player player) {
-        int absRange = (int) Math.abs(player.getHitBox().x - c.getHitBox().x);
-        return absRange <= TILES_SIZE * 5;
-    }
-
-    private boolean isPlayerInFrontOfCannon(Cannon c, Player player) {
-        if (c.getObjectType() == CANNON_LEFT) {
-            return c.getHitBox().x > player.getHitBox().x;
-
-        } else return c.getHitBox().x < player.getHitBox().x;
+    private void updateCannons() {
+        for (Cannon c : cannons)
+            if (c.isActive())
+                c.update(playing.getPlayer(), playing.getLevelManager().getCurrentLevel().getLevelData(), projectiles);
     }
 
 
     public void draw(Graphics g, int xLevelOffset) {
-        drawPotions(g, xLevelOffset);
-        drawContainers(g, xLevelOffset);
-        drawSpikes(g, xLevelOffset);
-        drawCannons(g, xLevelOffset);
-        drawProjectiles(g, xLevelOffset);
-        drawGrass(g, xLevelOffset);
+        drawGameObjects(g, xLevelOffset, potions);
+        drawGameObjects(g, xLevelOffset, gameContainers);
+        drawGameObjects(g, xLevelOffset, spikes);
+        drawGameObjects(g, xLevelOffset, cannons);
+        drawGameObjects(g, xLevelOffset, projectiles);
+        drawGameObjects(g, xLevelOffset, grasses);
+        drawGameObjects(g, xLevelOffset, trees);
 
     }
 
-    private void drawGrass(Graphics g, int xLevelOffset) {
-        for (Grass grass : grasses)
-            g.drawImage(grassImages[grass.objectType], grass.x * TILES_SIZE - xLevelOffset, grass.y * TILES_SIZE - TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
+    private void drawGameObjects(Graphics g, int xLevelOffset, ArrayList<? extends GameObject> arrayList) {
+        for (GameObject gameObject : arrayList)
+            gameObject.draw(g, xLevelOffset);
     }
 
-    private void drawProjectiles(Graphics g, int xLevelOffset) {
-        for (Projectile p : projectiles)
-            if (p.isActive())
-                g.drawImage(ballImage,
-                        (int) (p.getHitBox().x - xLevelOffset),
-                        (int) (p.getHitBox().y),
-                        CANNON_BALL_WIDTH_HEIGHT, CANNON_BALL_WIDTH_HEIGHT, null);
-    }
-
-    private void drawCannons(Graphics g, int xLevelOffset) {
-        for (Cannon c : cannons) {
-            int x = (int) (c.getHitBox().x - xLevelOffset);
-            int width = CANNON_WIDTH;
-
-            if (c.getObjectType() == CANNON_RIGHT) {
-                x += width;
-                width *= -1;
-            }
-            g.drawImage(cannonImages[c.getAniIndex()], x, (int) (c.getHitBox().y), width, CANNON_HEIGHT, null);
-        }
-    }
-
-    private void drawSpikes(Graphics g, int xLevelOffset) {
-        for (Spike s : spikes)
-            g.drawImage(spikeImage, (int) (s.getHitBox().x - s.getXDrawOffset() - xLevelOffset), (int) (s.getHitBox().y - s.getYDrawOffset()), SPIKE_WIDTH, SPIKE_HEIGHT, null);
-    }
 
     public void checkPotionsTouched() {
         for (Potion p : potions)
@@ -213,7 +109,6 @@ public class ObjectManager {
         }
     }
 
-
     public void applyEffectsToPlayer(Potion p) {
         switch (p.getObjectType()) {
             case RED_POTION:
@@ -236,36 +131,6 @@ public class ObjectManager {
                     potions.add(new Potion((int) (gc.getHitBox().x + gc.getHitBox().width / 2), (int) (gc.getHitBox().y - gc.getHitBox().height / 2), type));
                     return;
                 }
-    }
-
-    private void drawPotions(Graphics g, int xLevelOffset) {
-        for (Potion p : potions)
-            if (p.isActive())
-                g.drawImage(potionImages[p.getObjectType()][p.getAniIndex()],
-                        (int) (p.getHitBox().x - p.getXDrawOffset() - xLevelOffset),
-                        (int) (p.getHitBox().y - p.getYDrawOffset()),
-                        POTION_WIDTH,
-                        POTION_HEIGHT,
-                        null);
-    }
-
-    private void drawContainers(Graphics g, int xLevelOffset) {
-        for (GameContainer c : gameContainers)
-            if (c.isActive()) {
-                int typeIndex;
-
-                if (c.getObjectType() == BARREL) {
-                    typeIndex = 1;
-                } else {
-                    typeIndex = 0;
-                }
-                g.drawImage(containerImages[typeIndex][c.getAniIndex()],
-                        (int) (c.getHitBox().x - c.getXDrawOffset() - xLevelOffset),
-                        (int) (c.getHitBox().y - c.getYDrawOffset()),
-                        CONTAINER_WIDTH,
-                        CONTAINER_HEIGHT,
-                        null);
-            }
     }
 
     public void resetAllObjects() {

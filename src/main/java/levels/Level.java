@@ -22,6 +22,7 @@ public class Level {
     private ArrayList<Spike> spikes;
     private ArrayList<Cannon> cannons;
     private ArrayList<Grass> grasses;
+    private ArrayList<Tree> trees;
     private int maxLevelOffsetX;
     private Point playerSpawn;
 
@@ -50,6 +51,7 @@ public class Level {
         spikes = GetSpikes(levelImage);
         cannons = GetCannons(levelImage);
         grasses = GetGrasses(levelData, this);
+        trees = GetTrees(levelImage);
     }
 
     private void createEnemies() {
@@ -98,5 +100,9 @@ public class Level {
 
     public ArrayList<Grass> getGrasses() {
         return grasses;
+    }
+
+    public ArrayList<Tree> getTrees() {
+        return trees;
     }
 }

@@ -72,6 +72,7 @@ public class Playing extends State implements StateMethods {
     }
 
     private void loadStartLevel() {
+        resetAll();
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
         objectManager.loadObjects(levelManager.getCurrentLevel());
     }

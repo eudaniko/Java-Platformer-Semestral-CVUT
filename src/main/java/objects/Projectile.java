@@ -3,26 +3,41 @@
 
 package objects;
 
+import utils.LoadSave;
+
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 
-public class Projectile {
+public class Projectile extends GameObject {
     private final Rectangle2D.Float hitBox;
     private final int dir;
     private boolean active = true;
+    private final BufferedImage sprite;
 
     public Projectile(int x, int y, int dir) {
+        super(x, y, dir);
         this.hitBox = new Rectangle2D.Float(x, y, CANNON_BALL_WIDTH_HEIGHT, CANNON_BALL_WIDTH_HEIGHT);
         this.dir = dir;
         setPos(x, y);
+        sprite = LoadSave.GetSpriteAtlas(LoadSave.BALL);
+
     }
 
 
     public void update() {
         updatePos();
+    }
+
+    @Override
+    public void draw(Graphics g, int xLevelOffset) {
+        g.drawImage(sprite,
+                (int) (hitBox.x - xLevelOffset), (int) hitBox.y,
+                CANNON_BALL_WIDTH_HEIGHT, CANNON_BALL_WIDTH_HEIGHT, null);
     }
 
     public void updatePos() {

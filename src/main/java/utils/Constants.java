@@ -30,6 +30,8 @@ public class Constants {
         public static final int SPIKE = 4;
         public static final int CANNON_LEFT = 5;
         public static final int CANNON_RIGHT = 6;
+        public static final int S_TREE = 7;
+        public static final int A_TREE = 8;
 
         public static final int RED_POTION_VALUE = 15;
         public static final int BLUE_POTION_VALUE = 10;
@@ -62,10 +64,22 @@ public class Constants {
         public static final int GRASS_WIDTH_HEIGHT = (int) (GRASS_WIDTH_HEIGHT_DEFAULT * GameConstants.SCALE);
         public static final int GRASS_RARELY = 2;
 
+        public static final int S_TREE_WIDTH_DEFAULT = 39;
+        public static final int S_TREE_HEIGHT_DEFAULT = 92;
+        public static final int S_TREE_WIDTH = (int) (S_TREE_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int S_TREE_HEIGHT = (int) (S_TREE_HEIGHT_DEFAULT * GameConstants.SCALE);
+
+        public static final int A_TREE_WIDTH_DEFAULT = 62;
+        public static final int A_TREE_HEIGHT_DEFAULT = 54;
+        public static final int A_TREE_WIDTH = (int) (S_TREE_WIDTH_DEFAULT * GameConstants.SCALE);
+        public static final int A_TREE_HEIGHT = (int) (S_TREE_HEIGHT_DEFAULT * GameConstants.SCALE);
+
+
         public static int GetSpriteAmount(int object_type) {
             return switch (object_type) {
                 case BARREL, BOX -> 8;
                 case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT -> 7;
+                case A_TREE, S_TREE -> 4;
                 default -> 1;
             };
         }

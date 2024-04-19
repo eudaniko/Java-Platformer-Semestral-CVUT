@@ -4,10 +4,14 @@
 package objects;
 
 import utils.Constants;
+import utils.LoadSave;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import static utils.Constants.GameConstants.SCALE;
+import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 
 public abstract class GameObject {
@@ -22,7 +26,15 @@ public abstract class GameObject {
         this.x = x;
         this.y = y;
         this.objectType = objectType;
+        loadSprites();
     }
+
+    public void update(){}
+
+    public void draw(Graphics g, int xLevelOffset){}
+
+
+    protected void loadSprites() {}
 
     protected void updateAnimationTick() {
         aniTick++;

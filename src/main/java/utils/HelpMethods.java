@@ -282,4 +282,18 @@ public class HelpMethods {
 
         return list;
     }
+
+    public static ArrayList<Tree> GetTrees(BufferedImage image) {
+        ArrayList<Tree> list = new ArrayList<>();
+        for (int j = 0; j < image.getHeight(); j++)
+            for (int i = 0; i < image.getWidth(); i++) {
+                Color color = new Color(image.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == S_TREE || value == A_TREE)
+                    list.add(new Tree(i, j, value));
+            }
+
+
+        return list;
+    }
 }

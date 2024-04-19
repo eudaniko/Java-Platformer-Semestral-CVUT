@@ -326,8 +326,8 @@ public class Player extends Entity {
         currentHealth = maxHealth;
         currentPower = maxPower;
 
-        hitBox.x = x;
-        hitBox.y = y;
+        hitBox.x = attackBox.x = x;
+        hitBox.y = attackBox.y = y;
 
         if (IsEntityUpToFloor(hitBox, levelData))
             inAir = true;

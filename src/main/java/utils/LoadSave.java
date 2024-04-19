@@ -40,6 +40,8 @@ public class LoadSave {
     public static final String CANNON_ATLAS = "/cannon_atlas.png";
     public static final String BALL = "/ball.png";
     public static final String GRASS_ATLAS = "/grass_atlas.png";
+    public static final String STRAIGHT_TREE_ATLAS = "/tree_one_atlas.png";
+    public static final String ANGLE_TREE_ATLAS = "/tree_two_atlas.png";
 
 
     public static BufferedImage GetSpriteAtlas(final String FilePath) {
