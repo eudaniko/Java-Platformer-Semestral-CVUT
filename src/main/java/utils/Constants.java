@@ -18,6 +18,7 @@ public class Constants {
         public final static int FPS_SET = 120;
         public final static int UPS_SET = 200;
         public static final int ANI_SPEED = 25;
+        public static final boolean DRAW_HIT_BOX = true;
     }
 
 
@@ -196,8 +197,8 @@ public class Constants {
     // Player animation constants
     public static class PlayerConstants {
         public static final int PLAYER_DAMAGE = 10;
-        public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (10 * GameConstants.SCALE);
-        public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (10 * GameConstants.SCALE);
+        public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (42 * GameConstants.SCALE);
+        public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (30 * GameConstants.SCALE);
         public static final int PLAYER_MAX_HEALTH = 100;
         public static final int PLAYER_MAX_POWER = 100;
         public static final int MAX_ATTACKS_AMOUNT = 7;

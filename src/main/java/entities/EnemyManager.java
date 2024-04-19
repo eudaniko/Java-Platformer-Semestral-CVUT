@@ -1,11 +1,14 @@
 // Daniil Nikonenko
 // PJV Semestral
 
-package levels;
+package entities;
 
 import entities.Crabby;
 import entities.Player;
 import gamestates.Playing;
+import levels.Level;
+import levels.LevelManager;
+import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -62,7 +65,8 @@ public class EnemyManager {
                         (int) c.getHitBox().y - CRABBY_DRAW_OFFSET_Y,
                         CRABBY_WIDTH * c.flipW(),
                         CRABBY_HEIGHT, null);
-//                c.drawAttackBox(g, xLevelOffset);
+                if (Constants.GameConstants.DRAW_HIT_BOX)
+                    c.drawHitBox(g, xLevelOffset);
             }
     }
 

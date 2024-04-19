@@ -3,7 +3,7 @@
 
 package gamestates;
 
-import levels.EnemyManager;
+import entities.EnemyManager;
 import levels.LevelManager;
 import entities.Player;
 import objects.ObjectManager;

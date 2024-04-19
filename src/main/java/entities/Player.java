@@ -60,7 +60,7 @@ public class Player extends Entity {
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(hitBox.x, hitBox.y, (PLAYER_ATTACK_HIT_BOX_WIDTH), (PLAYER_ATTACK_HIT_BOX_HEIGHT));
+        attackBox = new Rectangle2D.Float(hitBox.x - hitBox.width, hitBox.y, PlayerConstants.PLAYER_ATTACK_HIT_BOX_WIDTH, PlayerConstants.PLAYER_ATTACK_HIT_BOX_HEIGHT);
     }
 
     public void update() {
@@ -79,13 +79,13 @@ public class Player extends Entity {
             return;
         }
 
-        updateAttackBox();
 
         updatePos();
         if (moving)
             checkObjectsTouched();
         if (attacking)
             checkAttack();
+        updateAttackBox();
         updateAnimationTick();
         setAnimation();
     }
@@ -105,13 +105,13 @@ public class Player extends Entity {
     }
 
     private void updateAttackBox() {
-        if (right) {
-            attackBox.x = hitBox.x + hitBox.width + (int) (SCALE * 10);
-        } else if (left) {
-            attackBox.x = hitBox.x - hitBox.width - (int) (SCALE * 10);
-        } else
-            attackBox.y = hitBox.y + (SCALE * 10);
+        if (right)
+            attackBox.x = hitBox.x;
+        else if (left)
+            attackBox.x = hitBox.x - hitBox.width;
+        attackBox.y = hitBox.y + (SCALE * 10);
     }
+
 
     private void updateStatusBar() {
         healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
@@ -143,10 +143,11 @@ public class Player extends Entity {
                 (int) (hitBox.x - xDrawOffset) - levelOffset + flipX,
                 (int) (hitBox.y - yDrawOffset),
                 width * flipW, height, null);
-        //        drawHitBox(g, levelOffset);
         drawUI(g);
-        //drawAttackBox(g, levelOffset);
-
+        if (GameConstants.DRAW_HIT_BOX) {
+            drawHitBox(g, levelOffset);
+            drawAttackBox(g, levelOffset);
+        }
     }
 
     private void drawUI(Graphics g) {
@@ -205,7 +206,6 @@ public class Player extends Entity {
             resetAniTick();
     }
 
-
     private void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
@@ -218,9 +218,9 @@ public class Player extends Entity {
         if (aniTick >= GameConstants.ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
+            changePower(POWER_DEFAULT_INCREASE);
             if (aniIndex >= GetSpriteAmount(state)) {
                 aniIndex = 0;
-                changePower(POWER_DEFAULT_INCREASE);
                 attacking = false;
                 attackChecked = false;
                 gettingHit = false;
