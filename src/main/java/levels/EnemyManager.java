@@ -19,11 +19,13 @@ import static utils.Constants.PlayerConstants.PLAYER_DAMAGE;
 public class EnemyManager {
 
     private final Playing playing;
+    private final LevelManager levelManager;
     private BufferedImage[][] crabbyArray;
     private ArrayList<Crabby> crabbies = new ArrayList<>();
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
+        this.levelManager = playing.getLevelManager();
         loadEnemyImages();
 
     }
@@ -39,8 +41,12 @@ public class EnemyManager {
                 c.update(levelData, player);
                 isAnyActive = true;
             }
-        if (!isAnyActive)
-            playing.setLevelComplete(true);
+        if (!isAnyActive) {
+            if (levelManager.getCurrentLevelIndex() >= levelManager.getAmountOfLevels() - 1)
+                playing.setGameComplete(true);
+            else
+                playing.setLevelComplete(true);
+        }
 
     }
 

@@ -8,6 +8,7 @@ import levels.LevelManager;
 import entities.Player;
 import objects.ObjectManager;
 import main.Game;
+import ui.GameCompletedOverlay;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
@@ -33,7 +34,8 @@ public class Playing extends State implements StateMethods {
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
     private GameOverOverlay gameOverOverlay;
-    private boolean gameOver = false, playerDying = false;
+    private GameCompletedOverlay gameCompletedOverlay;
+    private boolean gameOver = false, gameCompleted = false, playerDying = false;
 
     private LevelCompletedOverlay levelCompletedOverlay;
     private boolean levelCompleted = false;
@@ -87,6 +89,7 @@ public class Playing extends State implements StateMethods {
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
+        gameCompletedOverlay = new GameCompletedOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
@@ -114,6 +117,8 @@ public class Playing extends State implements StateMethods {
             gameOverOverlay.update();
         else if (playerDying)
             player.update();
+        else if (gameCompleted)
+            gameCompletedOverlay.update();
         else {
             if (levelCompleted)
                 levelCompletedOverlay.update();
@@ -162,6 +167,8 @@ public class Playing extends State implements StateMethods {
             levelCompletedOverlay.draw(g);
         else if (gameOver)
             gameOverOverlay.draw(g);
+        else if (gameCompleted)
+            gameCompletedOverlay.draw(g);
     }
 
     private void drawClouds(Graphics g) {
@@ -177,6 +184,7 @@ public class Playing extends State implements StateMethods {
         gameOver = false;
         paused = false;
         levelCompleted = false;
+        gameCompleted = false;
         playerDying = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
@@ -185,6 +193,10 @@ public class Playing extends State implements StateMethods {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public void setGameComplete(boolean gameCompleted) {
+        this.gameCompleted = gameCompleted;
     }
 
     public void setMaxLevelOffsetX(int maxLevelOffsetX) {
@@ -221,32 +233,39 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (gameOver)
-            gameOverOverlay.mousePressed(e);
-        else if (levelCompleted)
+        if (levelCompleted)
             levelCompletedOverlay.mousePressed(e);
         else if (paused)
             pauseOverlay.mousePressed(e);
+        else if (gameCompleted)
+            gameCompletedOverlay.mousePressed(e);
+        else if (gameOver)
+            gameOverOverlay.mousePressed(e);
+        ;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (gameOver)
-            gameOverOverlay.mouseReleased(e);
+        if (gameCompleted)
+            gameCompletedOverlay.mouseReleased(e);
         else if (levelCompleted)
             levelCompletedOverlay.mouseReleased(e);
         else if (paused)
             pauseOverlay.mouseReleased(e);
+        else if (gameOver)
+            gameOverOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (gameOver)
-            gameOverOverlay.mouseMoved(e);
-        else if (levelCompleted)
+        if (levelCompleted)
             levelCompletedOverlay.mouseMoved(e);
         else if (paused)
             pauseOverlay.mouseMoved(e);
+        else if (gameOver)
+            gameOverOverlay.mouseMoved(e);
+        else if (gameCompleted)
+            gameCompletedOverlay.mouseMoved(e);
     }
 
     public void mouseDragged(MouseEvent e) {

@@ -30,12 +30,10 @@ public class LevelManager {
         buildAllLevels();
     }
 
-    public void loadNextLevel(){
+    public void loadNextLevel() {
         levelIndex++;
-        if (levelIndex >= levels.size()){
-            levelIndex =0;
-            System.out.println("No more levels, The Game completed!");
-            GameState.state = GameState.MENU;
+        if (levelIndex >= levels.size()) {
+            levelIndex = 0;
         }
 
         Level newLevel = levels.get(levelIndex);
@@ -71,18 +69,17 @@ public class LevelManager {
     }
 
 
-
-
-
     public void update() {
 
     }
 
-    public Level getCurrentLevel(){
+    public Level getCurrentLevel() {
         return levels.get(levelIndex);
     }
 
-    public int getAmountOfLevels(){
+    public int getCurrentLevelIndex(){return levelIndex;}
+
+    public int getAmountOfLevels() {
         return levels.size();
     }
 }
