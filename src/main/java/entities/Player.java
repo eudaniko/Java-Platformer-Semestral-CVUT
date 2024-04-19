@@ -7,6 +7,7 @@ import gamestates.Playing;
 import utils.LoadSave;
 
 import static utils.Constants.*;
+import static utils.Constants.GameConstants.ANI_SPEED;
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.UI.StatusBar.*;
 import static utils.HelpMethods.*;
@@ -64,10 +65,20 @@ public class Player extends Entity {
 
     public void update() {
         updateStatusBar();
+
         if (currentHealth <= 0) {
-            playing.setGameOver(true);
+            if (state != DEAD) {
+                state = DEAD;
+                aniTick = 0;
+                aniIndex = 0;
+                playing.setPlayerDying(true);
+            } else if (aniIndex == GetSpriteAmount(DEAD) - 1 && aniTick >= ANI_SPEED - 1)
+                playing.setGameOver(true);
+            else
+                updateAnimationTick();
             return;
         }
+
         updateAttackBox();
 
         updatePos();
@@ -75,7 +86,6 @@ public class Player extends Entity {
             checkObjectsTouched();
         if (attacking)
             checkAttack();
-
         updateAnimationTick();
         setAnimation();
     }
@@ -111,7 +121,6 @@ public class Player extends Entity {
     public void changeHealth(int deltaHealth) {
         currentHealth += deltaHealth;
         gettingHit = true;
-
         if (currentHealth <= 0)
             currentHealth = 0;
         else if (currentHealth >= maxHealth)

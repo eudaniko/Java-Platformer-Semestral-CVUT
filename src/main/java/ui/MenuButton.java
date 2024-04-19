@@ -72,7 +72,7 @@ public class MenuButton {
         return bounds;
     }
 
-    public void applyGamestate() {
+    public void applyGameState() {
         GameState.state = state;
     }
 

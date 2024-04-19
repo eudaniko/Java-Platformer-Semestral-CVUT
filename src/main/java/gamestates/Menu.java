@@ -33,7 +33,7 @@ public class Menu extends State implements StateMethods {
 
     private void loadBackground() {
         backgroundGIF = LoadSave.GetGIF(LoadSave.MENU_BACKGROUND);
-        uiBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.UI_MENU_BACKGROUND);
+        uiBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.MAIN_MENU_UI);
 
         menuWidth = (int) (uiBackgroundImage.getWidth() * SCALE);
         menuHeight = (int) (uiBackgroundImage.getHeight() * SCALE);
@@ -91,7 +91,7 @@ public class Menu extends State implements StateMethods {
         for (MenuButton mb : buttons) {
             if (isIn(e, mb))
                 if (mb.isMousePressed())
-                    mb.applyGamestate();
+                    mb.applyGameState();
         }
         resetButtons();
     }

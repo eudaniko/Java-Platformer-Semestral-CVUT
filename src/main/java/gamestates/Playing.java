@@ -11,7 +11,6 @@ import main.Game;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
-import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -34,7 +33,7 @@ public class Playing extends State implements StateMethods {
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
     private GameOverOverlay gameOverOverlay;
-    private boolean gameOver = false;
+    private boolean gameOver = false, playerDying = false;
 
     private LevelCompletedOverlay levelCompletedOverlay;
     private boolean levelCompleted = false;
@@ -111,7 +110,11 @@ public class Playing extends State implements StateMethods {
     public void update() {
         if (paused)
             pauseOverlay.update();
-        else if (!gameOver) {
+        else if (gameOver)
+            gameOverOverlay.update();
+        else if (playerDying)
+            player.update();
+        else {
             if (levelCompleted)
                 levelCompletedOverlay.update();
             else {
@@ -121,8 +124,6 @@ public class Playing extends State implements StateMethods {
                 objectManager.update();
                 checkCLoseToBorder();
             }
-        } else {
-            gameOverOverlay.update();
         }
     }
 
@@ -176,6 +177,7 @@ public class Playing extends State implements StateMethods {
         gameOver = false;
         paused = false;
         levelCompleted = false;
+        playerDying = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
@@ -210,42 +212,41 @@ public class Playing extends State implements StateMethods {
     public void mouseClicked(MouseEvent e) {
         // Action when the mouse is clicked
         if (!gameOver)
-            if (e.getButton() == MouseEvent.BUTTON1) {
+            if (e.getButton() == MouseEvent.BUTTON1)
                 if (player.getCurrentPower() >= Math.abs(POWER_FOR_ATTACK)) {
                     player.changePower(-POWER_FOR_ATTACK);
                     player.setAttacking(true);
                 }
-            }
-
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!gameOver) {
-            if (paused)
-                pauseOverlay.mousePressed(e);
-            else if (levelCompleted)
-                levelCompletedOverlay.mousePressed(e);
-        }
+        if (gameOver)
+            gameOverOverlay.mousePressed(e);
+        else if (levelCompleted)
+            levelCompletedOverlay.mousePressed(e);
+        else if (paused)
+            pauseOverlay.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!gameOver)
-            if (paused)
-                pauseOverlay.mouseReleased(e);
-            else if (levelCompleted)
-                levelCompletedOverlay.mouseReleased(e);
+        if (gameOver)
+            gameOverOverlay.mouseReleased(e);
+        else if (levelCompleted)
+            levelCompletedOverlay.mouseReleased(e);
+        else if (paused)
+            pauseOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!gameOver) {
-            if (paused)
-                pauseOverlay.mouseMoved(e);
-            else if (levelCompleted)
-                levelCompletedOverlay.mouseMoved(e);
-        }
+        if (gameOver)
+            gameOverOverlay.mouseMoved(e);
+        else if (levelCompleted)
+            levelCompletedOverlay.mouseMoved(e);
+        else if (paused)
+            pauseOverlay.mouseMoved(e);
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -292,5 +293,9 @@ public class Playing extends State implements StateMethods {
 
     public LevelManager getLevelManager() {
         return levelManager;
+    }
+
+    public void setPlayerDying(boolean playerDying) {
+        this.playerDying = playerDying;
     }
 }
