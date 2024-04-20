@@ -22,6 +22,7 @@ public class LoadSave {
     public static final String LEVEL_ATLAS = "/outside_sprites.png";
     public static final String MENU_BUTTONS_ATLAS = "/button_atlas.png";
     public static final String MAIN_MENU_UI = "/menu_background.png";
+    public static final String OPTIONS_BACKGROUND = "/options_background.png";
     public static final String PAUSE_BACKGROUND = "/pause_menu.png";
     public static final String DEATH_MENU_UI = "/death_screen.png";
     public static final String COMPLETED_MENU_UI = "/game_completed.png";

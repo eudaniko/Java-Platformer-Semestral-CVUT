@@ -75,7 +75,8 @@ public class ObjectManager {
 
     private void drawGameObjects(Graphics g, int xLevelOffset, ArrayList<? extends GameObject> arrayList) {
         for (GameObject gameObject : arrayList)
-            gameObject.draw(g, xLevelOffset);
+            if (gameObject.isActive())
+                gameObject.draw(g, xLevelOffset);
     }
 
 

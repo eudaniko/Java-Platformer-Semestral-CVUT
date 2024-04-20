@@ -45,8 +45,8 @@ public class Game implements Runnable {
 
     // Method for updating the game logic
     public void Update() {
-        switch (GameState.state){
-            case MENU:
+        switch (GameState.state) {
+            case MENU, OPTIONS:
                 menu.update();
                 break;
             case PLAYING:
@@ -59,8 +59,8 @@ public class Game implements Runnable {
 
     public void render(Graphics g) {
 
-        switch (GameState.state){
-            case MENU:
+        switch (GameState.state) {
+            case MENU, OPTIONS:
                 menu.draw(g);
                 break;
             case PLAYING:
@@ -118,15 +118,15 @@ public class Game implements Runnable {
             playing.getPlayer().resetDirBooleans();
     }
 
-    public Menu getMenu(){
+    public Menu getMenu() {
         return menu;
     }
 
-    public  Playing getPlaying(){
-        return  playing;
+    public Playing getPlaying() {
+        return playing;
     }
 
-    public void QuitGame(){
+    public void QuitGame() {
         System.exit(0);
     }
 }

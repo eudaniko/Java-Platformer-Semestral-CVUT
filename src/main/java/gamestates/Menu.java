@@ -5,6 +5,8 @@ package gamestates;
 
 import main.Game;
 import ui.MenuButton;
+import ui.MenuOverlay;
+import ui.OptionsOverlay;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -12,45 +14,34 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import static gamestates.GameState.*;
 import static utils.Constants.GameConstants.*;
 
 
 public class Menu extends State implements StateMethods {
 
-    private final MenuButton[] buttons = new MenuButton[3];
-    private BufferedImage uiBackgroundImage;
     private BufferedImage[] backgroundGIF;
-    private int menuX, menuY, menuWidth, menuHeight;
+    private final OptionsOverlay optionsOverlay;
+    private final MenuOverlay menuOverlay;
 
     //BackGroundAnimation
     private int aniTick = 0, aniIndex = 0;
 
     public Menu(Game game) {
         super(game);
-        loadButtons();
-        loadBackground();
-    }
-
-    private void loadBackground() {
         backgroundGIF = LoadSave.GetGIF(LoadSave.MENU_BACKGROUND);
-        uiBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.MAIN_MENU_UI);
-
-        menuWidth = (int) (uiBackgroundImage.getWidth() * SCALE);
-        menuHeight = (int) (uiBackgroundImage.getHeight() * SCALE);
-        menuX = GAME_WIDTH / 2 - menuWidth / 2;
-        menuY = (int) (45 * SCALE);
-    }
-
-    private void loadButtons() {
-        buttons[0] = new MenuButton(GAME_WIDTH / 2, (int) (150 * SCALE), 0, GameState.PLAYING);
-        buttons[1] = new MenuButton(GAME_WIDTH / 2, (int) (220 * SCALE), 1, GameState.OPTIONS);
-        buttons[2] = new MenuButton(GAME_WIDTH / 2, (int) (290 * SCALE), 2, GameState.QUIT);
+        optionsOverlay = new OptionsOverlay(game);
+        menuOverlay = new MenuOverlay(game);
     }
 
     @Override
     public void update() {
-        for (MenuButton mb : buttons)
-            mb.update();
+        if (state == MENU)
+            menuOverlay.update();
+        else if (state == OPTIONS)
+            optionsOverlay.update();
+
+
         updateBGAnimationTick();
     }
 
@@ -68,9 +59,10 @@ public class Menu extends State implements StateMethods {
     @Override
     public void draw(Graphics g) {
         g.drawImage(backgroundGIF[aniIndex], 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
-        g.drawImage(uiBackgroundImage, menuX, menuY, menuWidth, menuHeight, null);
-        for (MenuButton mb : buttons)
-            mb.draw(g);
+        if (state == MENU)
+            menuOverlay.draw(g);
+        else if (state == OPTIONS)
+            optionsOverlay.draw(g);
     }
 
     @Override
@@ -79,38 +71,31 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        for (MenuButton mb : buttons) {
-            if (isIn(e, mb)) {
-                mb.setMousePressed(true);
-            }
-        }
+        if (state == MENU) {
+            menuOverlay.mousePressed(e);
+        } else if (state == OPTIONS)
+            optionsOverlay.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        for (MenuButton mb : buttons) {
-            if (isIn(e, mb))
-                if (mb.isMousePressed())
-                    mb.applyGameState();
-        }
-        resetButtons();
-    }
-
-    private void resetButtons() {
-        for (MenuButton mb : buttons)
-            mb.resetBools();
+        if (state == MENU)
+            menuOverlay.mouseReleased(e);
+        else if (state == OPTIONS)
+            optionsOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (state == MENU)
+            menuOverlay.mouseMoved(e);
+        else if (state == OPTIONS)
+            optionsOverlay.mouseMoved(e);
 
-        for (MenuButton mb : buttons) {
-            if (isIn(e, mb)) {
-                mb.setMouseOver(true);
-                break;
-            } else
-                mb.setMouseOver(false);
-        }
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        optionsOverlay.mouseDragged(e);
     }
 
     @Override

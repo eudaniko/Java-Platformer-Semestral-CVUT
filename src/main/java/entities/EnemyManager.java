@@ -3,8 +3,6 @@
 
 package entities;
 
-import entities.Crabby;
-import entities.Player;
 import gamestates.Playing;
 import levels.Level;
 import levels.LevelManager;
