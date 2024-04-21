@@ -59,13 +59,6 @@ public class GameCompletedOverlay {
 
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            playing.resetAll();
-            playing.setGameState(GameState.MENU);
-        }
-    }
-
     public void mousePressed(MouseEvent e) {
         if (isIn(e, menuButton))
             menuButton.setMousePressed(true);

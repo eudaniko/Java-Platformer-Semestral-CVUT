@@ -4,12 +4,9 @@
 package main;
 
 import audio.AudioPlayer;
-import entities.EnemyManager;
 import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
-import levels.LevelManager;
-import objects.ObjectManager;
 import utils.Constants;
 
 import java.awt.*;

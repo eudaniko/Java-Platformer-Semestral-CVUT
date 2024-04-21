@@ -2,6 +2,7 @@ package audio;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
@@ -30,7 +31,7 @@ public class AudioPlayer {
 	private int currentSongId;
 	private float volume = 0.5f;
 	private boolean songMute, effectMute;
-	private Random rand = new Random();
+	private final Random rand = new Random();
 
 	public AudioPlayer() {
 		loadSongs();
@@ -60,7 +61,7 @@ public class AudioPlayer {
 		AudioInputStream audio;
 
 		try {
-			audio = AudioSystem.getAudioInputStream(url);
+			audio = AudioSystem.getAudioInputStream(Objects.requireNonNull(url));
 			Clip c = AudioSystem.getClip();
 			c.open(audio);
 			return c;

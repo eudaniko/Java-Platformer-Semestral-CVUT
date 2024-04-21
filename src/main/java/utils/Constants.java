@@ -18,7 +18,7 @@ public class Constants {
         public final static int FPS_SET = 120;
         public final static int UPS_SET = 200;
         public static final int ANI_SPEED = 25;
-        public static final boolean DRAW_HIT_BOX = true;
+        public static final boolean DRAW_HIT_BOX = false;
     }
 
 

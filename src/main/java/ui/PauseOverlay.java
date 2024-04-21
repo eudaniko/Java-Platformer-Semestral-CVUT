@@ -3,10 +3,8 @@
 
 package ui;
 
-import audio.AudioPlayer;
 import gamestates.GameState;
 import gamestates.Playing;
-import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;

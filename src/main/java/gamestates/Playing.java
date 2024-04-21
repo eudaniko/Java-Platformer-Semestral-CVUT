@@ -251,7 +251,6 @@ public class Playing extends State implements StateMethods {
             gameCompletedOverlay.mousePressed(e);
         else if (gameOver)
             gameOverOverlay.mousePressed(e);
-        ;
     }
 
     @Override

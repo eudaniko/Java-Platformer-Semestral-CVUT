@@ -77,10 +77,6 @@ public class VolumeButton extends PauseButton {
         mouseOver = false;
     }
 
-    public Boolean isMouseOver() {
-        return mouseOver;
-    }
-
     public void setMouseOver(Boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
