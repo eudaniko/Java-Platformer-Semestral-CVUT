@@ -3,9 +3,13 @@
 
 package main;
 
+import audio.AudioPlayer;
+import entities.EnemyManager;
 import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
+import levels.LevelManager;
+import objects.ObjectManager;
 import utils.Constants;
 
 import java.awt.*;
@@ -18,23 +22,24 @@ public class Game implements Runnable {
     private Thread gameThread; // Thread for the main game loop
     private Playing playing;
     private Menu menu;
+    private AudioPlayer audioPlayer;
 
 
     // Constructor for the Game class
     public Game() {
         initClasses();
         gamePanel = new GamePanel(this); // Create a new game panel
-        // Variable for managing the game window
-        new GameWindow(gamePanel);// Create a game window based on the game panel
+        new GameWindow(gamePanel);
         gamePanel.setFocusable(true);
         gamePanel.requestFocus(); // Set focus to the game panel
+
         startGameLoop(); // Start the game loop
     }
 
     private void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
-
+        audioPlayer = new AudioPlayer();
     }
 
     // Method to start the game loop
@@ -125,6 +130,8 @@ public class Game implements Runnable {
     public Playing getPlaying() {
         return playing;
     }
+
+    public AudioPlayer getAudioPlayer(){return audioPlayer;}
 
     public void QuitGame() {
         System.exit(0);

@@ -3,6 +3,7 @@
 
 package gamestates;
 
+import audio.AudioPlayer;
 import entities.EnemyManager;
 import levels.LevelManager;
 import entities.Player;
@@ -69,6 +70,7 @@ public class Playing extends State implements StateMethods {
         resetAll();
         levelManager.loadNextLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        game.getAudioPlayer().setLevelSong(levelManager.getCurrentLevelIndex());
     }
 
     private void loadStartLevel() {
@@ -120,6 +122,7 @@ public class Playing extends State implements StateMethods {
             player.update();
         else if (gameCompleted)
             gameCompletedOverlay.update();
+
         else {
             if (levelCompleted)
                 levelCompletedOverlay.update();
@@ -183,7 +186,7 @@ public class Playing extends State implements StateMethods {
     public void resetAll() {
         //Reset playing, enemies, level, etc..
         gameOver = false;
-        paused = false;
+        unpauseGame();
         levelCompleted = false;
         gameCompleted = false;
         playerDying = false;
@@ -194,10 +197,14 @@ public class Playing extends State implements StateMethods {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+        game.getAudioPlayer().stopSong();
+        game.getAudioPlayer().gameOver();
     }
 
     public void setGameComplete(boolean gameCompleted) {
         this.gameCompleted = gameCompleted;
+        game.getAudioPlayer().stopSong();
+        game.getAudioPlayer().lvlCompleted();
     }
 
     public void setMaxLevelOffsetX(int maxLevelOffsetX) {
@@ -206,6 +213,8 @@ public class Playing extends State implements StateMethods {
 
     public void setLevelComplete(boolean levelCompleted) {
         this.levelCompleted = levelCompleted;
+        game.getAudioPlayer().stopSong();
+        game.getAudioPlayer().lvlCompleted();
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
@@ -317,5 +326,6 @@ public class Playing extends State implements StateMethods {
 
     public void setPlayerDying(boolean playerDying) {
         this.playerDying = playerDying;
+        game.getAudioPlayer().playEffect(AudioPlayer.DIE);
     }
 }

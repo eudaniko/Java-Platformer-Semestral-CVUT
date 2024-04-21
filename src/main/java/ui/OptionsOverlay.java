@@ -100,11 +100,15 @@ public class OptionsOverlay {
 
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, musicButton)) {
-            if (musicButton.isMousePressed())
+            if (musicButton.isMousePressed()) {
                 musicButton.setMuted(!musicButton.isMuted());
+                game.getAudioPlayer().toggleSongMute();
+            }
         } else if (isIn(e, sfxButton)) {
-            if (sfxButton.isMousePressed())
+            if (sfxButton.isMousePressed()) {
                 sfxButton.setMuted(!sfxButton.isMuted());
+                game.getAudioPlayer().toggleEffectMute();
+            }
         } else if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed()) {
                 GameState.state = GameState.MENU;
@@ -135,10 +139,15 @@ public class OptionsOverlay {
     }
 
     public void mouseDragged(MouseEvent e) {
-        if (volumeButton.isMousePressed())
+        if (volumeButton.isMousePressed()) {
+            float volumeBefore = volumeButton.getVolume();
             volumeButton.changeX(e.getX());
-
+            float volumeAfter = volumeButton.getVolume();
+            if (volumeBefore != volumeAfter)
+                game.getAudioPlayer().setVolume(volumeAfter);
+        }
     }
+
 
     private boolean isIn(MouseEvent e, PauseButton b) {
         return b.getBounds().contains(e.getX(), e.getY());

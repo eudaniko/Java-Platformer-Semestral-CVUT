@@ -5,6 +5,7 @@ package ui;
 
 import gamestates.GameState;
 import gamestates.Playing;
+import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -52,6 +53,8 @@ public class LevelCompletedOverlay {
     }
 
     public void draw(Graphics g) {
+        g.setColor(new Color(0, 0, 0, 200));
+        g.fillRect(0, 0, Constants.GameConstants.GAME_WIDTH, Constants.GameConstants.GAME_HEIGHT);
         g.drawImage(backgroundImage, bgX, bgY, bgW, bgH, null);
         continueButton.draw(g);
         menuButton.draw(g);
@@ -70,7 +73,7 @@ public class LevelCompletedOverlay {
                 playing.loadNextLevel();
         } else if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed()) {
-                GameState.state = GameState.MENU;
+                playing.setGameState(GameState.MENU);
                 playing.unpauseGame();
             }
         }

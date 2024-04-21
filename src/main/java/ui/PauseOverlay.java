@@ -3,6 +3,7 @@
 
 package ui;
 
+import audio.AudioPlayer;
 import gamestates.GameState;
 import gamestates.Playing;
 import main.Game;
@@ -112,17 +113,19 @@ public class PauseOverlay {
 
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, musicButton)) {
-            if (musicButton.isMousePressed())
+            if (musicButton.isMousePressed()) {
                 musicButton.setMuted(!musicButton.isMuted());
+                playing.getGame().getAudioPlayer().toggleSongMute();
+            }
         } else if (isIn(e, sfxButton)) {
-            if (sfxButton.isMousePressed())
+            if (sfxButton.isMousePressed()) {
                 sfxButton.setMuted(!sfxButton.isMuted());
+                playing.getGame().getAudioPlayer().toggleEffectMute();
+            }
         } else if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed()) {
-                GameState.state = GameState.MENU;
-                playing.unpauseGame();
                 playing.resetAll();
-
+                playing.setGameState(GameState.MENU);
             }
         } else if (isIn(e, replayButton)) {
             if (replayButton.isMousePressed())
@@ -163,9 +166,13 @@ public class PauseOverlay {
     }
 
     public void mouseDragged(MouseEvent e) {
-        if (volumeButton.isMousePressed())
+        if (volumeButton.isMousePressed()) {
+            float volumeBefore = volumeButton.getVolume();
             volumeButton.changeX(e.getX());
-
+            float volumeAfter = volumeButton.getVolume();
+            if (volumeBefore != volumeAfter)
+                playing.getGame().getAudioPlayer().setVolume(volumeAfter);
+        }
     }
 
     private boolean isIn(MouseEvent e, PauseButton b) {

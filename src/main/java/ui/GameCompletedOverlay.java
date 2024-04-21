@@ -62,7 +62,7 @@ public class GameCompletedOverlay {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             playing.resetAll();
-            GameState.state = GameState.MENU;
+            playing.setGameState(GameState.MENU);
         }
     }
 
@@ -74,7 +74,7 @@ public class GameCompletedOverlay {
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed())
-                GameState.state = GameState.MENU;
+                playing.setGameState(GameState.MENU);
         }
         menuButton.resetBools();
 

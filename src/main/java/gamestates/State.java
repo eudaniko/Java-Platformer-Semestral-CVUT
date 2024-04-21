@@ -3,24 +3,38 @@
 
 package gamestates;
 
+import audio.AudioPlayer;
 import main.Game;
 import ui.MenuButton;
 
 import java.awt.event.MouseEvent;
 
-public class State  {
+public class State {
 
     protected Game game;
-    public State(Game game){
+
+    public State(Game game) {
         this.game = game;
     }
 
-    public boolean isIn(MouseEvent e, MenuButton mb){
-        return  mb.getBounds().contains(e.getX(), e.getY());
+    public boolean isIn(MouseEvent e, MenuButton mb) {
+        return mb.getBounds().contains(e.getX(), e.getY());
     }
 
-    public Game getGame(){
+    public Game getGame() {
         return game;
+    }
+
+    public void setGameState(GameState state) {
+        switch (state) {
+            case MENU, OPTIONS:
+                game.getAudioPlayer().playSong(AudioPlayer.MENU_1);
+                break;
+            case PLAYING:
+                game.getAudioPlayer().setLevelSong(getGame().getPlaying().getLevelManager().getCurrentLevelIndex());
+                break;
+        }
+        GameState.state = state;
     }
 
 }

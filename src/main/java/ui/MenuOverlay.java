@@ -61,9 +61,12 @@ public class MenuOverlay {
 
     public void mouseReleased(MouseEvent e) {
         for (MenuButton mb : buttons) {
-            if (isIn(e, mb))
+            if (isIn(e, mb)) {
                 if (mb.isMousePressed())
                     mb.applyGameState();
+                if (mb.getState() ==PLAYING)
+                    game.getAudioPlayer().setLevelSong(game.getPlaying().getLevelManager().getCurrentLevelIndex());
+            }
         }
         resetButtons();
     }
