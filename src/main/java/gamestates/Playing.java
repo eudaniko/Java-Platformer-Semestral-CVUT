@@ -218,7 +218,7 @@ public class Playing extends State implements StateMethods {
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
-        enemyManager.checkEnemyHit(attackBox);
+        enemyManager.checkEnemyHit(attackBox, player.isPowerAttackActive());
     }
 
     public void checkObjectHit(Rectangle2D.Float attackBox) {
@@ -233,12 +233,15 @@ public class Playing extends State implements StateMethods {
     @Override
     public void mouseClicked(MouseEvent e) {
         // Action when the mouse is clicked
-        if (!gameOver)
+        if (!gameOver) {
             if (e.getButton() == MouseEvent.BUTTON1)
-                if (player.getCurrentPower() >= Math.abs(POWER_FOR_ATTACK)) {
-                    player.changePower(-POWER_FOR_ATTACK);
-                    player.setAttacking(true);
+                player.setAttacking(true);
+            else if (e.getButton() == MouseEvent.BUTTON3){
+                    player.powerAttack();
                 }
+
+        }
+
     }
 
     @Override

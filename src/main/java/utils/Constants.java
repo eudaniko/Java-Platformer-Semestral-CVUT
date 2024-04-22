@@ -18,7 +18,7 @@ public class Constants {
         public final static int FPS_SET = 120;
         public final static int UPS_SET = 200;
         public static final int ANI_SPEED = 25;
-        public static final boolean DRAW_HIT_BOX = false;
+        public static final boolean DRAW_HIT_BOX = true;
     }
 
 
@@ -205,20 +205,24 @@ public class Constants {
     // Directions constants for player movement
     public static class Directions {
         public static final int LEFT = 0;
+        public static final int UP = 1;
         public static final int RIGHT = 2;
+        public static final int DOWN = 3;
     }
 
     // Player animation constants
     public static class PlayerConstants {
         public static final int PLAYER_DAMAGE = 10;
-        public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (42 * GameConstants.SCALE);
+        public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (30 * GameConstants.SCALE);
         public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (30 * GameConstants.SCALE);
         public static final int PLAYER_MAX_HEALTH = 100;
         public static final int PLAYER_MAX_POWER = 100;
-        public static final int MAX_ATTACKS_AMOUNT = 7;
+        public static final int MAX_ATTACKS_AMOUNT = 1;
+        public static final int POWER_ATTACK_DAMAGE = 20;
         public static final int POWER_FOR_ATTACK = (PLAYER_MAX_POWER / MAX_ATTACKS_AMOUNT);
-        public static final int POWER_DEFAULT_INCREASE = 4;
+        public static final int POWER_GROW_SPEED = 15;
         public static final float PLAYER_WALK_SPEED = GameConstants.SCALE;
+        public static final float PUSH_BACK_SPEED = 0.75f * GameConstants.SCALE;
 
         public static final float xDrawOffset = 21 * GameConstants.SCALE;
         public static final float yDrawOffset = 3 * GameConstants.SCALE;
@@ -240,7 +244,7 @@ public class Constants {
                 case DEAD -> 8;
                 case RUNNING -> 6;
                 case IDLE -> 5;
-                case HIT -> 2;
+                case HIT -> 3;
                 case JUMP, ATTACK -> 3;
                 default -> 1;
             };

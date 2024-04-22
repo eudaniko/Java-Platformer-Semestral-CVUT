@@ -2,6 +2,7 @@
 // PJV Semestral
 
 package entities;
+
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Directions.*;
@@ -24,7 +25,7 @@ public abstract class Enemy extends Entity {
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
         this.enemyType = enemyType;
-        initHitBox( width, height);
+        initHitBox(width, height);
         maxHealth = GetMaxHealth(enemyType);
         currentHealth = maxHealth;
     }
@@ -104,7 +105,7 @@ public abstract class Enemy extends Entity {
 
     protected void checkPlayerHit(Rectangle2D.Float attackBox, Player player) {
         if (attackBox.intersects(player.hitBox))
-            player.changeHealth(-GetEnemyDamage(enemyType));
+            player.changeHealth(-GetEnemyDamage(enemyType), this);
         attackChecked = true;
 
     }

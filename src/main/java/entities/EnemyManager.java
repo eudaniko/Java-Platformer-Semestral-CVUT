@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.PlayerConstants.PLAYER_DAMAGE;
+import static utils.Constants.PlayerConstants.POWER_ATTACK_DAMAGE;
 
 public class EnemyManager {
 
@@ -68,11 +69,14 @@ public class EnemyManager {
             }
     }
 
-    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+    public void checkEnemyHit(Rectangle2D.Float attackBox, boolean powerAttackActive) {
         for (Crabby c : crabbies)
             if (c.isActive())
                 if (attackBox.intersects(c.getHitBox()) && c.getEntityState() != DEAD) {
-                    c.hurt(PLAYER_DAMAGE);
+                    if (powerAttackActive)
+                        c.hurt(POWER_ATTACK_DAMAGE);
+                    else
+                        c.hurt(PLAYER_DAMAGE);
                     return;
                 }
     }
