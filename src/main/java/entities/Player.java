@@ -165,6 +165,7 @@ public class Player extends Entity {
         if (powerAttackActive)
             attackChecked = false;
 
+
         playing.checkEnemyHit(attackBox);
         playing.checkObjectHit(attackBox);
         playing.getGame().getAudioPlayer().playAttackSound();
@@ -488,7 +489,7 @@ public class Player extends Entity {
         }
     }
 
-    public boolean isPowerAttackActive(){
+    public boolean isPowerAttackActive() {
         return powerAttackActive;
     }
 }

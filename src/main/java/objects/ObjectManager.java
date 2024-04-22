@@ -43,6 +43,7 @@ public class ObjectManager {
     public void update() {
         updateObjects(potions);
         updateObjects(gameContainers);
+        updateObjects(trees);
         updateCannons();
         updateObjects(projectiles);
         checkProjectilesTouched();
@@ -113,10 +114,10 @@ public class ObjectManager {
     public void applyEffectsToPlayer(Potion p) {
         switch (p.getObjectType()) {
             case RED_POTION:
-                playing.getPlayer().changeHealth(RED_POTION_VALUE);
+                playing.getPlayer().changeHealth(RED_POTION_DELTA_VALUE);
                 break;
             case BLUE_POTION:
-                playing.getPlayer().changePower(BLUE_POTION_VALUE);
+                playing.getPlayer().changePower(BLUE_POTION_DELTA_VALUE);
                 break;
         }
     }
@@ -144,6 +145,9 @@ public class ObjectManager {
 
         for (Cannon c : cannons)
             c.reset();
+
+        for (Projectile pj: projectiles)
+            pj.reset();
     }
 
 }

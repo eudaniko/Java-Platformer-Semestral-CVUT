@@ -3,28 +3,21 @@
 
 package utils;
 
-import entities.Crabby;
 import entities.Player;
-import levels.Level;
 import objects.*;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 
 import static utils.Constants.Directions.*;
-import static utils.Constants.EnemyConstants.CRABBY;
 import static utils.Constants.GameConstants.GAME_HEIGHT;
 import static utils.Constants.GameConstants.TILES_SIZE;
-import static utils.Constants.ObjectConstants.*;
 
 public class HelpMethods {
 
@@ -97,7 +90,6 @@ public class HelpMethods {
             //Jumping
             return currentTile * TILES_SIZE;
         }
-
     }
 
     public static boolean IsEntityUpToFloor(Rectangle2D.Float hitBox, int[][] levelData) {
@@ -133,21 +125,6 @@ public class HelpMethods {
             return IsAllTilesWalkable(firstXTile, secondXTile, yTile, levelData);
     }
 
-
-    public static int[][] GetLevelData(BufferedImage image) {
-        int[][] levelData = new int[image.getHeight()][image.getWidth()];
-
-
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getRed();
-
-                if (value >= 48) value = 0;
-                levelData[j][i] = value;
-            }
-        return levelData;
-    }
 
     public static BufferedImage[] GetAllLevels() {
         URL url = LoadSave.class.getResource("/gameLevels");
@@ -186,114 +163,4 @@ public class HelpMethods {
         return levelImages;
     }
 
-    public static ArrayList<Crabby> GetCrabs(BufferedImage image) {
-        ArrayList<Crabby> list = new ArrayList<>();
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getGreen();
-                if (value == CRABBY)
-                    list.add(new Crabby(i * TILES_SIZE, j * TILES_SIZE));
-            }
-
-        return list;
-    }
-
-    public static Point GetPlayerSpawn(BufferedImage image) {
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getGreen();
-                if (value == 100)
-                    return new Point(i * TILES_SIZE, j * TILES_SIZE);
-            }
-
-        return new Point(TILES_SIZE, TILES_SIZE);
-
-
-    }
-
-    public static ArrayList<Potion> GetPotions(BufferedImage image) {
-        ArrayList<Potion> list = new ArrayList<>();
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getBlue();
-                if (value == RED_POTION || value == BLUE_POTION)
-                    list.add(new Potion(i * TILES_SIZE, j * TILES_SIZE, value));
-            }
-
-        return list;
-    }
-
-    public static ArrayList<GameContainer> GetGameContainers(BufferedImage image) {
-        ArrayList<GameContainer> list = new ArrayList<>();
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getBlue();
-                if (value == BOX || value == BARREL)
-                    list.add(new GameContainer(i * TILES_SIZE, j * TILES_SIZE, value));
-            }
-
-        return list;
-    }
-
-    public static ArrayList<Spike> GetSpikes(BufferedImage image) {
-        ArrayList<Spike> list = new ArrayList<>();
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getBlue();
-                if (value == SPIKE)
-                    list.add(new Spike(i * TILES_SIZE, j * TILES_SIZE, value));
-            }
-
-        return list;
-    }
-
-    public static ArrayList<Cannon> GetCannons(BufferedImage image) {
-        ArrayList<Cannon> list = new ArrayList<>();
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getBlue();
-                if (value == CANNON_LEFT || value == CANNON_RIGHT)
-                    list.add(new Cannon(i * TILES_SIZE, j * TILES_SIZE, value));
-            }
-
-        return list;
-    }
-
-    public static ArrayList<Grass> GetGrasses(int[][] levelData, Level level) {
-        ArrayList<Grass> list = new ArrayList<>();
-        Random random = new Random();
-
-        for (int y = 0; y < Constants.GameConstants.TILES_IN_HEIGHT; y++)
-            for (int x = 0; x < levelData[0].length; x++) {
-                int index = level.getTileSpriteIndex(x, y);
-                if (index >= 0 && index <= 4 || index >= 31 && index <= 33 || index == 28 || index == 29 || index >= 34 && index <= 37) {
-                    // outside_sprites.png grass indexes
-                    int grassType = random.nextInt(-(GRASS_RARELY), 2);
-                    if (grassType >= 0)
-                        list.add(new Grass(x, y, grassType));
-                }
-            }
-
-        return list;
-    }
-
-    public static ArrayList<Tree> GetTrees(BufferedImage image) {
-        ArrayList<Tree> list = new ArrayList<>();
-        for (int j = 0; j < image.getHeight(); j++)
-            for (int i = 0; i < image.getWidth(); i++) {
-                Color color = new Color(image.getRGB(i, j));
-                int value = color.getBlue();
-                if (value == S_TREE || value == A_TREE)
-                    list.add(new Tree(i, j, value));
-            }
-
-
-        return list;
-    }
 }

@@ -10,56 +10,91 @@ import utils.Constants;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
-import static utils.HelpMethods.*;
+import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.GameConstants.TILES_SIZE;
+import static utils.Constants.ObjectConstants.*;
+import static utils.Constants.PlayerConstants.PLAYER_GREEN_INDEX;
 
 public class Level {
     private final BufferedImage levelImage;
     private int[][] levelData;
-    private ArrayList<Crabby> crabbies;
-    private ArrayList<Potion> potions;
-    private ArrayList<GameContainer> gameContainers;
-    private ArrayList<Spike> spikes;
-    private ArrayList<Cannon> cannons;
-    private ArrayList<Grass> grasses;
-    private ArrayList<Tree> trees;
+    private ArrayList<Crabby> crabbies = new ArrayList<>();
+    private ArrayList<Potion> potions = new ArrayList<>();
+    private ArrayList<GameContainer> gameContainers = new ArrayList<>();
+    private ArrayList<Spike> spikes = new ArrayList<>();
+    private ArrayList<Cannon> cannons = new ArrayList<>();
+    private ArrayList<Grass> grass = new ArrayList<>();
+    private ArrayList<Tree> trees = new ArrayList<>();
     private int maxLevelOffsetX;
     private Point playerSpawn;
+    private Random random = new Random();
 
     public Level(BufferedImage levelImage) {
         this.levelImage = levelImage;
-        createLevelData();
-        createEnemies();
-        createGameObjects();
+        levelData = new int[levelImage.getHeight()][levelImage.getWidth()];
+        loadLevel();
         calculateLevelOffsets();
-        calculatePlayerSpawn(levelImage);
     }
 
-    private void calculatePlayerSpawn(BufferedImage levelImage) {
-        playerSpawn = GetPlayerSpawn(levelImage);
+    private void loadLevel() {
+
+        // Looping through the image colors just once. Instead of one per
+        // object/enemy/etc..
+        // Removed many methods in HelpMethods class.
+
+        for (int y = 0; y < levelImage.getHeight(); y++)
+            for (int x = 0; x < levelImage.getWidth(); x++) {
+                Color c = new Color(levelImage.getRGB(x, y));
+                int red = c.getRed();
+                int green = c.getGreen();
+                int blue = c.getBlue();
+
+                loadLevelData(red, x, y);
+                loadEntities(green, x, y);
+                loadObjects(blue, x, y);
+            }
     }
+
+
+    private void loadLevelData(int redValue, int x, int y) {
+        if (redValue >= 50)
+            levelData[y][x] = 0;
+        else
+            levelData[y][x] = redValue;
+        switch (redValue) {
+            case 0, 1, 2, 3, 30, 31, 33, 34, 35, 36, 37, 38, 39 -> {
+                int grassType = (random.nextInt(-(GRASS_RARELY), 2));
+                System.out.println(grass.size());
+                if (grassType >= 0)
+                    grass.add(new Grass((x * TILES_SIZE), (y * TILES_SIZE) - TILES_SIZE, grassType));
+            }
+        }
+    }
+
+    private void loadEntities(int greenValue, int x, int y) {
+        switch (greenValue) {
+            case CRABBY -> crabbies.add(new Crabby(x * TILES_SIZE, y * TILES_SIZE));
+            case PLAYER_GREEN_INDEX -> playerSpawn = new Point(x * TILES_SIZE, y * TILES_SIZE);
+        }
+    }
+
+    private void loadObjects(int blueValue, int x, int y) {
+        switch (blueValue) {
+            case RED_POTION, BLUE_POTION -> potions.add(new Potion(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+            case BOX, BARREL -> gameContainers.add(new GameContainer(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+            case SPIKE -> spikes.add(new Spike(x * TILES_SIZE, y * TILES_SIZE, SPIKE));
+            case CANNON_LEFT, CANNON_RIGHT -> cannons.add(new Cannon(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+            case TREE_ONE, TREE_TWO, TREE_THREE -> trees.add(new Tree(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+        }
+    }
+
 
     private void calculateLevelOffsets() {
         int levelTilesWide = levelImage.getWidth();
         int maxTilesOffset = levelTilesWide - Constants.GameConstants.TILES_IN_WIDTH;
         maxLevelOffsetX = Constants.GameConstants.TILES_SIZE * maxTilesOffset;
-    }
-
-    private void createGameObjects() {
-        potions = GetPotions(levelImage);
-        gameContainers = GetGameContainers(levelImage);
-        spikes = GetSpikes(levelImage);
-        cannons = GetCannons(levelImage);
-        grasses = GetGrasses(levelData, this);
-        trees = GetTrees(levelImage);
-    }
-
-    private void createEnemies() {
-        crabbies = GetCrabs(levelImage);
-    }
-
-    private void createLevelData() {
-        levelData = GetLevelData(levelImage);
     }
 
     public int getTileSpriteIndex(int x, int y) {
@@ -99,7 +134,7 @@ public class Level {
     }
 
     public ArrayList<Grass> getGrasses() {
-        return grasses;
+        return grass;
     }
 
     public ArrayList<Tree> getTrees() {

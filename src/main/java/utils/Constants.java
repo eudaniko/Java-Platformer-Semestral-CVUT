@@ -30,11 +30,13 @@ public class Constants {
         public static final int SPIKE = 4;
         public static final int CANNON_LEFT = 5;
         public static final int CANNON_RIGHT = 6;
-        public static final int S_TREE = 7;
-        public static final int A_TREE = 8;
+        public static final int TREE_ONE = 7;
+        public static final int TREE_TWO = 8;
+        public static final int TREE_THREE = 9;
 
-        public static final int RED_POTION_VALUE = 15;
-        public static final int BLUE_POTION_VALUE = 10;
+
+        public static final int RED_POTION_DELTA_VALUE = 15;
+        public static final int BLUE_POTION_DELTA_VALUE = 10;
 
         public static final int CONTAINER_WIDTH_DEFAULT = 40;
         public static final int CONTAINER_HEIGHT_DEFAULT = 30;
@@ -79,7 +81,7 @@ public class Constants {
             return switch (object_type) {
                 case BARREL, BOX -> 8;
                 case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT -> 7;
-                case A_TREE, S_TREE -> 4;
+                case TREE_ONE, TREE_TWO, TREE_THREE -> 4;
                 default -> 1;
             };
         }
@@ -212,6 +214,7 @@ public class Constants {
 
     // Player animation constants
     public static class PlayerConstants {
+        public static final int PLAYER_GREEN_INDEX = 100;
         public static final int PLAYER_DAMAGE = 10;
         public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (30 * GameConstants.SCALE);
         public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (30 * GameConstants.SCALE);

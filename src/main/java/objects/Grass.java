@@ -19,10 +19,7 @@ public class Grass extends GameObject {
     }
 
     public void draw(Graphics g, int xLevelOffset) {
-        g.drawImage(sprites[objectType],
-                x * TILES_SIZE - xLevelOffset,
-                y * TILES_SIZE - TILES_SIZE,
-                TILES_SIZE, TILES_SIZE, null);
+        g.drawImage(sprites[objectType], x - xLevelOffset, y, TILES_SIZE, TILES_SIZE, null);
     }
 
 

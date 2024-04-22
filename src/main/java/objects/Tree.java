@@ -11,6 +11,7 @@ import static utils.Constants.ObjectConstants.*;
 public class Tree extends GameObject {
 
     private BufferedImage[] sprites;
+
     public Tree(int x, int y, int objectType) {
         super(x, y, objectType);
         yDrawOffset = 50;
@@ -18,13 +19,18 @@ public class Tree extends GameObject {
     }
 
     @Override
+    public void update() {
+        updateAnimationTick();
+    }
+
+    @Override
     public void draw(Graphics g, int xLevelOffset) {
         g.drawImage(sprites[getAniIndex()],
-                x * TILES_SIZE - xLevelOffset, y * TILES_SIZE - yDrawOffset,
+                x - xLevelOffset, y - yDrawOffset,
                 S_TREE_WIDTH, S_TREE_HEIGHT, null);
     }
 
-    protected void loadSprites(){
+    protected void loadSprites() {
         sprites = new BufferedImage[4];
         BufferedImage treeAtlas = LoadSave.GetSpriteAtlas(LoadSave.STRAIGHT_TREE_ATLAS);
 

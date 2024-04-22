@@ -55,6 +55,10 @@ public class Projectile extends GameObject {
         hitBox.y = y + spawnOffsetY;
     }
 
+    public void reset() {
+        setActive(false);
+    }
+
     public Rectangle2D.Float getHitBox() {
         return hitBox;
     }
