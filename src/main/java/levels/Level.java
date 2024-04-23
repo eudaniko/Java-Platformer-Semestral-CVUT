@@ -19,8 +19,8 @@ import static utils.Constants.PlayerConstants.PLAYER_GREEN_INDEX;
 
 public class Level {
     private final BufferedImage levelImage;
-    private int[][] levelData;
-    private ArrayList<Crabby> crabbies = new ArrayList<>();
+    private final int[][] levelData;
+    private final ArrayList<Crabby> crabbies = new ArrayList<>();
     private ArrayList<Potion> potions = new ArrayList<>();
     private ArrayList<GameContainer> gameContainers = new ArrayList<>();
     private ArrayList<Spike> spikes = new ArrayList<>();
@@ -66,7 +66,6 @@ public class Level {
         switch (redValue) {
             case 0, 1, 2, 3, 30, 31, 33, 34, 35, 36, 37, 38, 39 -> {
                 int grassType = (random.nextInt(-(GRASS_RARELY), 2));
-                System.out.println(grass.size());
                 if (grassType >= 0)
                     grass.add(new Grass((x * TILES_SIZE), (y * TILES_SIZE) - TILES_SIZE, grassType));
             }
@@ -139,5 +138,9 @@ public class Level {
 
     public ArrayList<Tree> getTrees() {
         return trees;
+    }
+
+    public int getSpriteIndex(int x, int y) {
+        return levelData[y][x];
     }
 }

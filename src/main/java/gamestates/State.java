@@ -24,6 +24,7 @@ public class State {
     public void setGameState(GameState state) {
         switch (state) {
             case MENU, OPTIONS:
+                game.getAudioPlayer().stopEffect();
                 game.getAudioPlayer().playSong(AudioPlayer.MENU_1);
                 break;
             case PLAYING:

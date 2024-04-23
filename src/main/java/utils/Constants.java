@@ -9,6 +9,7 @@ public class Constants {
         public static final int TILES_DEFAULT_SIZE = 32;
         public final static float SCALE = 1.5f;
         public static final float GRAVITY = 0.04f * GameConstants.SCALE;
+        public static final float GRAVITY_IN_WATER = 0.1f * GameConstants.SCALE;
         public static final int TILES_IN_WIDTH = 26;
         public static final int TILES_IN_HEIGHT = 14;
         public static final int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
@@ -64,7 +65,7 @@ public class Constants {
 
         public static final int GRASS_WIDTH_HEIGHT_DEFAULT = 32;
         public static final int GRASS_WIDTH_HEIGHT = (int) (GRASS_WIDTH_HEIGHT_DEFAULT * GameConstants.SCALE);
-        public static final int GRASS_RARELY = 2;
+        public static final int GRASS_RARELY = 0;
 
         public static final int S_TREE_WIDTH_DEFAULT = 39;
         public static final int S_TREE_HEIGHT_DEFAULT = 92;

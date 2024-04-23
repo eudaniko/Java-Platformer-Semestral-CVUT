@@ -163,6 +163,7 @@ public class Playing extends State implements StateMethods {
         player.render(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
         objectManager.draw(g, xLevelOffset);
+        levelManager.drawWater(g,xLevelOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -236,9 +237,9 @@ public class Playing extends State implements StateMethods {
         if (!gameOver) {
             if (e.getButton() == MouseEvent.BUTTON1)
                 player.setAttacking(true);
-            else if (e.getButton() == MouseEvent.BUTTON3){
-                    player.powerAttack();
-                }
+            else if (e.getButton() == MouseEvent.BUTTON3) {
+                player.powerAttack();
+            }
 
         }
 
@@ -287,22 +288,20 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (gameOver)
-            gameOverOverlay.keyPressed(e);
-        else
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_W, KeyEvent.VK_SPACE:
-                    player.setJump(true);
-                    break;
-                case KeyEvent.VK_A:
-                    player.setLeft(true);
-                    break;
-                case KeyEvent.VK_D:
-                    player.setRight(true);
-                    break;
-                case KeyEvent.VK_ESCAPE:
-                    paused = !paused;
-            }
+        
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W, KeyEvent.VK_SPACE:
+                player.setJump(true);
+                break;
+            case KeyEvent.VK_A:
+                player.setLeft(true);
+                break;
+            case KeyEvent.VK_D:
+                player.setRight(true);
+                break;
+            case KeyEvent.VK_ESCAPE:
+                paused = !paused;
+        }
     }
 
     @Override

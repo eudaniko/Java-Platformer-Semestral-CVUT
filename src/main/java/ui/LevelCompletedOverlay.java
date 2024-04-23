@@ -9,6 +9,7 @@ import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -59,6 +60,7 @@ public class LevelCompletedOverlay {
         continueButton.draw(g);
         menuButton.draw(g);
     }
+
 
     public void mousePressed(MouseEvent e) {
         if (isIn(e, continueButton))

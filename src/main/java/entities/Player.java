@@ -33,7 +33,7 @@ public class Player extends Entity {
     private final int maxPower;
     private int currentPower;
     private boolean left, right;
-    private boolean jump = false;
+    private boolean jump, inWater;
     private final BufferedImage statusBar;
     private int healthWidth = statusBarWidth;
     private int powerWidth = PowerBarWidth;
@@ -88,7 +88,7 @@ public class Player extends Entity {
             } else if (aniIndex == GetSpriteAmount(DEAD) - 1 && aniTick >= ANI_SPEED - 1) {
                 playing.setGameOver(true);
                 playing.getGame().getAudioPlayer().stopSong();
-                playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
+                playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAME_OVER);
             } else {
                 updateAnimationTick();
 
@@ -96,11 +96,15 @@ public class Player extends Entity {
                 if (inAir)
                     if (CanMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, levelData)) {
                         hitBox.y += airSpeed;
-                        airSpeed += GRAVITY;
+                        if (inWater)
+                            airSpeed = Math.max(0.2f, airSpeed - GRAVITY_IN_WATER);
+                        else
+                            airSpeed += GRAVITY;
                     } else
                         inAir = false;
 
             }
+
 
             return;
         }
@@ -115,7 +119,7 @@ public class Player extends Entity {
 
         if (moving) {
             checkObjectsTouched();
-//            checkInsideWater();
+            checkInsideWater();
             if (powerAttackActive) {
                 powerAttackTick++;
                 if (powerAttackTick >= 35) {
@@ -143,6 +147,15 @@ public class Player extends Entity {
         updateAttackBox();
         updateAnimationTick();
         setAnimation();
+    }
+
+    private void checkInsideWater() {
+        inWater = false;
+        System.out.println(airSpeed);
+        if (IsEntityInWater(hitBox, playing.getLevelManager().getCurrentLevel().getLevelData())) {
+            inWater = true;
+            currentHealth = 0;
+        }
     }
 
     public void render(Graphics g, int levelOffset) {

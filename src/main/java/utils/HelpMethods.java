@@ -4,6 +4,7 @@
 package utils;
 
 import entities.Player;
+import main.Game;
 import objects.*;
 
 import javax.imageio.ImageIO;
@@ -20,6 +21,21 @@ import static utils.Constants.GameConstants.GAME_HEIGHT;
 import static utils.Constants.GameConstants.TILES_SIZE;
 
 public class HelpMethods {
+
+    public static boolean IsEntityInWater(Rectangle2D.Float hitbox, int[][] lvlData) {
+        // Will only check if entity touch top water. Can't reach bottom water if not
+        // touched top water.
+        if (GetTileValue(hitbox.x, hitbox.y + hitbox.height, lvlData) != 48)
+            if (GetTileValue(hitbox.x + hitbox.width, hitbox.y + hitbox.height, lvlData) != 48)
+                return false;
+        return true;
+    }
+
+    private static int GetTileValue(float xPos, float yPos, int[][] lvlData) {
+        int xCord = (int) (xPos / TILES_SIZE);
+        int yCord = (int) (yPos / TILES_SIZE);
+        return lvlData[yCord][xCord];
+    }
 
     public static boolean CanCannonSeePlayer(Player player, Cannon cannon, int yTile, int[][] levelData) {
         int firstXTile = (int) (cannon.getHitBox().x / TILES_SIZE);
@@ -60,10 +76,15 @@ public class HelpMethods {
         return IsTileSolid((int) xIndex, (int) yIndex, levelData);
     }
 
-    public static boolean IsTileSolid(int xTile, int yTile, int[][] levelData) {
-        int value = levelData[yTile][xTile];
+    public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
+        int value = lvlData[yTile][xTile];
 
-        return value != 11;
+        switch (value) {
+            case 11, 48, 49:
+                return false;
+            default:
+                return true;
+        }
     }
 
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitBox, float xSpeed) {

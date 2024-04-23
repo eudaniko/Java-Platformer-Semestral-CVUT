@@ -59,6 +59,7 @@ public class GameCompletedOverlay {
 
     }
 
+
     public void mousePressed(MouseEvent e) {
         if (isIn(e, menuButton))
             menuButton.setMousePressed(true);

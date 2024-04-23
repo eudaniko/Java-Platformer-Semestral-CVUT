@@ -21,7 +21,7 @@ public class AudioPlayer {
 
 	public static int DIE = 0;
 	public static int JUMP = 1;
-	public static int GAMEOVER = 2;
+	public static int GAME_OVER = 2;
 	public static int LVL_COMPLETED = 3;
 	public static int ATTACK_ONE = 4;
 	public static int ATTACK_TWO = 5;
@@ -29,6 +29,7 @@ public class AudioPlayer {
 
 	private Clip[] songs, effects;
 	private int currentSongId;
+	private int lastEffectId;
 	private float volume = 0.5f;
 	private boolean songMute, effectMute;
 	private final Random rand = new Random();
@@ -86,6 +87,11 @@ public class AudioPlayer {
 			songs[currentSongId].stop();
 	}
 
+	public void stopEffect() {
+		if (effects[lastEffectId].isActive())
+			effects[lastEffectId].stop();
+	}
+
 	public void setLevelSong(int lvlIndex) {
 		if (lvlIndex % 2 == 0)
 			playSong(LEVEL_1);
@@ -100,7 +106,7 @@ public class AudioPlayer {
 
 	public void gameOver() {
 		stopSong();
-		playEffect(GAMEOVER);
+		playEffect(GAME_OVER);
 	}
 
 	public void playAttackSound() {
@@ -113,6 +119,7 @@ public class AudioPlayer {
 		if (effects[effect].getMicrosecondPosition() > 0)
 			effects[effect].setMicrosecondPosition(0);
 		effects[effect].start();
+		lastEffectId = effect;
 	}
 
 	public void playSong(int song) {
