@@ -27,6 +27,7 @@ public class Level {
     private ArrayList<Cannon> cannons = new ArrayList<>();
     private ArrayList<Grass> grass = new ArrayList<>();
     private ArrayList<Tree> trees = new ArrayList<>();
+    private ArrayList<Ship> ships = new ArrayList<>();
     private int maxLevelOffsetX;
     private Point playerSpawn;
     private Random random = new Random();
@@ -86,7 +87,10 @@ public class Level {
             case SPIKE -> spikes.add(new Spike(x * TILES_SIZE, y * TILES_SIZE, SPIKE));
             case CANNON_LEFT, CANNON_RIGHT -> cannons.add(new Cannon(x * TILES_SIZE, y * TILES_SIZE, blueValue));
             case TREE_ONE, TREE_THREE -> trees.add(new Tree(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+            case SHIP -> ships.add(new Ship(x * TILES_SIZE, y * TILES_SIZE, blueValue));
         }
+        if (blueValue == SHIP)
+            System.out.println("SHIP");
     }
 
 
@@ -138,6 +142,10 @@ public class Level {
 
     public ArrayList<Tree> getTrees() {
         return trees;
+    }
+
+    public ArrayList<Ship> getShips() {
+        return ships;
     }
 
     public int getSpriteIndex(int x, int y) {

@@ -10,14 +10,14 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import static utils.Constants.GameConstants.SCALE;
-import static utils.Constants.GameConstants.TILES_SIZE;
+import static utils.Constants.GameConstants.*;
 import static utils.Constants.ObjectConstants.*;
 
 public abstract class GameObject {
 
     protected int x, y, objectType;
     protected Rectangle2D.Float hitBox;
+    protected BufferedImage[] sprites;
     protected boolean doAnimation, active = true;
     protected int aniTick, aniIndex;
     protected int xDrawOffset, yDrawOffset;
@@ -29,12 +29,23 @@ public abstract class GameObject {
         loadSprites();
     }
 
-    public void update(){}
+    public void update() {
+        updateAnimationTick();
+    }
 
-    public void draw(Graphics g, int xLevelOffset){}
+    protected void draw(Graphics g, int xLevelOffset) {
+        if (DRAW_HIT_BOX)
+            drawHitBox(g, xLevelOffset);
+    }
+
+    protected void drawHitBox(Graphics g, int xLevelOffset) {
+        g.setColor(Color.PINK);
+        g.drawRect((int) hitBox.x - xLevelOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+    }
 
 
-    protected void loadSprites() {}
+    protected void loadSprites() {
+    }
 
     protected void updateAnimationTick() {
         aniTick++;
@@ -58,7 +69,8 @@ public abstract class GameObject {
         aniIndex = 0;
         doAnimation = objectType == RED_POTION || objectType == BLUE_POTION;
     }
-    public int getAniTick(){
+
+    public int getAniTick() {
         return aniTick;
     }
 
@@ -90,7 +102,9 @@ public abstract class GameObject {
         this.active = active;
     }
 
-    public boolean doAnimations(){return  doAnimation;}
+    public boolean doAnimations() {
+        return doAnimation;
+    }
 
     public void setAnimation(boolean doAnimation) {
         this.doAnimation = doAnimation;

@@ -24,6 +24,7 @@ public class ObjectManager {
     private final ArrayList<Projectile> projectiles;
     private ArrayList<Grass> grasses;
     private ArrayList<Tree> trees;
+    private ArrayList<Ship> ships;
 
     public ObjectManager(Playing playing) {
         this.playing = playing;
@@ -37,6 +38,7 @@ public class ObjectManager {
         cannons = new ArrayList<>(newLevel.getCannons());
         grasses = new ArrayList<>(newLevel.getGrasses());
         trees = new ArrayList<>(newLevel.getTrees());
+        ships = new ArrayList<>(newLevel.getShips());
     }
 
 
@@ -44,6 +46,8 @@ public class ObjectManager {
         updateObjects(potions);
         updateObjects(gameContainers);
         updateObjects(trees);
+        updateObjects(ships);
+        checkPlayerOnShip();
         updateCannons();
         updateObjects(projectiles);
         checkProjectilesTouched();
@@ -71,6 +75,7 @@ public class ObjectManager {
         drawGameObjects(g, xLevelOffset, projectiles);
         drawGameObjects(g, xLevelOffset, grasses);
         drawGameObjects(g, xLevelOffset, trees);
+        drawGameObjects(g, xLevelOffset, ships);
 
     }
 
@@ -94,6 +99,11 @@ public class ObjectManager {
         for (Spike s : spikes)
             if (playing.getPlayer().getHitBox().intersects(s.getHitBox()))
                 playing.getPlayer().changeHealth(-9999);
+
+    } public void checkPlayerOnShip() {
+        for (Ship s : ships)
+            playing.getPlayer().checkPlayerOnShip(s);
+
     }
 
     public void checkProjectilesTouched() {
@@ -146,7 +156,7 @@ public class ObjectManager {
         for (Cannon c : cannons)
             c.reset();
 
-        for (Projectile pj: projectiles)
+        for (Projectile pj : projectiles)
             pj.reset();
     }
 

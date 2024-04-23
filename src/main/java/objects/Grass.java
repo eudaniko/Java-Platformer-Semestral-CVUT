@@ -6,8 +6,8 @@ import utils.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static utils.Constants.GameConstants.TILES_DEFAULT_SIZE;
 import static utils.Constants.GameConstants.TILES_SIZE;
-import static utils.Constants.ObjectConstants.GRASS_WIDTH_HEIGHT_DEFAULT;
 
 public class Grass extends GameObject {
 
@@ -27,7 +27,7 @@ public class Grass extends GameObject {
         sprites = new BufferedImage[2];
         BufferedImage grassAtlas = LoadSave.GetSpriteAtlas(LoadSave.GRASS_ATLAS);
         for (int i = 0; i < sprites.length; i++)
-            sprites[i] = grassAtlas.getSubimage(i * GRASS_WIDTH_HEIGHT_DEFAULT, 0, GRASS_WIDTH_HEIGHT_DEFAULT, GRASS_WIDTH_HEIGHT_DEFAULT);
+            sprites[i] = grassAtlas.getSubimage(i * TILES_DEFAULT_SIZE, 0, TILES_DEFAULT_SIZE, TILES_DEFAULT_SIZE);
 
     }
 

@@ -18,7 +18,7 @@ public abstract class Entity {
     protected int aniTick, aniIndex;
     protected int state;
     protected float airSpeed = 5;
-    protected boolean inAir = false;
+    protected boolean inAir = true;
     protected int maxHealth,  currentHealth;
     protected Rectangle2D.Float attackBox;
     protected float walkSpeed;

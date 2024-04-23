@@ -36,7 +36,7 @@ public class Constants {
         public static final int TREE_ONE = 7;
         public static final int TREE_TWO = 8;
         public static final int TREE_THREE = 9;
-
+        public static final int SHIP = 10;
 
 
         public static final int RED_POTION_DELTA_VALUE = 15;
@@ -66,7 +66,6 @@ public class Constants {
         public static final int CANNON_BALL_WIDTH_HEIGHT = (int) (CANNON_BALL_WIDTH_HEIGHT_DEFAULT * GameConstants.SCALE);
         public static final float CANNON_BALL_SPEED = 0.5f * GameConstants.SCALE;
 
-        public static final int GRASS_WIDTH_HEIGHT_DEFAULT = 32;
         public static final int GRASS_RARELY = 0;
 
         public static final int TREE_ONE_WIDTH_DEFAULT = 39;
@@ -75,12 +74,17 @@ public class Constants {
         public static final int TREE_THREE_WIDTH_DEFAULT = 62;
         public static final int TREE_THREE_HEIGHT_DEFAULT = 54;
 
+        public static final int SHIP_WIDTH_DEFAULT =  78;
+        public static final int SHIP_HEIGHT_DEFAULT =  72;
+
+
+
 
         public static int GetSpriteAmount(int object_type) {
             return switch (object_type) {
                 case BARREL, BOX -> 8;
                 case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT -> 7;
-                case TREE_ONE, TREE_TWO, TREE_THREE -> 4;
+                case TREE_ONE, TREE_TWO, TREE_THREE, SHIP -> 4;
                 default -> 1;
             };
         }

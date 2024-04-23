@@ -5,6 +5,7 @@ package entities;
 
 import audio.AudioPlayer;
 import gamestates.Playing;
+import objects.Ship;
 import utils.LoadSave;
 
 import static utils.Constants.*;
@@ -33,7 +34,7 @@ public class Player extends Entity {
     private final int maxPower;
     private int currentPower;
     private boolean left, right;
-    private boolean jump, inWater;
+    private boolean jump, inWater, onShip;
     private final BufferedImage statusBar;
     private int healthWidth = statusBarWidth;
     private int powerWidth = PowerBarWidth;
@@ -81,10 +82,11 @@ public class Player extends Entity {
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
 
                 // Check if player died in air
-                if (!IsEntityUpToFloor(hitBox, levelData)) {
+                if (!IsEntityUpToFloor(hitBox, levelData) && !onShip) {
                     inAir = true;
                     airSpeed = 0;
                 }
+
             } else if (aniIndex == GetSpriteAmount(DEAD) - 1 && aniTick >= ANI_SPEED - 1) {
                 playing.setGameOver(true);
                 playing.getGame().getAudioPlayer().stopSong();
@@ -104,8 +106,6 @@ public class Player extends Entity {
                         inAir = false;
 
             }
-
-
             return;
         }
 
@@ -117,20 +117,9 @@ public class Player extends Entity {
             updatePushBackDrawOffset();
         }
 
-        if (moving) {
-            checkObjectsTouched();
-            checkInsideWater();
-            if (powerAttackActive) {
-                powerAttackTick++;
-                if (powerAttackTick >= 35) {
-                    powerAttackTick = 0;
-                    powerAttackActive = false;
-                }
-            }
-        }
-
         updatePos();
         if (moving) {
+            checkInsideWater();
             checkObjectsTouched();
             if (powerAttackActive) {
                 powerAttackTick++;
@@ -143,7 +132,6 @@ public class Player extends Entity {
         if (attacking || powerAttackActive)
             checkAttack();
 
-
         updateAttackBox();
         updateAnimationTick();
         setAnimation();
@@ -155,6 +143,15 @@ public class Player extends Entity {
             inWater = true;
             currentHealth = 0;
         }
+    }
+
+    public void checkPlayerOnShip(Ship ship) {
+        onShip = false;
+        if (ship.getHitBox().intersects(getHitBox())) {
+            onShip = true;
+            inAir = false;
+        }
+
     }
 
     public void render(Graphics g, int levelOffset) {
@@ -285,7 +282,7 @@ public class Player extends Entity {
 
     public void loadLevelData(int[][] levelData) {
         this.levelData = levelData;
-        if (IsEntityUpToFloor(hitBox, levelData))
+        if (IsEntityUpToFloor(hitBox, levelData) && !onShip)
             inAir = true;
     }
 
@@ -347,6 +344,7 @@ public class Player extends Entity {
                     airSpeed = 0f;
                     if (!IsFloor(hitBox, 0, 0, levelData))
                         inAir = true;
+                    else inAir = false;
                 }
             }
         }
@@ -389,8 +387,7 @@ public class Player extends Entity {
         }
 
         if (!inAir)
-            if (IsEntityUpToFloor(hitBox, levelData))
-                inAir = true;
+            inAir = IsEntityUpToFloor(hitBox, levelData) && !onShip;
 
 
         if (inAir && !powerAttackActive) {
@@ -407,8 +404,9 @@ public class Player extends Entity {
                 updateXPos(xSpeed);
             }
 
-        } else
+        } else {
             updateXPos(xSpeed);
+        }
         moving = true;
     }
 
@@ -464,6 +462,7 @@ public class Player extends Entity {
         attacking = false;
         inAir = false;
         moving = false;
+        onShip = false;
         state = IDLE;
         currentHealth = maxHealth;
         currentPower = maxPower;
@@ -476,6 +475,7 @@ public class Player extends Entity {
 
         if (IsEntityUpToFloor(hitBox, levelData))
             inAir = true;
+        else inAir = false;
     }
 
     private void resetAttackBox() {
