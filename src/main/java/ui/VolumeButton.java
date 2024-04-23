@@ -8,6 +8,7 @@ import utils.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static utils.Constants.GameConstants.MUSIC_VOLUME_DEFAULT;
 import static utils.Constants.UI.VolumeButtons.*;
 
 public class VolumeButton extends PauseButton {
@@ -22,14 +23,14 @@ public class VolumeButton extends PauseButton {
     private float volume = 0f;
 
     public VolumeButton(int x, int y, int width, int height) {
-        super(x + width / 2, y, VOLUME_WIDTH, VOLUME_HEIGHT);
+        super(x + (int) (MUSIC_VOLUME_DEFAULT * width), y, VOLUME_WIDTH, VOLUME_HEIGHT);
         bounds.x -= VOLUME_WIDTH / 2;
         this.x = x;
         this.width = width;
         this.height = height;
         minX = x + VOLUME_WIDTH / 2;
         maxX = x + width - VOLUME_WIDTH / 2;
-        buttonX = x + width / 2;
+        buttonX = x + (int) (MUSIC_VOLUME_DEFAULT * width);
         loadImages();
 
     }
@@ -60,11 +61,13 @@ public class VolumeButton extends PauseButton {
     public void changeX(int x) {
         if (x < minX)
             buttonX = minX;
-        else buttonX = Math.min(x, maxX);
+        else
+            buttonX = Math.min(x, maxX);
 
         updateVolumeValue();
-        bounds.x = x;
+        bounds.x = buttonX - VOLUME_WIDTH / 2;
     }
+
 
     private void updateVolumeValue() {
         float range = maxX - minX;

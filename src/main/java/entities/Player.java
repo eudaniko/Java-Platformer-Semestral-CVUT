@@ -151,7 +151,6 @@ public class Player extends Entity {
 
     private void checkInsideWater() {
         inWater = false;
-        System.out.println(airSpeed);
         if (IsEntityInWater(hitBox, playing.getLevelManager().getCurrentLevel().getLevelData())) {
             inWater = true;
             currentHealth = 0;
@@ -174,9 +173,7 @@ public class Player extends Entity {
     private void checkAttack() {
         if (attackChecked || aniIndex != 1)
             return;
-        attackChecked = true;
-        if (powerAttackActive)
-            attackChecked = false;
+        attackChecked = !powerAttackActive;
 
 
         playing.checkEnemyHit(attackBox);

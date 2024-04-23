@@ -19,7 +19,9 @@ public class Constants {
         public final static int FPS_SET = 120;
         public final static int UPS_SET = 200;
         public static final int ANI_SPEED = 25;
+        public static final float MUSIC_VOLUME_DEFAULT = 0.7f;
         public static final boolean DRAW_HIT_BOX = true;
+
     }
 
 
@@ -34,6 +36,7 @@ public class Constants {
         public static final int TREE_ONE = 7;
         public static final int TREE_TWO = 8;
         public static final int TREE_THREE = 9;
+
 
 
         public static final int RED_POTION_DELTA_VALUE = 15;
@@ -64,18 +67,13 @@ public class Constants {
         public static final float CANNON_BALL_SPEED = 0.5f * GameConstants.SCALE;
 
         public static final int GRASS_WIDTH_HEIGHT_DEFAULT = 32;
-        public static final int GRASS_WIDTH_HEIGHT = (int) (GRASS_WIDTH_HEIGHT_DEFAULT * GameConstants.SCALE);
         public static final int GRASS_RARELY = 0;
 
-        public static final int S_TREE_WIDTH_DEFAULT = 39;
-        public static final int S_TREE_HEIGHT_DEFAULT = 92;
-        public static final int S_TREE_WIDTH = (int) (S_TREE_WIDTH_DEFAULT * GameConstants.SCALE);
-        public static final int S_TREE_HEIGHT = (int) (S_TREE_HEIGHT_DEFAULT * GameConstants.SCALE);
+        public static final int TREE_ONE_WIDTH_DEFAULT = 39;
+        public static final int TREE_ONE_HEIGHT_DEFAULT = 92;
 
-        public static final int A_TREE_WIDTH_DEFAULT = 62;
-        public static final int A_TREE_HEIGHT_DEFAULT = 54;
-        public static final int A_TREE_WIDTH = (int) (S_TREE_WIDTH_DEFAULT * GameConstants.SCALE);
-        public static final int A_TREE_HEIGHT = (int) (S_TREE_HEIGHT_DEFAULT * GameConstants.SCALE);
+        public static final int TREE_THREE_WIDTH_DEFAULT = 62;
+        public static final int TREE_THREE_HEIGHT_DEFAULT = 54;
 
 
         public static int GetSpriteAmount(int object_type) {

@@ -41,8 +41,8 @@ public class LoadSave {
     public static final String CANNON_ATLAS = "/cannon_atlas.png";
     public static final String BALL = "/ball.png";
     public static final String GRASS_ATLAS = "/grass_atlas.png";
-    public static final String STRAIGHT_TREE_ATLAS = "/tree_one_atlas.png";
-    public static final String ANGLE_TREE_ATLAS = "/tree_two_atlas.png";
+    public static final String TREE_ONE_ATLAS = "/tree_one_atlas.png";
+    public static final String TREE_THREE_ATLAS = "/tree_tree_atlas.png";
     public static final String BOTTOM_WATER = "/water.png";
     public static final String TOP_WATER = "/water_atlas_animation.png";
 
