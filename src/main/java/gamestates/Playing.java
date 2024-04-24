@@ -71,10 +71,10 @@ public class Playing extends State implements StateMethods {
         levelManager.loadNextLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         game.getAudioPlayer().setLevelSong(levelManager.getCurrentLevelIndex());
+
     }
 
     private void loadStartLevel() {
-        resetAll();
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
         objectManager.loadObjects(levelManager.getCurrentLevel());
     }
@@ -163,7 +163,7 @@ public class Playing extends State implements StateMethods {
         player.render(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
         objectManager.draw(g, xLevelOffset);
-        levelManager.drawWater(g,xLevelOffset);
+        levelManager.drawWater(g, xLevelOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -288,7 +288,7 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W, KeyEvent.VK_SPACE:
                 player.setJump(true);

@@ -3,6 +3,7 @@
 
 package objects;
 
+import entities.Player;
 import gamestates.Playing;
 import levels.Level;
 
@@ -21,17 +22,21 @@ public class ObjectManager {
     private ArrayList<GameContainer> gameContainers;
     private ArrayList<Spike> spikes;
     private ArrayList<Cannon> cannons;
-    private final ArrayList<Projectile> projectiles;
+    private final ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Grass> grasses;
     private ArrayList<Tree> trees;
     private ArrayList<Ship> ships;
 
+    private Level currentLevel;
+
     public ObjectManager(Playing playing) {
         this.playing = playing;
-        projectiles = new ArrayList<>();
+        currentLevel = playing.getLevelManager().getCurrentLevel();
     }
 
     public void loadObjects(Level newLevel) {
+
+        currentLevel = newLevel;
         potions = new ArrayList<>(newLevel.getPotions());
         gameContainers = new ArrayList<>(newLevel.getGameContainers());
         spikes = new ArrayList<>(newLevel.getSpikes());
@@ -39,6 +44,7 @@ public class ObjectManager {
         grasses = new ArrayList<>(newLevel.getGrasses());
         trees = new ArrayList<>(newLevel.getTrees());
         ships = new ArrayList<>(newLevel.getShips());
+        projectiles.clear();
     }
 
 
@@ -47,15 +53,11 @@ public class ObjectManager {
         updateObjects(gameContainers);
         updateObjects(trees);
         updateObjects(ships);
+        updateShips();
         updateCannons();
         updateObjects(projectiles);
         checkProjectilesTouched();
-        for (Ship s : ships)
-            s.move(playing.getPlayer());
-
-
     }
-
 
     private void updateObjects(ArrayList<? extends GameObject> objects) {
         for (GameObject obj : objects)
@@ -63,10 +65,21 @@ public class ObjectManager {
                 obj.update();
     }
 
+
+
     private void updateCannons() {
         for (Cannon c : cannons)
             if (c.isActive())
                 c.update(playing.getPlayer(), playing.getLevelManager().getCurrentLevel().getLevelData(), projectiles);
+    }
+
+    private void updateShips() {
+        for (Ship ship : ships)
+            if (ship.isActive()) {
+                Player player = playing.getPlayer();
+                checkPlayerOnShip(ship, player);
+                ship.update(player, playing.getLevelManager().getCurrentLevel().getLevelData());
+            }
     }
 
 
@@ -88,7 +101,6 @@ public class ObjectManager {
                 gameObject.draw(g, xLevelOffset);
     }
 
-
     public void checkPotionsTouched() {
         for (Potion p : potions)
             if (p.isActive())
@@ -103,6 +115,19 @@ public class ObjectManager {
             if (playing.getPlayer().getHitBox().intersects(s.getHitBox()))
                 playing.getPlayer().changeHealth(-9999);
 
+    }
+
+    public void checkObjectHit(Rectangle2D.Float attackBox) {
+        for (GameContainer gc : gameContainers)
+            if (gc.isActive() && !gc.doAnimation())
+                if (gc.getHitBox().intersects(attackBox)) {
+                    gc.setAnimation(true);
+                    int type = RED_POTION;
+                    if (gc.getObjectType() == BARREL)
+                        type = BLUE_POTION;
+                    potions.add(new Potion((int) (gc.getHitBox().x + gc.getHitBox().width / 2), (int) (gc.getHitBox().y - gc.getHitBox().height / 2), type));
+                    return;
+                }
     }
 
     public void checkProjectilesTouched() {
@@ -120,6 +145,16 @@ public class ObjectManager {
         }
     }
 
+    public void checkPlayerOnShip(Ship ship, Player player) {
+        if (ship.getHitBox().intersects(player.getHitBox())) {
+            player.setOnShip(true);
+        } else {
+            player.setOnShip(false);
+        }
+
+
+    }
+
     public void applyEffectsToPlayer(Potion p) {
         switch (p.getObjectType()) {
             case RED_POTION:
@@ -132,35 +167,18 @@ public class ObjectManager {
     }
 
 
-    public void checkObjectHit(Rectangle2D.Float attackBox) {
-        for (GameContainer gc : gameContainers)
-            if (gc.isActive() && !gc.doAnimation())
-                if (gc.getHitBox().intersects(attackBox)) {
-                    gc.setAnimation(true);
-                    int type = RED_POTION;
-                    if (gc.getObjectType() == BARREL)
-                        type = BLUE_POTION;
-                    potions.add(new Potion((int) (gc.getHitBox().x + gc.getHitBox().width / 2), (int) (gc.getHitBox().y - gc.getHitBox().height / 2), type));
-                    return;
-                }
+    public void resetAllObjects() {
+        resetObject(potions);
+        resetObject(gameContainers);
+        resetObject(cannons);
+        resetObject(projectiles);
+        resetObject(ships);
+        loadObjects(playing.getLevelManager().getCurrentLevel());
     }
 
-    public void resetAllObjects() {
-        loadObjects(playing.getLevelManager().getCurrentLevel());
-        for (Potion p : potions)
-            p.reset();
-
-        for (GameContainer gc : gameContainers)
-            gc.reset();
-
-        for (Cannon c : cannons)
-            c.reset();
-
-        for (Projectile pj : projectiles)
-            pj.reset();
-
-        for( Ship sh : ships)
-            sh.reset();
+    private void resetObject(ArrayList<? extends GameObject> list) {
+        for (GameObject gameObject : list)
+            gameObject.reset();
     }
 
 }

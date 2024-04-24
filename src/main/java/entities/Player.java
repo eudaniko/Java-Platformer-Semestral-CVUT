@@ -5,8 +5,6 @@ package entities;
 
 import audio.AudioPlayer;
 import gamestates.Playing;
-import objects.GameObject;
-import objects.Ship;
 import utils.LoadSave;
 
 import static utils.Constants.*;
@@ -144,15 +142,6 @@ public class Player extends Entity {
             inWater = true;
             currentHealth = 0;
         }
-    }
-
-    public void checkPlayerOnShip(Ship ship) {
-        onShip = false;
-        if (ship.getHitBox().intersects(getHitBox())) {
-            onShip = true;
-            inAir = false;
-        }
-
     }
 
 
@@ -356,6 +345,10 @@ public class Player extends Entity {
     private void updatePos() {
         moving = false;
 
+        if (onShip || !IsEntityUpToFloor(hitBox, levelData))
+            inAir = false;
+        else inAir = true;
+
         if (jump)
             jump();
 
@@ -388,8 +381,6 @@ public class Player extends Entity {
             xSpeed *= 3;
         }
 
-        if (!inAir)
-            inAir = IsEntityUpToFloor(hitBox, levelData) && !onShip;
 
 
         if (inAir && !powerAttackActive) {
@@ -475,7 +466,7 @@ public class Player extends Entity {
         hitBox.x = x;
         hitBox.y = y;
 
-        if (IsEntityUpToFloor(hitBox, levelData))
+        if (IsEntityUpToFloor(hitBox, levelData) || !onShip)
             inAir = true;
         else inAir = false;
     }
@@ -506,6 +497,10 @@ public class Player extends Entity {
     }
 
     public Rectangle2D.Float getAttackBox() {
-        return  attackBox;
+        return attackBox;
+    }
+
+    public void setOnShip(boolean onShip) {
+        this.onShip = onShip;
     }
 }

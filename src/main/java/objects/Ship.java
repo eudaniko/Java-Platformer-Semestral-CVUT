@@ -12,7 +12,6 @@ import static utils.HelpMethods.CanMoveHere;
 
 public class Ship extends GameObject {
 
-    protected int[][] levelData;
     protected BufferedImage[] sprites;
     private int startX, startY;
     protected float hoverOffset;
@@ -21,12 +20,11 @@ public class Ship extends GameObject {
     private float shipSpeed = SHIP_SPEED * dir;
     private boolean shipMoving, arrived;
 
-    public Ship(int x, int y, int objectType, int[][] levelData) {
+    public Ship(int x, int y, int objectType) {
         super(x, y - 14, objectType);
         startX = this.x;
         startY = this.y;
 
-        this.levelData = levelData;
         yDrawOffset = (int) (50 * SCALE);
 
         int shipWidth = SHIP_WIDTH_DEFAULT;
@@ -36,14 +34,20 @@ public class Ship extends GameObject {
 
     }
 
-
-    public void update() {
+    public void update(Player player, int[][] levelData) {
         super.update();
-        updatePos();
+        updatePos(levelData);
         updateHover(5, 0.02f);
+        if (!arrived) {
+            if (hitBox.intersects(player.getHitBox())) {
+                player.getHitBox().x += shipSpeed;
+                player.getAttackBox().x += shipSpeed;
+                shipMoving = true;
+            }
+        }
     }
 
-    private void updatePos() {
+    private void updatePos(int[][] levelData) {
         if (shipMoving)
             if (CanMoveHere(hitBox.x, hitBox.y, hitBox.width, hitBox.height, levelData)) {
                 hitBox.x += shipSpeed;
@@ -58,7 +62,6 @@ public class Ship extends GameObject {
         g.drawImage(sprites[getAniIndex()],
                 (int) (hitBox.x - xLevelOffset), (int) (hitBox.y - yDrawOffset),
                 (int) (SHIP_WIDTH_DEFAULT * SCALE), (int) (SHIP_HEIGHT_DEFAULT * SCALE), null);
-
     }
 
     protected void loadSprites() {
@@ -89,17 +92,6 @@ public class Ship extends GameObject {
         else dir = 1;
 
 
-    }
-
-    public void move(Player player) {
-        player.checkPlayerOnShip(this);
-        if (!arrived) {
-            if (hitBox.intersects(player.getHitBox())) {
-                player.getHitBox().x += shipSpeed;
-                player.getAttackBox().x += shipSpeed;
-                shipMoving = true;
-            }
-        }
     }
 
     public void reset() {

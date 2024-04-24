@@ -3,9 +3,7 @@
 
 package levels;
 
-import gamestates.GameState;
 import main.Game;
-import utils.Constants;
 import utils.HelpMethods;
 import utils.LoadSave;
 
@@ -23,7 +21,7 @@ public class LevelManager {
     private BufferedImage[] levelSprite;
     private BufferedImage[] waterSprite;
     private final ArrayList<Level> levels;
-    private int lvlIndex = 0, aniTick, aniIndex;
+    private int aniTick, aniIndex;
     private int levelIndex = 0;
 
     public LevelManager(Game game) {
@@ -36,11 +34,11 @@ public class LevelManager {
 
     public void loadNextLevel() {
         levelIndex++;
-        if (levelIndex >= levels.size()) {
+        if (levelIndex >= levels.size())
             levelIndex = 0;
-        }
 
-        Level newLevel = levels.get(levelIndex);
+        Level newLevel;
+        newLevel = levels.get(levelIndex);
         game.getPlaying().getEnemyManager().loadEnemies(newLevel);
         game.getPlaying().getPlayer().loadLevelData(newLevel.getLevelData());
         game.getPlaying().setMaxLevelOffsetX(newLevel.getMaxLevelOffset());
@@ -76,8 +74,8 @@ public class LevelManager {
 
     public void draw(Graphics g, int lvlOffset) {
         for (int j = 0; j < TILES_IN_HEIGHT; j++)
-            for (int i = 0; i < levels.get(lvlIndex).getLevelData()[0].length; i++) {
-                int index = levels.get(lvlIndex).getSpriteIndex(i, j);
+            for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
+                int index = levels.get(levelIndex).getSpriteIndex(i, j);
                 int x = TILES_SIZE * i - lvlOffset;
                 int y = TILES_SIZE * j;
                 if (index != 48 && index != 49)
@@ -87,8 +85,8 @@ public class LevelManager {
 
     public void drawWater(Graphics g, int lvlOffset) {
         for (int j = 0; j < TILES_IN_HEIGHT; j++)
-            for (int i = 0; i < levels.get(lvlIndex).getLevelData()[0].length; i++) {
-                int index = levels.get(lvlIndex).getSpriteIndex(i, j);
+            for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
+                int index = levels.get(levelIndex).getSpriteIndex(i, j);
                 int x = TILES_SIZE * i - lvlOffset;
                 int y = TILES_SIZE * j;
                 if (index == 48)
@@ -126,4 +124,5 @@ public class LevelManager {
     public int getAmountOfLevels() {
         return levels.size();
     }
+
 }

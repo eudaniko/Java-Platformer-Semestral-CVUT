@@ -18,19 +18,21 @@ import static utils.Constants.ObjectConstants.*;
 import static utils.Constants.PlayerConstants.PLAYER_GREEN_INDEX;
 
 public class Level {
+
     private final BufferedImage levelImage;
     private final int[][] levelData;
+
     private final ArrayList<Crabby> crabbies = new ArrayList<>();
-    private ArrayList<Potion> potions = new ArrayList<>();
-    private ArrayList<GameContainer> gameContainers = new ArrayList<>();
-    private ArrayList<Spike> spikes = new ArrayList<>();
-    private ArrayList<Cannon> cannons = new ArrayList<>();
-    private ArrayList<Grass> grass = new ArrayList<>();
-    private ArrayList<Tree> trees = new ArrayList<>();
-    private ArrayList<Ship> ships = new ArrayList<>();
+    private final ArrayList<Potion> potions = new ArrayList<>();
+    private final ArrayList<GameContainer> gameContainers = new ArrayList<>();
+    private final ArrayList<Spike> spikes = new ArrayList<>();
+    private final ArrayList<Cannon> cannons = new ArrayList<>();
+    private final ArrayList<Grass> grass = new ArrayList<>();
+    private final ArrayList<Tree> trees = new ArrayList<>();
+    private final ArrayList<Ship> ships = new ArrayList<>();
     private int maxLevelOffsetX;
     private Point playerSpawn;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public Level(BufferedImage levelImage) {
         this.levelImage = levelImage;
@@ -87,7 +89,7 @@ public class Level {
             case SPIKE -> spikes.add(new Spike(x * TILES_SIZE, y * TILES_SIZE, SPIKE));
             case CANNON_LEFT, CANNON_RIGHT -> cannons.add(new Cannon(x * TILES_SIZE, y * TILES_SIZE, blueValue));
             case TREE_ONE, TREE_THREE -> trees.add(new Tree(x * TILES_SIZE, y * TILES_SIZE, blueValue));
-            case SHIP_LEFT -> ships.add(new Ship(x * TILES_SIZE, y * TILES_SIZE, blueValue, levelData));
+            case SHIP_LEFT -> ships.add(new Ship(x * TILES_SIZE, y * TILES_SIZE, blueValue));
         }
     }
 
@@ -114,6 +116,10 @@ public class Level {
         return crabbies;
     }
 
+    public Point getPlayerSpawn() {
+        return playerSpawn;
+    }
+
     public ArrayList<Potion> getPotions() {
         return potions;
     }
@@ -128,10 +134,6 @@ public class Level {
 
     public ArrayList<Cannon> getCannons() {
         return cannons;
-    }
-
-    public Point getPlayerSpawn() {
-        return playerSpawn;
     }
 
     public ArrayList<Grass> getGrasses() {
@@ -149,4 +151,5 @@ public class Level {
     public int getSpriteIndex(int x, int y) {
         return levelData[y][x];
     }
+
 }

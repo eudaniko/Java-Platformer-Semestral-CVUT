@@ -152,36 +152,31 @@ public class HelpMethods {
         File file = null;
 
         try {
-            if (url != null) {
-                file = new File(url.toURI());
-            }
+            file = new File(url.toURI());
         } catch (URISyntaxException e) {
-            System.err.println("Cannot read gameLevels URL!");
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
-        File[] files = Objects.requireNonNull(file).listFiles();
-        File[] filesSorted = new File[0];
-        if (files != null) {
-            filesSorted = new File[files.length];
-        }
+        File[] files = file.listFiles();
+        File[] filesSorted = new File[files.length];
 
         for (int i = 0; i < filesSorted.length; i++)
-            for (File f : files) {
-                if (f.getName().equals((i + 1) + ".png"))
-                    filesSorted[i] = f;
+            for (int j = 0; j < files.length; j++) {
+                if (files[j].getName().equals((i + 1) + ".png"))
+                    filesSorted[i] = files[j];
+
             }
 
-        BufferedImage[] levelImages = new BufferedImage[filesSorted.length];
+        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
 
-        for (int i = 0; i < levelImages.length; i++) {
+        for (int i = 0; i < imgs.length; i++)
             try {
-                levelImages[i] = ImageIO.read(filesSorted[i]);
+                imgs[i] = ImageIO.read(filesSorted[i]);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
-        }
-        return levelImages;
+
+        return imgs;
     }
 
 }
