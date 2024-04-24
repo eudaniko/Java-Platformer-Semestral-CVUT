@@ -47,10 +47,13 @@ public class ObjectManager {
         updateObjects(gameContainers);
         updateObjects(trees);
         updateObjects(ships);
-        checkPlayerOnShip();
         updateCannons();
         updateObjects(projectiles);
         checkProjectilesTouched();
+        for (Ship s : ships)
+            s.move(playing.getPlayer());
+
+
     }
 
 
@@ -100,10 +103,6 @@ public class ObjectManager {
             if (playing.getPlayer().getHitBox().intersects(s.getHitBox()))
                 playing.getPlayer().changeHealth(-9999);
 
-    } public void checkPlayerOnShip() {
-        for (Ship s : ships)
-            playing.getPlayer().checkPlayerOnShip(s);
-
     }
 
     public void checkProjectilesTouched() {
@@ -132,6 +131,7 @@ public class ObjectManager {
         }
     }
 
+
     public void checkObjectHit(Rectangle2D.Float attackBox) {
         for (GameContainer gc : gameContainers)
             if (gc.isActive() && !gc.doAnimation())
@@ -158,6 +158,9 @@ public class ObjectManager {
 
         for (Projectile pj : projectiles)
             pj.reset();
+
+        for( Ship sh : ships)
+            sh.reset();
     }
 
 }

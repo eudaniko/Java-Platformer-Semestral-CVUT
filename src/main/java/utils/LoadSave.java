@@ -45,7 +45,8 @@ public class LoadSave {
     public static final String TREE_THREE_ATLAS = "/tree_tree_atlas.png";
     public static final String BOTTOM_WATER = "/water.png";
     public static final String TOP_WATER = "/water_atlas_animation.png";
-    public static final String SHIP_ATLAS = "/ship.png";
+    public static final String SHIP_LEFT_ATLAS = "/ship_left.png";
+    public static final String SHIP_RIGHT_ATLAS = "/ship_left.png";
 
 
     public static BufferedImage GetSpriteAtlas(final String FilePath) {

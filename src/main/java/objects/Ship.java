@@ -1,5 +1,6 @@
 package objects;
 
+import entities.Player;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -7,24 +8,49 @@ import java.awt.image.BufferedImage;
 
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.ObjectConstants.*;
+import static utils.HelpMethods.CanMoveHere;
 
 public class Ship extends GameObject {
 
+    protected int[][] levelData;
     protected BufferedImage[] sprites;
+    private int startX, startY;
     protected float hoverOffset;
-    protected int hoverDir = -1;
+    private int hoverDir = -1;
+    private int dir = -1;
+    private float shipSpeed = SHIP_SPEED * dir;
+    private boolean shipMoving, arrived;
 
-    public Ship(int x, int y, int objectType) {
+    public Ship(int x, int y, int objectType, int[][] levelData) {
         super(x, y - 14, objectType);
+        startX = this.x;
+        startY = this.y;
+
+        this.levelData = levelData;
         yDrawOffset = (int) (50 * SCALE);
-        initHitBox(SHIP_WIDTH_DEFAULT - 10, 30);
+
+        int shipWidth = SHIP_WIDTH_DEFAULT;
+        if (objectType == SHIP_RIGHT)
+            shipWidth -= 10;
+        initHitBox(shipWidth, 30);
 
     }
 
 
     public void update() {
         super.update();
+        updatePos();
         updateHover(5, 0.02f);
+    }
+
+    private void updatePos() {
+        if (shipMoving)
+            if (CanMoveHere(hitBox.x, hitBox.y, hitBox.width, hitBox.height, levelData)) {
+                hitBox.x += shipSpeed;
+            } else {
+                shipMoving = false;
+                arrived = true;
+            }
     }
 
     public void draw(Graphics g, int xLevelOffset) {
@@ -37,7 +63,13 @@ public class Ship extends GameObject {
 
     protected void loadSprites() {
         sprites = new BufferedImage[4];
-        BufferedImage grassAtlas = LoadSave.GetSpriteAtlas(LoadSave.SHIP_ATLAS);
+
+        String spriteAtlas;
+        if (objectType == SHIP_LEFT)
+            spriteAtlas = LoadSave.SHIP_LEFT_ATLAS;
+        else spriteAtlas = LoadSave.SHIP_RIGHT_ATLAS;
+
+        BufferedImage grassAtlas = LoadSave.GetSpriteAtlas(spriteAtlas);
         for (int i = 0; i < sprites.length; i++)
             sprites[i] = grassAtlas.getSubimage(i * SHIP_WIDTH_DEFAULT, 0, SHIP_WIDTH_DEFAULT, SHIP_HEIGHT_DEFAULT);
 
@@ -50,6 +82,31 @@ public class Ship extends GameObject {
         else if (hoverOffset < 0)
             hoverDir = 1;
         this.hitBox.y = y + hoverOffset;
+    }
+
+    public void changeDir() {
+        if (dir == 1) dir = -1;
+        else dir = 1;
+
+
+    }
+
+    public void move(Player player) {
+        player.checkPlayerOnShip(this);
+        if (!arrived) {
+            if (hitBox.intersects(player.getHitBox())) {
+                player.getHitBox().x += shipSpeed;
+                player.getAttackBox().x += shipSpeed;
+                shipMoving = true;
+            }
+        }
+    }
+
+    public void reset() {
+        this.hitBox.x = startX;
+        this.hitBox.y = startY;
+        shipMoving = false;
+        arrived = false;
     }
 
 }

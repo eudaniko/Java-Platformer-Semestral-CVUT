@@ -5,6 +5,7 @@ package entities;
 
 import audio.AudioPlayer;
 import gamestates.Playing;
+import objects.GameObject;
 import objects.Ship;
 import utils.LoadSave;
 
@@ -139,7 +140,7 @@ public class Player extends Entity {
 
     private void checkInsideWater() {
         inWater = false;
-        if (IsEntityInWater(hitBox, playing.getLevelManager().getCurrentLevel().getLevelData())) {
+        if (IsEntityInWater(hitBox, levelData)) {
             inWater = true;
             currentHealth = 0;
         }
@@ -153,6 +154,7 @@ public class Player extends Entity {
         }
 
     }
+
 
     public void render(Graphics g, int levelOffset) {
         // Draw the player animation frame
@@ -501,5 +503,9 @@ public class Player extends Entity {
 
     public boolean isPowerAttackActive() {
         return powerAttackActive;
+    }
+
+    public Rectangle2D.Float getAttackBox() {
+        return  attackBox;
     }
 }
