@@ -23,8 +23,6 @@ public class Player extends Entity {
 
     //Drawing
     private int[][] levelData;
-    private BufferedImage[][] animations;
-    private int flipX = 0, flipW = 1;
 
     // Moving && Jumping && Attacking
     private final Playing playing;
@@ -42,7 +40,7 @@ public class Player extends Entity {
     private int powerGrowTick;
 
     public Player(float x, float y, int width, int height, Playing playing) {
-        super(x, y, width, height);
+        super(x, y, width, height, LoadSave.PLAYER_ATLAS, 7, 8, 64, 40);
         this.playing = playing;
         this.state = IDLE;
         this.maxHealth = PLAYER_MAX_HEALTH;
@@ -50,8 +48,9 @@ public class Player extends Entity {
         this.maxPower = PLAYER_MAX_POWER;
         this.currentPower = maxPower;
         this.walkSpeed = PLAYER_WALK_SPEED;
+        this.xDrawOffset = PlayerConstants.xDrawOffset;
+        this.yDrawOffset = PlayerConstants.yDrawOffset;
         statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
-        loadAnimations();
         initHitBox(20, 28);
         initAttackBox();
     }
@@ -145,17 +144,12 @@ public class Player extends Entity {
     }
 
 
-    public void render(Graphics g, int levelOffset) {
-        // Draw the player animation frame
-        g.drawImage(animations[state][aniIndex],
-                (int) (hitBox.x - xDrawOffset) - levelOffset + flipX,
-                (int) (hitBox.y - yDrawOffset),
-                width * flipW, height, null);
+    public void draw(Graphics g, int levelOffset) {
+        super.draw(g, levelOffset);
         drawUI(g);
-        if (GameConstants.DRAW_HIT_BOX) {
-            drawHitBox(g, levelOffset);
+        if (GameConstants.DRAW_HIT_BOX)
             drawAttackBox(g, levelOffset);
-        }
+
     }
 
     private void checkAttack() {
@@ -257,18 +251,6 @@ public class Player extends Entity {
         g.setColor(Color.YELLOW);
         g.fillRect(PowerBarXStart + statusBarX, PowerBarYStart + statusBarY, powerWidth, PowerBarHeight);
 
-    }
-
-    // Method to import image resources and to load animation frames from the sprite sheet
-    private void loadAnimations() {
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-        animations = new BufferedImage[7][8];
-
-        for (int j = 0; j < animations.length; j++) {
-            for (int i = 0; i < animations[j].length; i++) {
-                animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
-            }
-        }
     }
 
     public void loadLevelData(int[][] levelData) {
@@ -380,7 +362,6 @@ public class Player extends Entity {
 
             xSpeed *= 3;
         }
-
 
 
         if (inAir && !powerAttackActive) {

@@ -127,6 +127,13 @@ public class HelpMethods {
             return IsSolid(hitBox.x + xSpeed, hitBox.y + hitBox.height + 1, levelData);
     }
 
+    public static boolean IsFloor(Rectangle2D.Float hitBox, int[][] lvlData) {
+        if (!IsSolid(hitBox.x + hitBox.width, hitBox.y + hitBox.height + 1, lvlData))
+            if (!IsSolid(hitBox.x, hitBox.y + hitBox.height + 1, lvlData))
+                return false;
+        return true;
+    }
+
     public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] levelData) {
         for (int i = 0; i < xEnd - xStart; i++) {
             if (IsTileSolid(xStart + i, y, levelData))

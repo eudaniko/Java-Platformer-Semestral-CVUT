@@ -24,7 +24,6 @@ import java.util.Random;
 
 import static utils.Constants.Environment.*;
 import static utils.Constants.GameConstants.*;
-import static utils.Constants.PlayerConstants.POWER_FOR_ATTACK;
 
 public class Playing extends State implements StateMethods {
 
@@ -160,7 +159,7 @@ public class Playing extends State implements StateMethods {
         drawClouds(g);
 
         levelManager.draw(g, xLevelOffset);
-        player.render(g, xLevelOffset);
+        player.draw(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
         objectManager.draw(g, xLevelOffset);
         levelManager.drawWater(g, xLevelOffset);

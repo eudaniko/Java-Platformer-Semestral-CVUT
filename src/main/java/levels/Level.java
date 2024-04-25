@@ -4,6 +4,7 @@
 package levels;
 
 import entities.Crabby;
+import entities.Pinkstar;
 import objects.*;
 import utils.Constants;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.EnemyConstants.PINKSTAR;
 import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 import static utils.Constants.PlayerConstants.PLAYER_GREEN_INDEX;
@@ -23,6 +25,7 @@ public class Level {
     private final int[][] levelData;
 
     private final ArrayList<Crabby> crabbies = new ArrayList<>();
+    private final ArrayList<Pinkstar> pinkstars = new ArrayList<>();
     private final ArrayList<Potion> potions = new ArrayList<>();
     private final ArrayList<GameContainer> gameContainers = new ArrayList<>();
     private final ArrayList<Spike> spikes = new ArrayList<>();
@@ -78,6 +81,7 @@ public class Level {
     private void loadEntities(int greenValue, int x, int y) {
         switch (greenValue) {
             case CRABBY -> crabbies.add(new Crabby(x * TILES_SIZE, y * TILES_SIZE));
+            case PINKSTAR -> pinkstars.add(new Pinkstar(x * TILES_SIZE, y * TILES_SIZE));
             case PLAYER_GREEN_INDEX -> playerSpawn = new Point(x * TILES_SIZE, y * TILES_SIZE);
         }
     }
@@ -114,6 +118,9 @@ public class Level {
 
     public ArrayList<Crabby> getCrabbies() {
         return crabbies;
+    }
+    public ArrayList<Pinkstar> getPinkStars() {
+        return pinkstars;
     }
 
     public Point getPlayerSpawn() {

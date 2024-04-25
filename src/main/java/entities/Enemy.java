@@ -3,27 +3,27 @@
 
 package entities;
 
+import gamestates.Playing;
+
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.*;
-import static utils.Constants.GameConstants.GRAVITY;
-import static utils.Constants.GameConstants.TILES_SIZE;
+import static utils.Constants.GameConstants.*;
 import static utils.HelpMethods.*;
 
 public abstract class Enemy extends Entity {
     protected int enemyType;
     protected boolean firstUpdate = true;
-    protected int walkDir = LEFT;
+    protected int walkDir;
     protected int tileY;
     protected float attackDistance = TILES_SIZE;
     protected float viewDistance = 5 * TILES_SIZE;
-    protected boolean active = true;
     protected boolean attackChecked;
 
-    public Enemy(float x, float y, int width, int height, int enemyType) {
-        super(x, y, width, height);
+    public Enemy(float x, float y, int width, int height, int enemyType, String entityAtlas, int aniAmount, int maxAniLength, int widthDefault, int heightDefault) {
+        super(x, y, width, height, entityAtlas, aniAmount, maxAniLength, widthDefault, heightDefault);
         this.enemyType = enemyType;
         initHitBox(width, height);
         maxHealth = GetMaxHealth(enemyType);
@@ -32,15 +32,28 @@ public abstract class Enemy extends Entity {
 
     protected void updateAnimationTick() {
         aniTick++;
-        while (aniTick >= GameConstants.ANI_SPEED) {
+        if (aniTick >= ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, state)) {
-                aniIndex = 0;
+                if (enemyType == CRABBY || enemyType == SHARK ) {
+                    aniIndex = 0;
 
-                switch (state) {
-                    case ATTACK, HIT -> state = IDLE;
-                    case DEAD -> active = false;
+                    switch (state) {
+                        case ATTACK, HIT -> state = IDLE;
+                        case DEAD -> active = false;
+                    }
+                } else if (enemyType == PINKSTAR) {
+                    if (state == ATTACK)
+                        aniIndex = 3;
+                    else {
+                        aniIndex = 0;
+                        if (state == HIT) {
+                            state = IDLE;
+
+                        } else if (state == DEAD)
+                            active = false;
+                    }
                 }
             }
         }
@@ -110,6 +123,16 @@ public abstract class Enemy extends Entity {
 
     }
 
+    protected void inAirChecks(int[][] lvlData, Playing playing) {
+        if (state != HIT && state != DEAD) {
+            updateInAir(lvlData);
+            playing.getObjectManager().checkSpikesTouched();
+            if (IsEntityInWater(hitBox, lvlData))
+                hurt(maxHealth);
+        }
+    }
+
+
     protected boolean canSeePlayer(int[][] levelData, Player player) {
         int playerTileY = (int) (player.hitBox.y / TILES_SIZE);
 
@@ -137,6 +160,7 @@ public abstract class Enemy extends Entity {
         else
             walkDir = LEFT;
     }
+
 
     public boolean isActive() {
         return active;

@@ -3,6 +3,10 @@
 
 package entities;
 
+import utils.Constants;
+import utils.LoadSave;
+
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Directions.*;
@@ -15,13 +19,17 @@ public class Crabby extends Enemy {
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
-        super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
+        super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, 0, LoadSave.CRABBY_ATLAS, 5, 9, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
         initHitBox(22, 19);
+        active = true;
+        xDrawOffset = CRABBY_DRAW_OFFSET_X;
+        yDrawOffset = CRABBY_DRAW_OFFSET_Y;
         initAttackBox();
         walkSpeed = 0.3f * SCALE;
     }
 
     private void initAttackBox() {
+        this.hasAttackBox = true;
         attackBox = new Rectangle2D.Float(x, y, (int) (82 * SCALE), (int) (19 * SCALE));
         attackBoxOffsetX = (int) (SCALE * 30);
     }
@@ -30,6 +38,10 @@ public class Crabby extends Enemy {
         updateBehaviour(levelData, player);
         updateAnimationTick();
         updateAttackBox();
+    }
+
+    public void draw(Graphics g, int xLevelOffset) {
+        super.draw(g, xLevelOffset);
     }
 
     private void updateAttackBox() {
@@ -68,20 +80,5 @@ public class Crabby extends Enemy {
                     break;
             }
         }
-    }
-
-    public int flipX() {
-        if (walkDir == RIGHT)
-            return width;
-        else
-            return 0;
-
-    }
-
-    public int flipW() {
-        if (walkDir == RIGHT)
-            return -1;
-        else
-            return 1;
     }
 }

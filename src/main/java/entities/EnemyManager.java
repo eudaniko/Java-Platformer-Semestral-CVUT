@@ -6,7 +6,6 @@ package entities;
 import gamestates.Playing;
 import levels.Level;
 import levels.LevelManager;
-import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -23,7 +22,9 @@ public class EnemyManager {
     private final Playing playing;
     private final LevelManager levelManager;
     private BufferedImage[][] crabbyArray;
+    private BufferedImage[][] pinkstarArray;
     private ArrayList<Crabby> crabbies = new ArrayList<>();
+    private ArrayList<Pinkstar> pinkstars = new ArrayList<>();
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
@@ -34,6 +35,7 @@ public class EnemyManager {
 
     public void loadEnemies(Level level) {
         crabbies = level.getCrabbies();
+        pinkstars = level.getPinkStars();
     }
 
     public void update(int[][] levelData, Player player) {
@@ -41,6 +43,11 @@ public class EnemyManager {
         for (Crabby c : crabbies)
             if (c.isActive()) {
                 c.update(levelData, player);
+                isAnyActive = true;
+            }
+        for (Pinkstar p : pinkstars)
+            if (p.isActive()) {
+                p.update(levelData, playing);
                 isAnyActive = true;
             }
         if (!isAnyActive) {
@@ -53,21 +60,16 @@ public class EnemyManager {
     }
 
     public void draw(Graphics g, int xLevelOffset) {
-        drawCrabs(g, xLevelOffset);
+        drawEntities(g, xLevelOffset, crabbies);
+        drawEntities(g, xLevelOffset, pinkstars);
+
     }
 
-    private void drawCrabs(Graphics g, int xLevelOffset) {
-        for (Crabby c : crabbies)
-            if (c.isActive()) {
-                g.drawImage(crabbyArray[c.getEntityState()][c.getAniIndex()],
-                        (int) c.getHitBox().x - xLevelOffset - CRABBY_DRAW_OFFSET_X + c.flipX(),
-                        (int) c.getHitBox().y - CRABBY_DRAW_OFFSET_Y,
-                        CRABBY_WIDTH * c.flipW(),
-                        CRABBY_HEIGHT, null);
-                if (Constants.GameConstants.DRAW_HIT_BOX)
-                    c.drawHitBox(g, xLevelOffset);
-            }
+    private void drawEntities(Graphics g, int xLevelOffset, ArrayList<? extends Entity> list) {
+        for (Entity entity : list)
+            entity.draw(g, xLevelOffset);
     }
+
 
     public void checkEnemyHit(Rectangle2D.Float attackBox, boolean powerAttackActive) {
         for (Crabby c : crabbies)
@@ -87,10 +89,18 @@ public class EnemyManager {
         for (int j = 0; j < crabbyArray.length; j++)
             for (int i = 0; i < crabbyArray[j].length; i++)
                 crabbyArray[j][i] = temp.getSubimage(i * CRABBY_WIDTH_DEFAULT, j * CRABBY_HEIGHT_DEFAULT, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
+
+        pinkstarArray = new BufferedImage[5][8];
+        temp = LoadSave.GetSpriteAtlas(LoadSave.PINKSTAR_ATLAS);
+        for (int j = 0; j < pinkstarArray.length; j++)
+            for (int i = 0; i < pinkstarArray[j].length; i++)
+                pinkstarArray[j][i] = temp.getSubimage(i * PINKSTAR_WIDTH_DEFAULT, j * PINKSTAR_HEIGHT_DEFAULT, PINKSTAR_WIDTH_DEFAULT, PINKSTAR_HEIGHT_DEFAULT);
     }
 
     public void resetAllEnemies() {
         for (Crabby c : crabbies)
             c.resetEnemy();
+        for (Pinkstar p : pinkstars)
+            p.resetEnemy();
     }
 }
