@@ -16,7 +16,7 @@ public class Ship extends GameObject {
     private int startX, startY;
     protected float hoverOffset;
     private int hoverDir = -1;
-    private int dir = -1;
+    private int dir = 1;
     private float shipSpeed = SHIP_SPEED * dir;
     private boolean shipMoving, arrived;
 
@@ -70,7 +70,10 @@ public class Ship extends GameObject {
         String spriteAtlas;
         if (objectType == SHIP_LEFT)
             spriteAtlas = LoadSave.SHIP_LEFT_ATLAS;
-        else spriteAtlas = LoadSave.SHIP_RIGHT_ATLAS;
+        else {
+            spriteAtlas = LoadSave.SHIP_RIGHT_ATLAS;
+            changeDir();
+        }
 
         BufferedImage grassAtlas = LoadSave.GetSpriteAtlas(spriteAtlas);
         for (int i = 0; i < sprites.length; i++)

@@ -95,7 +95,7 @@ public class Level {
             case SPIKE -> spikes.add(new Spike(x * TILES_SIZE, y * TILES_SIZE, SPIKE));
             case CANNON_LEFT, CANNON_RIGHT -> cannons.add(new Cannon(x * TILES_SIZE, y * TILES_SIZE, blueValue));
             case TREE_ONE, TREE_THREE -> trees.add(new Tree(x * TILES_SIZE, y * TILES_SIZE, blueValue));
-            case SHIP_LEFT -> ships.add(new Ship(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+            case SHIP_LEFT, SHIP_RIGHT -> ships.add(new Ship(x * TILES_SIZE, y * TILES_SIZE, blueValue));
         }
     }
 

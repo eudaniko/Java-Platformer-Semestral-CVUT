@@ -4,6 +4,7 @@
 package gamestates;
 
 import audio.AudioPlayer;
+import effects.Rain;
 import entities.EnemyManager;
 import levels.LevelManager;
 import entities.Player;
@@ -36,7 +37,6 @@ public class Playing extends State implements StateMethods {
     private GameOverOverlay gameOverOverlay;
     private GameCompletedOverlay gameCompletedOverlay;
     private boolean gameOver = false, gameCompleted = false, playerDying = false;
-
     private LevelCompletedOverlay levelCompletedOverlay;
     private boolean levelCompleted = false;
 
@@ -47,6 +47,8 @@ public class Playing extends State implements StateMethods {
     private final BufferedImage bigCloud;
     private final BufferedImage smallCloud;
     private final int[] smallCloudsPos;
+    private Rain rain;
+    private boolean isRaining = true;
 
 
     public Playing(Game game) {
@@ -93,6 +95,7 @@ public class Playing extends State implements StateMethods {
         gameOverOverlay = new GameOverOverlay(this);
         gameCompletedOverlay = new GameCompletedOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
+        rain = new Rain();
     }
 
     public Player getPlayer() {
@@ -131,6 +134,8 @@ public class Playing extends State implements StateMethods {
                 enemyManager.update(levelManager.getCurrentLevel().getLevelData());
                 objectManager.update();
                 checkCLoseToBorder();
+                if (isRaining)
+                    rain.update(xLevelOffset);
             }
         }
     }
@@ -157,7 +162,8 @@ public class Playing extends State implements StateMethods {
         g.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
         drawClouds(g);
-
+        if (isRaining)
+            rain.draw(g, xLevelOffset);
         levelManager.draw(g, xLevelOffset);
         player.draw(g, xLevelOffset);
         enemyManager.draw(g, xLevelOffset);
