@@ -35,7 +35,6 @@ public class Pinkstar extends Enemy {
     public void update(int[][] lvlData, Playing playing) {
         updateBehavior(lvlData, playing);
         updateAnimationTick();
-        checkDrawDir(walkDir);
     }
 
     public void draw(Graphics g, int xLevelOffset) {
@@ -80,10 +79,11 @@ public class Pinkstar extends Enemy {
                     }
                     break;
                 case HIT:
-                    if (aniIndex <= GetSpriteAmount(enemyType, state) - 2)
-                        pushBack(pushBackDir, levelData, 2f);
-                    updatePushBackDrawOffset();
-                    tickAfterRollInIdle = 120;
+                    //TODO add enemy interactions with spikes
+//                    if (aniIndex <= GetSpriteAmount(enemyType, state) - 2)
+//                        pushBack(pushBackDir, levelData, 2f);
+//                    updatePushBackDrawOffset();
+//                    tickAfterRollInIdle = 120;
 
                     break;
             }
@@ -108,7 +108,7 @@ public class Pinkstar extends Enemy {
 
     protected void move(int[][] lvlData, Playing playing) {
         float xSpeed = 0;
-
+        flipByDir(walkDir);
         if (walkDir == LEFT)
             xSpeed = -walkSpeed;
         else

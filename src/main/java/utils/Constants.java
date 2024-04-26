@@ -118,6 +118,13 @@ public class Constants {
         public static final int PINKSTAR_DRAW_OFFSET_X = (int) (9 * SCALE);
         public static final int PINKSTAR_DRAW_OFFSET_Y = (int) (7 * SCALE);
 
+        public static final int SHARK_WIDTH_DEFAULT = 34;
+        public static final int SHARK_HEIGHT_DEFAULT = 30;
+        public static final int SHARK_WIDTH = (int) (SHARK_WIDTH_DEFAULT * SCALE);
+        public static final int SHARK_HEIGHT = (int) (SHARK_HEIGHT_DEFAULT * SCALE);
+        public static final int SHARK_DRAWOFFSET_X = (int) (8 * SCALE);
+        public static final int SHARK_DRAWOFFSET_Y = (int) (6 * SCALE);
+
         public static int GetSpriteAmount(int enemyType, int enemyState) {
             switch (enemyState) {
                 case IDLE:
@@ -144,16 +151,18 @@ public class Constants {
             return switch (enemy_type) {
                 case CRABBY -> 30;
                 case PINKSTAR -> 60;
+                case SHARK -> 50;
                 default -> 0;
             };
         }
 
         public static int GetEnemyDamage(int enemyType) {
-            if (enemyType == CRABBY)
-                return 10;
-            else if (enemyType == PINKSTAR)
-                return 60;
-            return 100;
+            return switch (enemyType) {
+                case CRABBY -> 10;
+                case PINKSTAR -> 60;
+                case SHARK -> 40;
+                default -> 100;
+            };
         }
 
     }
@@ -235,8 +244,8 @@ public class Constants {
     public static class PlayerConstants {
         public static final int PLAYER_GREEN_INDEX = 100;
         public static final int PLAYER_DAMAGE = 10;
-        public static final int PLAYER_ATTACK_HIT_BOX_WIDTH = (int) (30 * SCALE);
-        public static final int PLAYER_ATTACK_HIT_BOX_HEIGHT = (int) (30 * SCALE);
+        public static final int PLAYER_ATTACK_BOX_WIDTH = 30;
+        public static final int PLAYER_ATTACK_BOX_HEIGHT = 30;
         public static final int PLAYER_MAX_HEALTH = 100;
         public static final int PLAYER_MAX_POWER = 100;
         public static final int MAX_ATTACKS_AMOUNT = 1;
@@ -266,8 +275,7 @@ public class Constants {
                 case DEAD -> 8;
                 case RUNNING -> 6;
                 case IDLE -> 5;
-                case HIT -> 3;
-                case JUMP, ATTACK -> 3;
+                case HIT, JUMP, ATTACK -> 3;
                 default -> 1;
             };
         }

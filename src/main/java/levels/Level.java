@@ -5,6 +5,7 @@ package levels;
 
 import entities.Crabby;
 import entities.Pinkstar;
+import entities.Shark;
 import objects.*;
 import utils.Constants;
 
@@ -13,8 +14,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static utils.Constants.EnemyConstants.CRABBY;
-import static utils.Constants.EnemyConstants.PINKSTAR;
+import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.GameConstants.TILES_SIZE;
 import static utils.Constants.ObjectConstants.*;
 import static utils.Constants.PlayerConstants.PLAYER_GREEN_INDEX;
@@ -26,6 +26,7 @@ public class Level {
 
     private final ArrayList<Crabby> crabbies = new ArrayList<>();
     private final ArrayList<Pinkstar> pinkstars = new ArrayList<>();
+    private final ArrayList<Shark> sharks = new ArrayList<>();
     private final ArrayList<Potion> potions = new ArrayList<>();
     private final ArrayList<GameContainer> gameContainers = new ArrayList<>();
     private final ArrayList<Spike> spikes = new ArrayList<>();
@@ -82,6 +83,7 @@ public class Level {
         switch (greenValue) {
             case CRABBY -> crabbies.add(new Crabby(x * TILES_SIZE, y * TILES_SIZE));
             case PINKSTAR -> pinkstars.add(new Pinkstar(x * TILES_SIZE, y * TILES_SIZE));
+            case SHARK -> sharks.add(new Shark(x * TILES_SIZE, y * TILES_SIZE));
             case PLAYER_GREEN_INDEX -> playerSpawn = new Point(x * TILES_SIZE, y * TILES_SIZE);
         }
     }
@@ -119,8 +121,13 @@ public class Level {
     public ArrayList<Crabby> getCrabbies() {
         return crabbies;
     }
+
     public ArrayList<Pinkstar> getPinkStars() {
         return pinkstars;
+    }
+
+    public ArrayList<Shark> getSharks() {
+        return sharks;
     }
 
     public Point getPlayerSpawn() {
@@ -158,5 +165,6 @@ public class Level {
     public int getSpriteIndex(int x, int y) {
         return levelData[y][x];
     }
+
 
 }

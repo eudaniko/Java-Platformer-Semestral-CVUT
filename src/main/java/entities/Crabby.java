@@ -3,20 +3,19 @@
 
 package entities;
 
-import utils.Constants;
+import gamestates.Playing;
+import utils.HelpMethods;
 import utils.LoadSave;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
-import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.GameConstants.SCALE;
 
 public class Crabby extends Enemy {
 
     //AttackBox
-    private int attackBoxOffsetX;
+    private int attackBoxOffsetX = (int) (30 * SCALE);
 
     public Crabby(float x, float y) {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, 0, LoadSave.CRABBY_ATLAS, 5, 9, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
@@ -24,27 +23,21 @@ public class Crabby extends Enemy {
         active = true;
         xDrawOffset = CRABBY_DRAW_OFFSET_X;
         yDrawOffset = CRABBY_DRAW_OFFSET_Y;
-        initAttackBox();
+        initAttackBox(x, y, 82, 19);
         walkSpeed = 0.3f * SCALE;
     }
 
-    private void initAttackBox() {
-        this.hasAttackBox = true;
-        attackBox = new Rectangle2D.Float(x, y, (int) (82 * SCALE), (int) (19 * SCALE));
-        attackBoxOffsetX = (int) (SCALE * 30);
-    }
-
-    public void update(int[][] levelData, Player player) {
-        updateBehaviour(levelData, player);
+    protected void update(int[][] levelData, Playing playing) {
+        updateBehaviour(levelData, playing.getPlayer());
         updateAnimationTick();
-        updateAttackBox();
+        updateAttackBoxDir();
     }
 
     public void draw(Graphics g, int xLevelOffset) {
         super.draw(g, xLevelOffset);
     }
 
-    private void updateAttackBox() {
+    protected void updateAttackBoxDir() {
         attackBox.x = hitBox.x - attackBoxOffsetX;
         attackBox.y = hitBox.y;
     }
@@ -59,7 +52,10 @@ public class Crabby extends Enemy {
         else {
             switch (state) {
                 case IDLE:
-                    newState(RUNNING);
+                    if (HelpMethods.IsFloor(hitBox, levelData))
+                        newState(RUNNING);
+                    else
+                        inAir = true;
                     break;
                 case RUNNING:
                     if (canSeePlayer(levelData, player)) {
@@ -76,7 +72,10 @@ public class Crabby extends Enemy {
                         checkPlayerHit(attackBox, player);
                     break;
                 case HIT:
-
+                    //TODO add enemy interactions with spikes
+//                    if (aniIndex <= GetSpriteAmount(enemyType, state) - 2)
+//                        pushBack(pushBackDir, levelData, 2f);
+//                    updatePushBackDrawOffset();
                     break;
             }
         }

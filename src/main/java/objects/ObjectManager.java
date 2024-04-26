@@ -3,6 +3,8 @@
 
 package objects;
 
+import entities.Crabby;
+import entities.Enemy;
 import entities.Player;
 import gamestates.Playing;
 import levels.Level;
@@ -66,7 +68,6 @@ public class ObjectManager {
     }
 
 
-
     private void updateCannons() {
         for (Cannon c : cannons)
             if (c.isActive())
@@ -111,9 +112,10 @@ public class ObjectManager {
     }
 
     public void checkSpikesTouched() {
-        for (Spike s : spikes)
+        for (Spike s : spikes){
             if (playing.getPlayer().getHitBox().intersects(s.getHitBox()))
-                playing.getPlayer().changeHealth(-9999);
+                playing.getPlayer().changeHealth(-9999, null);
+        }
 
     }
 
@@ -135,7 +137,7 @@ public class ObjectManager {
         while (iterator.hasNext()) {
             Projectile p = iterator.next();
             if (p.getHitBox().intersects(playing.getPlayer().getHitBox())) {
-                playing.getPlayer().changeHealth(-30);
+                playing.getPlayer().changeHealth(-30, null);
                 p.setActive(false);
                 iterator.remove();
             } else if (IsTileSolid(p.getTileX(), p.getTileY(), playing.getLevelManager().getCurrentLevel().getLevelData())) {
@@ -158,7 +160,7 @@ public class ObjectManager {
     public void applyEffectsToPlayer(Potion p) {
         switch (p.getObjectType()) {
             case RED_POTION:
-                playing.getPlayer().changeHealth(RED_POTION_DELTA_VALUE);
+                playing.getPlayer().changeHealth(RED_POTION_DELTA_VALUE, null);
                 break;
             case BLUE_POTION:
                 playing.getPlayer().changePower(BLUE_POTION_DELTA_VALUE);

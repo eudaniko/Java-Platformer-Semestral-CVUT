@@ -30,13 +30,17 @@ public abstract class Enemy extends Entity {
         currentHealth = maxHealth;
     }
 
+
+    protected void update(int[][] levelData, Playing playing) {
+    }
+
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, state)) {
-                if (enemyType == CRABBY || enemyType == SHARK ) {
+                if (enemyType == CRABBY || enemyType == SHARK) {
                     aniIndex = 0;
 
                     switch (state) {
@@ -80,7 +84,7 @@ public abstract class Enemy extends Entity {
 
     protected void move(int[][] levelData) {
         float xSpeed;
-
+        flipByDir(walkDir);
         if (walkDir == LEFT)
             xSpeed = -walkSpeed;
         else
@@ -91,14 +95,13 @@ public abstract class Enemy extends Entity {
                 hitBox.x += xSpeed;
                 return;
             }
-
         changeWalkDir();
     }
 
     protected void turnTowardsPlayer(Player player) {
         if (player.hitBox.x > hitBox.x)
             walkDir = RIGHT;
-        else
+        else if (player.hitBox.x < hitBox.x)
             walkDir = LEFT;
     }
 
@@ -126,9 +129,12 @@ public abstract class Enemy extends Entity {
     protected void inAirChecks(int[][] lvlData, Playing playing) {
         if (state != HIT && state != DEAD) {
             updateInAir(lvlData);
-            playing.getObjectManager().checkSpikesTouched();
             if (IsEntityInWater(hitBox, lvlData))
-                hurt(maxHealth);
+                changeHealth(-maxHealth, null);
+            else
+                playing.getObjectManager().checkSpikesTouched();
+
+
         }
     }
 

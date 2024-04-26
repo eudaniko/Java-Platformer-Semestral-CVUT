@@ -3,6 +3,7 @@
 
 package entities;
 
+import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.Directions.*;
+import static utils.Constants.EnemyConstants.DEAD;
 import static utils.Constants.GameConstants.DRAW_HIT_BOX;
 import static utils.Constants.GameConstants.SCALE;
 import static utils.HelpMethods.CanMoveHere;
@@ -87,6 +89,29 @@ public abstract class Entity {
             g.drawRect((int) (attackBox.x - xLevelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
+    public void changeHealth(int deltaHealth, Entity e) {
+        if (state == Constants.PlayerConstants.HIT && this.getClass() == Player.class)
+            return;
+        currentHealth += deltaHealth;
+        if (currentHealth <= 0)
+            setEntityState(DEAD);
+        else {
+            if (this.getClass() == Player.class)
+                setEntityState(Constants.PlayerConstants.HIT);
+            else
+                setEntityState(Constants.EnemyConstants.HIT);
+        }
+
+        if (e == null)
+            return;
+        pushBackOffsetDir = UP;
+        pushDrawOffset = 0;
+        if (e.getHitBox().x < hitBox.x)
+            pushBackDir = RIGHT;
+        else
+            pushBackDir = LEFT;
+    }
+
     protected void updatePushBackDrawOffset() {
         float speed = 1f;
         float limit = -30f;
@@ -117,8 +142,21 @@ public abstract class Entity {
         hitBox = new Rectangle2D.Float(x, y, (int) (width * SCALE), (int) (height * SCALE));
     }
 
+    protected void initAttackBox(float x, float y, int width, int height) {
+        this.hasAttackBox = true;
+        attackBox = new Rectangle2D.Float(x, y, (int) (width * SCALE), (int) (height * SCALE));
+    }
 
-    protected void checkDrawDir(int walkDir) {
+
+    protected void updateAttackBoxDir(int walkDir) {
+        attackBox.y = hitBox.y;
+        if (walkDir == RIGHT)
+            attackBox.x = hitBox.x;
+        else
+            attackBox.x = hitBox.x - hitBox.width;
+    }
+
+    protected void flipByDir(int walkDir) {
         if (walkDir == RIGHT) {
             flipW = -1;
             flipX = width;

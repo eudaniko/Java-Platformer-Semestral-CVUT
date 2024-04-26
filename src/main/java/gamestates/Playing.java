@@ -128,7 +128,7 @@ public class Playing extends State implements StateMethods {
             else {
                 levelManager.update();
                 player.update();
-                enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
+                enemyManager.update(levelManager.getCurrentLevel().getLevelData());
                 objectManager.update();
                 checkCLoseToBorder();
             }
@@ -218,7 +218,7 @@ public class Playing extends State implements StateMethods {
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
-        enemyManager.checkEnemyHit(attackBox, player.isPowerAttackActive());
+        enemyManager.HitNearEnemies(attackBox, player.isPowerAttackActive());
     }
 
     public void checkObjectHit(Rectangle2D.Float attackBox) {

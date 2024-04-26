@@ -52,7 +52,7 @@ public class Player extends Entity {
         this.yDrawOffset = PlayerConstants.yDrawOffset;
         statusBar = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         initHitBox(20, 28);
-        initAttackBox();
+        initAttackBox(hitBox.x - hitBox.width, hitBox.y, PLAYER_ATTACK_BOX_WIDTH, PLAYER_ATTACK_BOX_HEIGHT);
     }
 
     public void setSpawn(Point spawn) {
@@ -60,11 +60,6 @@ public class Player extends Entity {
         this.y = spawn.y;
         hitBox.x = spawn.x;
         hitBox.y = spawn.y;
-    }
-
-    private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(hitBox.x - hitBox.width, hitBox.y, PlayerConstants.PLAYER_ATTACK_HIT_BOX_WIDTH, PlayerConstants.PLAYER_ATTACK_HIT_BOX_HEIGHT);
-        resetAttackBox();
     }
 
     public void update() {
@@ -197,30 +192,7 @@ public class Player extends Entity {
         healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
     }
 
-    public void changeHealth(int deltaHealth) {
-        if (deltaHealth < 0) {
-            if (state == HIT)
-                return;
-            else
-                setEntityState(HIT);
-        }
 
-        currentHealth += deltaHealth;
-        currentHealth = Math.max(Math.min(currentHealth, maxHealth), 0);
-    }
-
-    public void changeHealth(int value, Enemy e) {
-        if (state == HIT)
-            return;
-        changeHealth(value);
-        pushBackOffsetDir = UP;
-        pushDrawOffset = 0;
-
-        if (e.getHitBox().x < hitBox.x)
-            pushBackDir = RIGHT;
-        else
-            pushBackDir = LEFT;
-    }
 
     public void changePower(int deltaPower) {
         currentPower += deltaPower;

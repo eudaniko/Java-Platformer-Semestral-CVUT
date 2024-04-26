@@ -4,7 +4,6 @@
 package utils;
 
 import entities.Player;
-import main.Game;
 import objects.*;
 
 import javax.imageio.ImageIO;
@@ -14,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 
 import static utils.Constants.Directions.*;
 import static utils.Constants.GameConstants.GAME_HEIGHT;
@@ -22,11 +20,11 @@ import static utils.Constants.GameConstants.TILES_SIZE;
 
 public class HelpMethods {
 
-    public static boolean IsEntityInWater(Rectangle2D.Float hitbox, int[][] lvlData) {
+    public static boolean IsEntityInWater(Rectangle2D.Float hitBox, int[][] lvlData) {
         // Will only check if entity touch top water. Can't reach bottom water if not
         // touched top water.
-        if (GetTileValue(hitbox.x, hitbox.y + hitbox.height, lvlData) != 48)
-            if (GetTileValue(hitbox.x + hitbox.width, hitbox.y + hitbox.height, lvlData) != 48)
+        if (GetTileValue(hitBox.x, hitBox.y + hitBox.height, lvlData) != 48)
+            if (GetTileValue(hitBox.x + hitBox.width, hitBox.y + hitBox.height, lvlData) != 48)
                 return false;
         return true;
     }

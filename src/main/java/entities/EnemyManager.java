@@ -25,6 +25,7 @@ public class EnemyManager {
     private BufferedImage[][] pinkstarArray;
     private ArrayList<Crabby> crabbies = new ArrayList<>();
     private ArrayList<Pinkstar> pinkstars = new ArrayList<>();
+    private ArrayList<Shark> sharks = new ArrayList<>();
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
@@ -36,21 +37,15 @@ public class EnemyManager {
     public void loadEnemies(Level level) {
         crabbies = level.getCrabbies();
         pinkstars = level.getPinkStars();
+        sharks = level.getSharks();
     }
 
-    public void update(int[][] levelData, Player player) {
-        boolean isAnyActive = false;
-        for (Crabby c : crabbies)
-            if (c.isActive()) {
-                c.update(levelData, player);
-                isAnyActive = true;
-            }
-        for (Pinkstar p : pinkstars)
-            if (p.isActive()) {
-                p.update(levelData, playing);
-                isAnyActive = true;
-            }
-        if (!isAnyActive) {
+    public void update(int[][] levelData) {
+        boolean isCrabbiesActive = updateActiveEnemies(levelData, crabbies);
+        boolean isPinkStartsActive = updateActiveEnemies(levelData, pinkstars);
+        boolean isSharksActive = updateActiveEnemies(levelData, sharks);
+
+        if (!isCrabbiesActive && !isPinkStartsActive && !isSharksActive) {
             if (levelManager.getCurrentLevelIndex() >= levelManager.getAmountOfLevels() - 1)
                 playing.setGameComplete(true);
             else
@@ -59,9 +54,20 @@ public class EnemyManager {
 
     }
 
+    private boolean updateActiveEnemies(int[][] levelData, ArrayList<? extends Enemy> enemies) {
+        boolean isAnyActive = false;
+        for (Enemy enemy : enemies)
+            if (enemy.isActive()) {
+                enemy.update(levelData, playing);
+                isAnyActive = true;
+            }
+        return isAnyActive;
+    }
+
     public void draw(Graphics g, int xLevelOffset) {
         drawEntities(g, xLevelOffset, crabbies);
         drawEntities(g, xLevelOffset, pinkstars);
+        drawEntities(g, xLevelOffset, sharks);
 
     }
 
@@ -71,16 +77,23 @@ public class EnemyManager {
     }
 
 
-    public void checkEnemyHit(Rectangle2D.Float attackBox, boolean powerAttackActive) {
-        for (Crabby c : crabbies)
-            if (c.isActive())
-                if (attackBox.intersects(c.getHitBox()) && c.getEntityState() != DEAD) {
+    public void HitNearEnemies(Rectangle2D.Float attackBox, boolean powerAttackActive) {
+        checkEnemiesHit(attackBox, powerAttackActive, crabbies);
+        checkEnemiesHit(attackBox, powerAttackActive, pinkstars);
+        checkEnemiesHit(attackBox, powerAttackActive, sharks);
+    }
+
+    private void checkEnemiesHit(Rectangle2D.Float attackBox, boolean powerAttackActive, ArrayList<? extends Enemy> list) {
+        for (Enemy enemy : list)
+            if (enemy.isActive())
+                if (attackBox.intersects(enemy.getHitBox()) && enemy.getEntityState() != DEAD) {
                     if (powerAttackActive)
-                        c.hurt(POWER_ATTACK_DAMAGE);
+                        enemy.changeHealth(-POWER_ATTACK_DAMAGE, playing.getPlayer());
                     else
-                        c.hurt(PLAYER_DAMAGE);
+                        enemy.changeHealth(-PLAYER_DAMAGE, playing.getPlayer());
                     return;
                 }
+
     }
 
     private void loadEnemyImages() {
@@ -102,5 +115,7 @@ public class EnemyManager {
             c.resetEnemy();
         for (Pinkstar p : pinkstars)
             p.resetEnemy();
+        for (Shark s : sharks)
+            s.resetEnemy();
     }
 }
