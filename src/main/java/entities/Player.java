@@ -193,7 +193,6 @@ public class Player extends Entity {
     }
 
 
-
     public void changePower(int deltaPower) {
         currentPower += deltaPower;
 
@@ -222,6 +221,8 @@ public class Player extends Entity {
 
         g.setColor(Color.YELLOW);
         g.fillRect(PowerBarXStart + statusBarX, PowerBarYStart + statusBarY, powerWidth, PowerBarHeight);
+
+        g.drawString("COINS " + playing.getCurrentCoins(), 50, GAME_HEIGHT / 2 - 100);
 
     }
 

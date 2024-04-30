@@ -1,6 +1,7 @@
 package objects;
 
 import entities.Player;
+import gamestates.Playing;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -34,14 +35,14 @@ public class Ship extends GameObject {
 
     }
 
-    public void update(Player player, int[][] levelData) {
-        super.update();
+    public void update(Playing playing, int[][] levelData) {
+        super.update(playing);
         updatePos(levelData);
         updateHover(5, 0.02f);
         if (!arrived) {
-            if (hitBox.intersects(player.getHitBox())) {
-                player.getHitBox().x += shipSpeed;
-                player.getAttackBox().x += shipSpeed;
+            if (hitBox.intersects(playing.getPlayer().getHitBox())) {
+                playing.getPlayer().getHitBox().x += shipSpeed;
+                playing.getPlayer().getAttackBox().x += shipSpeed;
                 shipMoving = true;
             }
         }

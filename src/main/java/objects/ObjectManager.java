@@ -28,6 +28,7 @@ public class ObjectManager {
     private ArrayList<Grass> grasses;
     private ArrayList<Tree> trees;
     private ArrayList<Ship> ships;
+    private ArrayList<Coin> coins;
 
     private Level currentLevel;
 
@@ -46,6 +47,7 @@ public class ObjectManager {
         grasses = new ArrayList<>(newLevel.getGrasses());
         trees = new ArrayList<>(newLevel.getTrees());
         ships = new ArrayList<>(newLevel.getShips());
+        coins =new ArrayList<>(newLevel.getCoins());
         projectiles.clear();
     }
 
@@ -58,13 +60,14 @@ public class ObjectManager {
         updateShips();
         updateCannons();
         updateObjects(projectiles);
+        updateObjects(coins);
         checkProjectilesTouched();
     }
 
     private void updateObjects(ArrayList<? extends GameObject> objects) {
         for (GameObject obj : objects)
             if (obj.isActive())
-                obj.update();
+                obj.update(playing);
     }
 
 
@@ -79,7 +82,7 @@ public class ObjectManager {
             if (ship.isActive()) {
                 Player player = playing.getPlayer();
                 checkPlayerOnShip(ship, player);
-                ship.update(player, playing.getLevelManager().getCurrentLevel().getLevelData());
+                ship.update(playing, playing.getLevelManager().getCurrentLevel().getLevelData());
             }
     }
 
@@ -93,6 +96,7 @@ public class ObjectManager {
         drawGameObjects(g, xLevelOffset, grasses);
         drawGameObjects(g, xLevelOffset, trees);
         drawGameObjects(g, xLevelOffset, ships);
+        drawGameObjects(g,xLevelOffset,coins);
 
     }
 
@@ -175,6 +179,7 @@ public class ObjectManager {
         resetObject(cannons);
         resetObject(projectiles);
         resetObject(ships);
+        resetObject(coins);
         loadObjects(playing.getLevelManager().getCurrentLevel());
     }
 

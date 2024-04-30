@@ -5,6 +5,7 @@ package utils;
 
 
 import static utils.Constants.GameConstants.SCALE;
+import static utils.LoadSave.GOLD_COIN;
 
 // Constants class containing game-related constant values
 public class Constants {
@@ -41,6 +42,7 @@ public class Constants {
         public static final int TREE_THREE = 9;
         public static final int SHIP_LEFT = 10;
         public static final int SHIP_RIGHT = 11;
+        public static final int GOLD_COIN = 20;
 
 
         public static final int RED_POTION_DELTA_VALUE = 15;
@@ -82,12 +84,15 @@ public class Constants {
         public static final int SHIP_HEIGHT_DEFAULT = 72;
         public static final float SHIP_SPEED = 0.3f * SCALE;
 
+        public static final int COIN_SIZE_DEFAULT =  16;
+        public static final int COIN_SIZE = (int) (COIN_SIZE_DEFAULT * SCALE);
+
 
         public static int GetSpriteAmount(int object_type) {
             return switch (object_type) {
                 case BARREL, BOX -> 8;
                 case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT -> 7;
-                case TREE_ONE, TREE_TWO, TREE_THREE, SHIP_LEFT, SHIP_RIGHT -> 4;
+                case TREE_ONE, TREE_TWO, TREE_THREE, SHIP_LEFT, SHIP_RIGHT, GOLD_COIN -> 4;
                 default -> 1;
             };
         }

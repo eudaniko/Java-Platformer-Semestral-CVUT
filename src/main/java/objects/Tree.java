@@ -19,7 +19,6 @@ public class Tree extends GameObject {
         loadSprites(objectType);
     }
 
-    @Override
     public void update() {
         updateAnimationTick();
     }

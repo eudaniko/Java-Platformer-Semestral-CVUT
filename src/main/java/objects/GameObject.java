@@ -3,6 +3,7 @@
 
 package objects;
 
+import gamestates.Playing;
 import utils.Constants;
 import utils.LoadSave;
 
@@ -22,6 +23,9 @@ public abstract class GameObject {
     protected int aniTick, aniIndex;
     protected int xDrawOffset, yDrawOffset;
 
+    protected float hoverOffset;
+    protected int hoverDir = -1;
+
     public GameObject(int x, int y, int objectType) {
         this.x = x;
         this.y = y;
@@ -29,7 +33,7 @@ public abstract class GameObject {
         loadSprites();
     }
 
-    public void update() {
+    public void update(Playing playing) {
         updateAnimationTick();
     }
 
@@ -63,11 +67,23 @@ public abstract class GameObject {
         hitBox = new Rectangle2D.Float(x, y, (int) (width * SCALE), (int) (height * SCALE));
     }
 
+
+    protected void updateHover(float hoverSpeed, int maxHoverOffset) {
+        hoverOffset += (hoverSpeed * SCALE * hoverDir);
+        if (hoverOffset >= (int) (maxHoverOffset * SCALE))
+            hoverDir = -1;
+        else if (hoverOffset < 0)
+            hoverDir = 1;
+        this.hitBox.y = y + hoverOffset;
+    }
+
+
     public void reset() {
         active = true;
         aniTick = 0;
         aniIndex = 0;
         doAnimation = objectType == RED_POTION || objectType == BLUE_POTION;
+
     }
 
     public int getAniTick() {

@@ -50,6 +50,7 @@ public class LoadSave {
     public static final String PINKSTAR_ATLAS = "/pinkstar_atlas.png";
     public static final String SHARK_ATLAS = "/shark_atlas.png";
     public static final String RAIN_PARTICLE = "/rain_particle.png";
+    public static final String GOLD_COIN = "/gold_coin.png";
 
 
     public static BufferedImage GetSpriteAtlas(final String FilePath) {

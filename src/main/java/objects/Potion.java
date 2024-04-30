@@ -3,6 +3,8 @@
 
 package objects;
 
+import entities.Player;
+import gamestates.Playing;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -14,9 +16,6 @@ import static utils.Constants.ObjectConstants.POTION_HEIGHT_DEFAULT;
 
 public class Potion extends GameObject {
 
-    private float hoverOffset;
-    private final int maxHoverOffset;
-    private int hoverDir = -1;
     private BufferedImage[][] sprites;
 
 
@@ -26,14 +25,14 @@ public class Potion extends GameObject {
         initHitBox(7, 14);
         this.xDrawOffset = (int) (3 * SCALE);
         this.yDrawOffset = (int) (2 * SCALE);
-        maxHoverOffset = (int) (3 * SCALE);
         loadSprites();
 
     }
 
     public void update() {
         updateAnimationTick();
-        updateHover();
+        updateHover(0.04f, 3);
+
     }
 
     @Override
@@ -56,22 +55,7 @@ public class Potion extends GameObject {
                         POTION_WIDTH_DEFAULT, POTION_HEIGHT_DEFAULT);
     }
 
-    private void updateHover() {
-        hoverOffset += (0.04f * SCALE * hoverDir);
-        if (hoverOffset >= maxHoverOffset)
-            hoverDir = -1;
-        else if (hoverOffset < 0)
-            hoverDir = 1;
-        this.hitBox.y = y + hoverOffset;
-    }
 
-
-    public void reset() {
-        active = true;
-        aniTick = 0;
-        aniIndex = 0;
-        doAnimation = true;
-    }
 }
 
 

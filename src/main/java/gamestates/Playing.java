@@ -29,6 +29,9 @@ import static utils.Constants.GameConstants.*;
 public class Playing extends State implements StateMethods {
 
     private Player player;
+    private int globalCoins;
+
+    private int currentCoins;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
@@ -144,8 +147,8 @@ public class Playing extends State implements StateMethods {
         int playerX = (int) (player.getHitBox().x);
         int diff = playerX - xLevelOffset;
 
-        int leftBorder = (int) (0.2 * GAME_WIDTH);
-        int rightBorder = (int) (0.8 * GAME_WIDTH);
+        int leftBorder = (int) (0.4 * GAME_WIDTH);
+        int rightBorder = (int) (0.6 * GAME_WIDTH);
         if (diff > rightBorder)
             xLevelOffset += diff - rightBorder;
         else if (diff < leftBorder)
@@ -197,6 +200,7 @@ public class Playing extends State implements StateMethods {
         gameCompleted = false;
         playerDying = false;
         player.resetAll();
+        currentCoins = globalCoins;
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
     }
@@ -333,5 +337,22 @@ public class Playing extends State implements StateMethods {
     public void setPlayerDying(boolean playerDying) {
         this.playerDying = playerDying;
         game.getAudioPlayer().playEffect(AudioPlayer.DIE);
+    }
+
+
+    public void changeCurrentCoins(int deltaCoins) {
+        this.currentCoins += deltaCoins;
+    }
+
+    public int getCurrentCoins() {
+        return currentCoins;
+    }
+
+    public void changeGlobalCoins(int deltaCoins) {
+        this.globalCoins += deltaCoins;
+    }
+
+    public int getGlobalCoins() {
+        return globalCoins;
     }
 }
