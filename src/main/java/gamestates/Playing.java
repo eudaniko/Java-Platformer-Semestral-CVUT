@@ -10,10 +10,7 @@ import levels.LevelManager;
 import entities.Player;
 import objects.ObjectManager;
 import main.Game;
-import ui.GameCompletedOverlay;
-import ui.GameOverOverlay;
-import ui.LevelCompletedOverlay;
-import ui.PauseOverlay;
+import ui.*;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -25,13 +22,13 @@ import java.util.Random;
 
 import static utils.Constants.Environment.*;
 import static utils.Constants.GameConstants.*;
+import static utils.LoadSave.COINS_COUNTER;
 
 public class Playing extends State implements StateMethods {
 
     private Player player;
-    private int globalCoins;
+    private CoinCounter coinCounter;
 
-    private int currentCoins;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
@@ -52,6 +49,7 @@ public class Playing extends State implements StateMethods {
     private final int[] smallCloudsPos;
     private Rain rain;
     private boolean isRaining = true;
+
 
 
     public Playing(Game game) {
@@ -99,6 +97,7 @@ public class Playing extends State implements StateMethods {
         gameCompletedOverlay = new GameCompletedOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
         rain = new Rain();
+        coinCounter = new CoinCounter();
     }
 
     public Player getPlayer() {
@@ -139,6 +138,7 @@ public class Playing extends State implements StateMethods {
                 checkCLoseToBorder();
                 if (isRaining)
                     rain.update(xLevelOffset);
+                coinCounter.update();
             }
         }
     }
@@ -172,6 +172,7 @@ public class Playing extends State implements StateMethods {
         enemyManager.draw(g, xLevelOffset);
         objectManager.draw(g, xLevelOffset);
         levelManager.drawWater(g, xLevelOffset);
+        coinCounter.draw(g, xLevelOffset);
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -200,9 +201,9 @@ public class Playing extends State implements StateMethods {
         gameCompleted = false;
         playerDying = false;
         player.resetAll();
-        currentCoins = globalCoins;
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
+        coinCounter.reset();
     }
 
     public void setGameOver(boolean gameOver) {
@@ -339,20 +340,6 @@ public class Playing extends State implements StateMethods {
         game.getAudioPlayer().playEffect(AudioPlayer.DIE);
     }
 
-
-    public void changeCurrentCoins(int deltaCoins) {
-        this.currentCoins += deltaCoins;
-    }
-
-    public int getCurrentCoins() {
-        return currentCoins;
-    }
-
-    public void changeGlobalCoins(int deltaCoins) {
-        this.globalCoins += deltaCoins;
-    }
-
-    public int getGlobalCoins() {
-        return globalCoins;
-    }
+    public CoinCounter getCoinCounter(){return coinCounter;}
 }
+

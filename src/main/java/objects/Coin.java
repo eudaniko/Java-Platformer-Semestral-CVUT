@@ -22,11 +22,10 @@ public class Coin extends GameObject {
         updateHover(0.04f, 10);
         if (hitBox.intersects(playing.getPlayer().getHitBox()))
             if (isActive()) {
-                playing.changeCurrentCoins(+1);
+                playing.getCoinCounter().changeCurrentCoins(+1);
                 setActive(false);
 
             }
-        System.out.println(playing.getCurrentCoins());
     }
 
     public void draw(Graphics g, int xLevelOffset) {

@@ -18,6 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
+import static utils.LoadSave.COINS_COUNTER;
 
 public class Player extends Entity {
 
@@ -38,6 +39,7 @@ public class Player extends Entity {
     private boolean powerAttackActive;
     private int powerAttackTick;
     private int powerGrowTick;
+
 
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height, LoadSave.PLAYER_ATLAS, 7, 8, 64, 40);
@@ -221,9 +223,6 @@ public class Player extends Entity {
 
         g.setColor(Color.YELLOW);
         g.fillRect(PowerBarXStart + statusBarX, PowerBarYStart + statusBarY, powerWidth, PowerBarHeight);
-
-        g.drawString("COINS " + playing.getCurrentCoins(), 50, GAME_HEIGHT / 2 - 100);
-
     }
 
     public void loadLevelData(int[][] levelData) {

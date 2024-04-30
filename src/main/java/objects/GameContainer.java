@@ -3,6 +3,7 @@
 
 package objects;
 
+import gamestates.Playing;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -22,8 +23,9 @@ public class GameContainer extends GameObject {
         loadSprites();
     }
 
-
-    public void update() {
+    @Override
+    public void update(Playing playing) {
+        System.out.println(doAnimation);
         if (active && doAnimation) {
             updateAnimationTick();
             if (aniIndex + 1 == GetSpriteAmount(objectType))

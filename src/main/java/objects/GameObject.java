@@ -80,9 +80,9 @@ public abstract class GameObject {
 
     public void reset() {
         active = true;
+        doAnimation = objectType == RED_POTION || objectType == BLUE_POTION;
         aniTick = 0;
         aniIndex = 0;
-        doAnimation = objectType == RED_POTION || objectType == BLUE_POTION;
 
     }
 
