@@ -24,7 +24,7 @@ public class Constants {
         public final static int UPS_SET = 200;
         public static final int ANI_SPEED = 25;
         public static final float MUSIC_VOLUME_DEFAULT = 0.7f;
-        public static final boolean DRAW_HIT_BOX = true;
+        public static final boolean DRAW_HIT_BOX = false;
 
     }
 

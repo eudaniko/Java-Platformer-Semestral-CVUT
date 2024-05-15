@@ -5,7 +5,6 @@ package objects;
 
 import gamestates.Playing;
 import utils.Constants;
-import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

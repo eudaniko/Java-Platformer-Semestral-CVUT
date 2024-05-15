@@ -21,7 +21,6 @@ public class Coin extends GameObject {
 
     public void update(Playing playing) {
         super.update(playing);
-        System.out.println("COIN");
         if (hitBox.intersects(playing.getPlayer().getHitBox()))
             if (isActive()) {
                 playing.getCoinCounter().changeCurrentCoins(+1);
