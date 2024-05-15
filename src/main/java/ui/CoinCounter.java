@@ -103,7 +103,7 @@ public class CoinCounter {
         currentCoins = globalCoins;
         hundreds = globalCoins / 100;
         tens = globalCoins / 10;
-        numbers = globalCoins * 10;
+        numbers = globalCoins % 10;
     }
 }
 

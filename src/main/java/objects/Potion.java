@@ -22,13 +22,13 @@ public class Potion extends GameObject {
     public Potion(int x, int y, int objectType) {
         super(x, y, objectType);
         doAnimation = true;
+        hoverEffect = true;
         initHitBox(7, 14);
         this.xDrawOffset = (int) (3 * SCALE);
         this.yDrawOffset = (int) (2 * SCALE);
         loadSprites();
 
     }
-
     public void update() {
         updateAnimationTick();
         updateHover(0.04f, 3);
@@ -46,7 +46,7 @@ public class Potion extends GameObject {
 
     protected void loadSprites() {
         BufferedImage potionAtlas = LoadSave.GetSpriteAtlas(LoadSave.POTION_ATLAS);
-        sprites = new BufferedImage[2][GetSpriteAmount(BLUE_POTION)];
+        sprites = new BufferedImage[2][GetSpriteAmount(RED_POTION)];
 
         for (int j = 0; j < sprites.length; j++)
             for (int i = 0; i < sprites[j].length; i++)

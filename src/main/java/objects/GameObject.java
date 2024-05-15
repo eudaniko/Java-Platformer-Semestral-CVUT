@@ -23,8 +23,11 @@ public abstract class GameObject {
     protected int aniTick, aniIndex;
     protected int xDrawOffset, yDrawOffset;
 
-    protected float hoverOffset;
+    private float hoverOffset;
     protected int hoverDir = -1;
+    protected boolean hoverEffect = false;
+    protected float hoverSpeed = 0.04f;
+    protected int maxHoverOffset = 3;
 
     public GameObject(int x, int y, int objectType) {
         this.x = x;
@@ -35,6 +38,9 @@ public abstract class GameObject {
 
     public void update(Playing playing) {
         updateAnimationTick();
+        if (hoverEffect)
+            updateHover(hoverSpeed, maxHoverOffset);
+         updatePos();
     }
 
     protected void draw(Graphics g, int xLevelOffset) {
@@ -76,6 +82,8 @@ public abstract class GameObject {
             hoverDir = 1;
         this.hitBox.y = y + hoverOffset;
     }
+
+    protected void updatePos(){};
 
 
     public void reset() {

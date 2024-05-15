@@ -53,6 +53,7 @@ public class LoadSave {
     public static final String GOLD_COIN = "/gold_coin.png";
     public static final String COINS_COUNTER = "/coins_counter.png";
     public static final String NUMBERS_UI = "/numbers.png";
+    public static final String RUM_ATLAS = "/rum.png";
 
 
     public static BufferedImage GetSpriteAtlas(final String FilePath) {

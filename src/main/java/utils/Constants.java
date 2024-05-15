@@ -30,8 +30,8 @@ public class Constants {
 
 
     public static final class ObjectConstants {
-        public static final int RED_POTION = 1;
         public static final int BLUE_POTION = 0;
+        public static final int RED_POTION = 1;
         public static final int BARREL = 2;
         public static final int BOX = 3;
         public static final int SPIKE = 4;
@@ -43,10 +43,12 @@ public class Constants {
         public static final int SHIP_LEFT = 10;
         public static final int SHIP_RIGHT = 11;
         public static final int GOLD_COIN = 20;
+        public static final int RUM = 30;
 
 
         public static final int RED_POTION_DELTA_VALUE = 15;
         public static final int BLUE_POTION_DELTA_VALUE = 10;
+        public static final int RUM_DURATION = 10;
 
         public static final int CONTAINER_WIDTH_DEFAULT = 40;
         public static final int CONTAINER_HEIGHT_DEFAULT = 30;
@@ -91,7 +93,7 @@ public class Constants {
         public static int GetSpriteAmount(int object_type) {
             return switch (object_type) {
                 case BARREL, BOX -> 8;
-                case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT -> 7;
+                case RED_POTION, BLUE_POTION, CANNON_LEFT, CANNON_RIGHT, RUM -> 7;
                 case TREE_ONE, TREE_TWO, TREE_THREE, SHIP_LEFT, SHIP_RIGHT, GOLD_COIN -> 4;
                 default -> 1;
             };

@@ -6,7 +6,6 @@ import utils.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.ObjectConstants.*;
 
 public class Coin extends GameObject {
@@ -14,12 +13,15 @@ public class Coin extends GameObject {
 
     public Coin(int x, int y, int objectType) {
         super(x, y, objectType);
+        hoverEffect = true;
+        hoverSpeed = 0.06f;
+        maxHoverOffset = 5;
         initHitBox(COIN_SIZE, COIN_SIZE);
     }
 
     public void update(Playing playing) {
         super.update(playing);
-        updateHover(0.04f, 10);
+        System.out.println("COIN");
         if (hitBox.intersects(playing.getPlayer().getHitBox()))
             if (isActive()) {
                 playing.getCoinCounter().changeCurrentCoins(+1);
@@ -29,7 +31,7 @@ public class Coin extends GameObject {
     }
 
     public void draw(Graphics g, int xLevelOffset) {
-        g.drawImage(sprites[aniIndex], x - xLevelOffset, y, COIN_SIZE, COIN_SIZE, null);
+        g.drawImage(sprites[aniIndex], (int) (hitBox.x - xLevelOffset), (int) hitBox.y, COIN_SIZE, COIN_SIZE, null);
     }
 
 

@@ -69,6 +69,7 @@ public class Playing extends State implements StateMethods {
     }
 
     public void loadNextLevel() {
+       coinCounter.changeGlobalCoins(coinCounter.getCurrentCoins());
         resetAll();
         levelManager.loadNextLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());

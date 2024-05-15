@@ -44,7 +44,6 @@ public class LevelManager {
         game.getPlaying().setMaxLevelOffsetX(newLevel.getMaxLevelOffset());
         game.getPlaying().getObjectManager().loadObjects(newLevel);
         game.getAudioPlayer().stopEffect();
-        game.getPlaying().getCoinCounter().changeGlobalCoins(game.getPlaying().getCoinCounter().getCurrentCoins());
     }
 
     private void buildAllLevels() {

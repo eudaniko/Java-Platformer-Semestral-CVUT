@@ -8,7 +8,6 @@ import gamestates.Playing;
 import utils.LoadSave;
 
 import static utils.Constants.*;
-import static utils.Constants.Directions.*;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.UI.StatusBar.*;
 import static utils.HelpMethods.*;
@@ -18,7 +17,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
-import static utils.LoadSave.COINS_COUNTER;
 
 public class Player extends Entity {
 
@@ -31,6 +29,7 @@ public class Player extends Entity {
     private boolean attackChecked;
     private final int maxPower;
     private int currentPower;
+    private boolean doubleJumpActive = false;
     private boolean left, right;
     private boolean jump, inWater, onShip;
     private final BufferedImage statusBar;
@@ -303,8 +302,12 @@ public class Player extends Entity {
             inAir = false;
         else inAir = true;
 
-        if (jump)
+        if (doubleJumpActive && jump) {
             jump();
+            doubleJumpActive = false;
+        } else if (jump)
+            jump();
+
 
         if (!inAir)
             if (!powerAttackActive)
@@ -455,5 +458,10 @@ public class Player extends Entity {
 
     public void setOnShip(boolean onShip) {
         this.onShip = onShip;
+    }
+
+    public void setRumEffect() {
+        System.out.println("RUM EFFECT!");
+        doubleJumpActive = true;
     }
 }

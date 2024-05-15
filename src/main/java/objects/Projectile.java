@@ -29,8 +29,8 @@ public class Projectile extends GameObject {
     }
 
 
-    public void update() {
-        updatePos();
+    protected void update() {
+        this.updatePos();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Projectile extends GameObject {
                 CANNON_BALL_WIDTH_HEIGHT, CANNON_BALL_WIDTH_HEIGHT, null);
     }
 
-    public void updatePos() {
+    protected void updatePos() {
         hitBox.x += dir * CANNON_BALL_SPEED;
     }
 

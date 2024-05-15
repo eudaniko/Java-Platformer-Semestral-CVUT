@@ -25,7 +25,6 @@ public class GameContainer extends GameObject {
 
     @Override
     public void update(Playing playing) {
-        System.out.println(doAnimation);
         if (active && doAnimation) {
             updateAnimationTick();
             if (aniIndex + 1 == GetSpriteAmount(objectType))

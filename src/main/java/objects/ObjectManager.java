@@ -3,8 +3,6 @@
 
 package objects;
 
-import entities.Crabby;
-import entities.Enemy;
 import entities.Player;
 import gamestates.Playing;
 import levels.Level;
@@ -29,6 +27,7 @@ public class ObjectManager {
     private ArrayList<Tree> trees;
     private ArrayList<Ship> ships;
     private ArrayList<Coin> coins;
+    private ArrayList<Rum> rums;
 
     private Level currentLevel;
 
@@ -48,6 +47,7 @@ public class ObjectManager {
         trees = new ArrayList<>(newLevel.getTrees());
         ships = new ArrayList<>(newLevel.getShips());
         coins =new ArrayList<>(newLevel.getCoins());
+        rums =new ArrayList<>(newLevel.getRums());
         projectiles.clear();
     }
 
@@ -61,6 +61,7 @@ public class ObjectManager {
         updateCannons();
         updateObjects(projectiles);
         updateObjects(coins);
+        updateObjects(rums);
         checkProjectilesTouched();
     }
 
@@ -97,6 +98,7 @@ public class ObjectManager {
         drawGameObjects(g, xLevelOffset, trees);
         drawGameObjects(g, xLevelOffset, ships);
         drawGameObjects(g,xLevelOffset,coins);
+        drawGameObjects(g,xLevelOffset,rums);
 
     }
 
@@ -112,6 +114,13 @@ public class ObjectManager {
                 if (playing.getPlayer().getHitBox().intersects(p.getHitBox())) {
                     p.setActive(false);
                     applyEffectsToPlayer(p);
+                }
+
+        for (Rum r : rums)
+            if (r.isActive())
+                if (playing.getPlayer().getHitBox().intersects(r.getHitBox())) {
+                    r.setActive(false);
+                    applyEffectsToPlayer(r);
                 }
     }
 
@@ -161,7 +170,7 @@ public class ObjectManager {
 
     }
 
-    public void applyEffectsToPlayer(Potion p) {
+    public void applyEffectsToPlayer(GameObject p) {
         switch (p.getObjectType()) {
             case RED_POTION:
                 playing.getPlayer().changeHealth(RED_POTION_DELTA_VALUE, null);
@@ -169,12 +178,16 @@ public class ObjectManager {
             case BLUE_POTION:
                 playing.getPlayer().changePower(BLUE_POTION_DELTA_VALUE);
                 break;
+            case RUM:
+                playing.getPlayer().setRumEffect();
+                break;
         }
     }
 
 
     public void resetAllObjects() {
         resetObject(potions);
+        resetObject(rums);
         resetObject(gameContainers);
         resetObject(cannons);
         resetObject(projectiles);

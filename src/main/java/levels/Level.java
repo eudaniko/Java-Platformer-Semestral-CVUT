@@ -35,6 +35,7 @@ public class Level {
     private final ArrayList<Tree> trees = new ArrayList<>();
     private final ArrayList<Ship> ships = new ArrayList<>();
     private final ArrayList<Coin> coins = new ArrayList<>();
+    private final ArrayList<Rum> rums = new ArrayList<>();
     private int maxLevelOffsetX;
     private Point playerSpawn;
     private final Random random = new Random();
@@ -98,6 +99,7 @@ public class Level {
             case TREE_ONE, TREE_THREE -> trees.add(new Tree(x * TILES_SIZE, y * TILES_SIZE, blueValue));
             case SHIP_LEFT, SHIP_RIGHT -> ships.add(new Ship(x * TILES_SIZE, y * TILES_SIZE, blueValue));
             case GOLD_COIN -> coins.add(new Coin(x * TILES_SIZE, y * TILES_SIZE, blueValue));
+            case RUM -> rums.add(new Rum(x * TILES_SIZE, y * TILES_SIZE, blueValue));
         }
     }
 
@@ -164,11 +166,16 @@ public class Level {
         return ships;
     }
 
-    public ArrayList<Coin> getCoins() {return coins;}
+    public ArrayList<Coin> getCoins() {
+        return coins;
+    }
 
     public int getSpriteIndex(int x, int y) {
         return levelData[y][x];
     }
 
 
+    public ArrayList<Rum> getRums() {
+        return rums;
+    }
 }
